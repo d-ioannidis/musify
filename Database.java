@@ -5,13 +5,13 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.Container;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 
 public class Database {
 	Connection conn = null;
 	private Statement stmt = null;
-	private ArrayList<Photo> photos = new ArrayList<Photo>();
 	
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	static final String DB_URL = "jdbc:mysql://localhost:3306/mydb";
@@ -167,49 +167,6 @@ public class Database {
 		}
       }
 	
-	public ArrayList<Photo> getImageArtist(){
-		try {
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
-			stmt = conn.createStatement();
-			
-			String sql_query = "SELECT PHOTO_ARTIST FROM artist";
-			
-			ResultSet rs = stmt.executeQuery(sql_query);
-			
-			while(rs.next()) {
-				photos.add(new Photo(
-						rs.getBlob(1))
-						);
-			}
-			rs.close();
-			stmt.close();
-			conn.close();
-		}
-	      catch (SQLException se) {
-	          se.printStackTrace();
-	       }
-	       catch (Exception e) {
-	          e.printStackTrace();
-	       }
-	       finally {
-	          try {
-	             if (stmt!=null)
-	                stmt.close();
-	          }
-	          catch (SQLException se2) {
-	          }
-	          try {
-	             if (conn!=null)
-	                conn.close();
-	          }
-	          catch (SQLException se) {
-	             se.printStackTrace();
-	          }
-	       }
-
-	       return photos;
-	    }
-	
 	// Αλλαγή ονόματος από SearchMusic σε SearchDataArtist()
 	public ResultSet SearchDataArtist(String setext){
 		try {
@@ -330,5 +287,62 @@ public class Database {
 	        throw new IllegalStateException("Cannot connect the server!", e);
 	    }
 		}
+	public List<Artist> getArtists(){
+		List<Artist> artists = new ArrayList<>();
+		
+		try {
+	         conn = DriverManager.getConnection(DB_URL, USER, PASS);
+	         stmt = conn.createStatement();
+	         String sql;
+	         sql = "SELECT * FROM artist ORDER BY NICKNAME";
+	         ResultSet rs = stmt.executeQuery(sql);
+	         
+	         
+	         while (rs.next()) {
+		            
+		            
+		            artists.add(new Artist(
+		            		rs.getInt("ID_ARTIST"), 
+		            		rs.getString("NAME"), 
+		            		rs.getString("LASTNAME"), 
+		            		rs.getString("NICKNAME"), 
+		            		rs.getString("BIRTHDAY"), 
+		            		rs.getString("FIRST_TRACK_DATE"), 
+		            		rs.getString("NATIONALITY"), 
+		            		rs.getBlob("PHOTO_ARTIST")
+		            		));
+		         }    
+	         
+	         rs.close();
+	         stmt.close();
+	         conn.close();
+	         
+	         
+	      }
+	      catch (SQLException se) {
+	    	  
+	         se.printStackTrace();
+	      }
+	      catch (Exception e) {
+	         e.printStackTrace();
+	      }
+	      finally {
+	         try {
+	            if (stmt!=null)
+	               stmt.close();
+	         }
+	         catch (SQLException se2) {
+	         }
+	         try {
+	            if (conn!=null)
+	               conn.close();
+	         }
+	         catch (SQLException se) {
+	            se.printStackTrace();
+	         }
+	      }
+		return artists;
+	      
+	}	
 }
 
