@@ -1,5 +1,3 @@
-package Connection;
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -36,7 +34,7 @@ public class Register {
 	private String lastname;
 	private String email;
 	private Boolean flag;
-	private DB obj = new DB();
+	private Database obj = new Database();
 	
 	private String[] specialCharactersArray = {"@","*","(",")","[","]","/",";",":","|","{","}","-","_","^","&","%"};
 	private String[] specialCharactersArrayEmail = {"*","(",")","[","]","/",";",":","|","{","}","-","_","^","&","%"};
@@ -245,10 +243,11 @@ public class Register {
 		frame.getContentPane().add(textFieldEmail, gbc_textFieldEmail);
 		textFieldEmail.setColumns(10);
 		
-		JButton btnClose = new JButton("Close");
+		JButton btnClose = new JButton("Back");
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				frame.dispose();
+				Login.main(null);
 			}
 		});
 		GridBagConstraints gbc_btnClose = new GridBagConstraints();
