@@ -74,9 +74,12 @@ public class FormForgot {
 			public void actionPerformed(ActionEvent e) {
 				Database DB = new Database();
 				if (textField_1.getText().equals(textField.getText())) {
-					int Ex = DB.updateData(textField_2.getText(), textField.getText());
-					if (Ex == 0) {
-						JOptionPane.showMessageDialog(null, "Password changed","Error", JOptionPane.ERROR_MESSAGE);
+					int Ex = DB.updatePassword(textField_2.getText(), textField.getText());
+					if (Ex == 1) {
+						JOptionPane.showMessageDialog(null, "Password changed","Error", JOptionPane.INFORMATION_MESSAGE);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "User doesn't exist","Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 				else {

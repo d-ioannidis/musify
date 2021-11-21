@@ -167,7 +167,7 @@ public class FormMusify {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Database DB = new Database();
-				ResultSet rs = DB.SearchMusic(textFieldSearchArtist.getText());
+				ResultSet rs = DB.SearchArtist(textFieldSearchArtist.getText());
 				
 				try {
 					

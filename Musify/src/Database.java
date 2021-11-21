@@ -118,7 +118,8 @@ public class Database {
 		return flag;
 	}
 	
-	public int updateData(String Username, String Password) {
+	public int updatePassword(String Username, String Password) {
+		int numb = 0;
 		try {
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			
@@ -126,14 +127,12 @@ public class Database {
 			
 			PreparedStatement preparedStmt = conn.prepareStatement(query);
 			
-			preparedStmt.executeUpdate();
+			numb = preparedStmt.executeUpdate();
 			
 			conn.close();
 		}
 		catch (SQLException e){
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "User doesn't exist","Error", JOptionPane.ERROR_MESSAGE);
-			return 1;
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -156,7 +155,7 @@ public class Database {
 			}
 			
 		}
-		return 0;
+		return numb;
 	}
 	public void connec(){
 		try {
@@ -211,7 +210,7 @@ public class Database {
 	    }
 	
 
-	public ResultSet SearchMusic(String setext){
+	public ResultSet SearchArtist(String setext){
 		try {
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		
