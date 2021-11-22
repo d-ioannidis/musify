@@ -65,7 +65,7 @@ public class FormMusify {
 					
 					table.setModel(obj.selectDataArtist());	
 					
-					JButton btnNewButton_1 = new JButton("Create new playlist ");
+					JButton btnNewButton_1 = new JButton("Create new playlist");
 					btnNewButton_1.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							//Playlist.main(null);
