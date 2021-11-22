@@ -38,7 +38,7 @@ import java.awt.event.MouseEvent;
 
 public class FormMusify {
 
-	private JFrame frame;
+	private static JFrame frame;
 	private JTextField textFieldNickN;
 	private JTextField textFieldName;
 	private JTextField textFieldSurName;
@@ -64,6 +64,15 @@ public class FormMusify {
 					window.frame.setVisible(true);
 					
 					table.setModel(obj.selectDataArtist());	
+					
+					JButton btnNewButton_1 = new JButton("Create new playlist ");
+					btnNewButton_1.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							//Playlist.main(null);
+						}
+					});
+					btnNewButton_1.setBounds(780, 123, 192, 23);
+					frame.getContentPane().add(btnNewButton_1);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -248,6 +257,10 @@ public class FormMusify {
 		frame.getContentPane().add(btnLogOut);
 		
 		JButton btnAbout = new JButton("About");
+		btnAbout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnAbout.setBounds(784, 624, 89, 23);
 		frame.getContentPane().add(btnAbout);
 		frame.setBounds(100, 100, 998, 697);
@@ -282,6 +295,4 @@ public class FormMusify {
             }
         });
 	}
-	
-	
 }
