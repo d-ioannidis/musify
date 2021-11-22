@@ -1,9 +1,8 @@
-package Connection;
-
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import java.awt.Container;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -168,7 +167,6 @@ public class Database {
 		}
       }
 	
-	// Αλλαγή ονόματος από SearchMusic σε SearchDataArtist()
 	public ResultSet SearchDataArtist(String setext){
 		try {
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -198,7 +196,7 @@ public class Database {
 	         		+ "ORDER BY TRACK_NAME";
 	         ResultSet rs = stmt.executeQuery(sql);
 	         JTable tblTaskList = new JTable();
-	         String header[] = new String[] {"Nickname", "Track2"};
+	         String header[] = new String[] {"Nickname", "Track"};
 	         dm.setColumnIdentifiers(header);
 	         tblTaskList.setModel(dm);
 
@@ -345,5 +343,100 @@ public class Database {
 		return artists;
 	      
 	}	
+	
+	public void insertDataArtist(String Name, String Lastname, String Nickname, String Birthday, String FirstTrackDate, 
+	String Nationality, String Photo_Artist) {
+		try {
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			
+			String sql_query = "INSERT INTO artist (NAME,LASTNAME,NICKNAME,BIRTHDAY,FIRST_TRACK_DATE,NATIONALITY,PHOTO_ARTIST) "
+					+ "VALUES (?,?,?,?,?,?,?)";
+			
+			PreparedStatement preparedStmt = conn.prepareStatement(sql_query);
+			
+			preparedStmt.setString(1, Name);
+			preparedStmt.setString(2, Lastname);
+			preparedStmt.setString(3, Nickname);
+			preparedStmt.setString(4, Birthday);
+			preparedStmt.setString(5, FirstTrackDate);
+			preparedStmt.setString(6, Nationality);
+			preparedStmt.setString(7, Photo_Artist);
+			
+			preparedStmt.execute();
+			
+			conn.close();
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if(stmt != null) 
+					stmt.close();
+			}
+				catch (SQLException e2) {
+					
+				}
+			try {
+				if(conn != null)
+					conn.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+				
+			}
+		}
+			
+	}
+	
+	public Boolean existingArtist(String Nickname) {
+		Boolean flag = true; 
+		
+		try {
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			
+			String sql_query = "SELECT * FROM ARTIST WHERE NICKNAME = ?";
+			
+			PreparedStatement preparedStmt = conn.prepareStatement(sql_query);
+			
+			preparedStmt.setString(1, Nickname);
+			ResultSet rs = preparedStmt.executeQuery();
+			
+			if (rs.next()) {
+				flag = false;
+			}
+			
+			preparedStmt.execute();
+			conn.close();
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if(stmt != null) 
+					stmt.close();
+			}
+				catch (SQLException e2) {
+					
+				}
+			try {
+				if(conn != null)
+					conn.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+				
+			}
+		}
+		return flag;
+	}
+	
 }
 
