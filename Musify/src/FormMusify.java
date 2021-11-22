@@ -68,7 +68,9 @@ public class FormMusify {
 					JButton btnNewButton_1 = new JButton("Create new playlist");
 					btnNewButton_1.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							//Playlist.main(null);
+							
+							frame.dispose();
+							Playlist.main(null);
 						}
 					});
 					btnNewButton_1.setBounds(780, 123, 192, 23);
@@ -93,11 +95,11 @@ public class FormMusify {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.getContentPane().setBackground(new Color(51, 0, 255));
+		frame.getContentPane().setBackground(Color.GRAY);
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panelBio = new JPanel();
-		panelBio.setBackground(new Color(30, 144, 255));
+		panelBio.setBackground(Color.DARK_GRAY);
 		panelBio.setBounds(10, 123, 294, 336);
 		frame.getContentPane().add(panelBio);
 		panelBio.setLayout(null);
@@ -108,32 +110,39 @@ public class FormMusify {
 		lblImage.setVisible(false);
 		
 		JLabel lblBio = new JLabel("\u0392\u03B9\u03BF\u03B3\u03C1\u03B1\u03C6\u03B9\u03BA\u03CC");
+		lblBio.setForeground(Color.WHITE);
 		lblBio.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblBio.setBackground(new Color(0, 128, 0));
 		lblBio.setBounds(100, 156, 100, 14);
 		panelBio.add(lblBio);
 		
 		JLabel lblNickName = new JLabel("\u03A8\u03B5\u03C5\u03B4\u03CE\u03BD\u03C5\u03BC\u03BF");
+		lblNickName.setForeground(Color.WHITE);
 		lblNickName.setBounds(10, 181, 140, 14);
 		panelBio.add(lblNickName);
 		
 		JLabel lblName = new JLabel("\u038C\u03BD\u03BF\u03BC\u03B1");
+		lblName.setForeground(Color.WHITE);
 		lblName.setBounds(10, 206, 140, 14);
 		panelBio.add(lblName);
 		
 		JLabel lblSurname = new JLabel("\u0395\u03C0\u03CE\u03BD\u03C5\u03BC\u03BF");
+		lblSurname.setForeground(Color.WHITE);
 		lblSurname.setBounds(10, 231, 140, 14);
 		panelBio.add(lblSurname);
 		
 		JLabel lblBirthDate = new JLabel("\u0397\u03BC.\u0393\u03AD\u03BD\u03B7\u03C3\u03B7\u03C2");
+		lblBirthDate.setForeground(Color.WHITE);
 		lblBirthDate.setBounds(10, 256, 140, 14);
 		panelBio.add(lblBirthDate);
 		
 		JLabel lblNationality = new JLabel("\u0395\u03B8\u03BD\u03B9\u03BA\u03CC\u03C4\u03B7\u03C4\u03B1");
+		lblNationality.setForeground(Color.WHITE);
 		lblNationality.setBounds(10, 281, 114, 14);
 		panelBio.add(lblNationality);
 		
 		JLabel lblFirstSong = new JLabel("\u0397\u03BC.\u03A0\u03C1\u03CE\u03C4\u03B7\u03C2 \u039A\u03C5\u03BA\u03BB.");
+		lblFirstSong.setForeground(Color.WHITE);
 		lblFirstSong.setBounds(10, 306, 114, 14);
 		panelBio.add(lblFirstSong);
 		
@@ -219,7 +228,7 @@ public class FormMusify {
 		frame.getContentPane().add(lblLogo);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(30, 144, 255));
+		panel_1.setBackground(Color.DARK_GRAY);
 		panel_1.setBounds(329, 72, 441, 39);
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
