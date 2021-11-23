@@ -1,20 +1,16 @@
-package Connection;
-
-import java.awt.EventQueue;
-
 import java.awt.*;
 import javax.swing.JFrame;
-import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.awt.Font;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
 
@@ -28,8 +24,10 @@ import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
+import java.awt.event.MouseAdapter;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowListener;
 
 public class FormMusify{
 
@@ -43,40 +41,82 @@ public class FormMusify{
 	private JTextField textFieldSearchArtist;
 	private JTextField textFieldSearchSong;
 	private JLabel lblImage = new JLabel("");
+	private JLabel lblSignedIn = new JLabel("");
 	private static JTable table = new JTable();
 	private static Database database = new Database();
-	
+	private List<Favourites> favourites = new ArrayList<>();
+
+	private static String user_id = null;
+	private static String user_fullname = null;
+
 	private List<Artist> artists = new ArrayList<>();
+	//private Component btnCreateNewPlaylist;
 	
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					
+					setUser_id(args[0]);
+					setUser_fullname(args[1] + " " + args[2]);
+					
 					FormMusify window = new FormMusify();
 					window.frame.setVisible(true);
 					
-					table.setModel(database.selectDataArtist());	
-							
+					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-	}		
+	}	
 	
 	/**
 	 * Create the application.
 	 */
 	public FormMusify() {
 		initialize();
+		table.setModel(database.selectDataArtist());	
+		
+
+		
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+		table.getColumnModel().getColumn(2).setMaxWidth(50);
+		displayFavourites();
+	}
+	
+	public void displayFavourites() {
+	    favourites = database.getFavourites();
+	    int fav_size = favourites.size();
+	    
+	    //System.out.print(favourites.size());	
+	    	
+	    	for (int j = 0; j < fav_size; j++) {
+	    		
+	    		String favNickname = favourites.get(j).getArtistNickname().toLowerCase().trim();
+	    		String favTrack = favourites.get(j).getTrack().toLowerCase().trim();
+	    		
+	    		for (int i = 0; i < table.getRowCount(); i++) {  // Loop through the rows	 
+	    	    	String tblNickname = table.getValueAt(i, 0).toString().toLowerCase().trim();
+	    	    	String tblTrack = table.getValueAt(i, 1).toString().toLowerCase().trim();
+	    		
+	    	    	if ( favNickname.equals(tblNickname) && favTrack.equals(tblTrack) ) {	    			
+	    	    		table.setValueAt("\u2764", i, 2);				
+	    			
+	    	    	}
+	    		
+	    		}
+	    		
+		    }	    	
 	}
 	
 	public void searchArtist(String artist_nickname) {	
-		
-		//System.out.print(artists.get(0).getNickname());
 		
     	for (Artist artist : artists) {
             if (artist.getNickname().equals(artist_nickname)) {                
@@ -87,105 +127,112 @@ public class FormMusify{
 				textFieldNation.setText(artist.getNationality());
 				textFieldFirstSong.setText(artist.getFirst_track_date());										         
 									
-				Blob blob = artist.getPhoto();		                   
+				Blob blob = artist.getPhoto();		                  
             	ImageIcon icon = null;
-				try {
-					icon = new ImageIcon(blob.getBytes(1, (int) blob.length()));
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}            	             	
-            	Image scaledPic = icon.getImage().getScaledInstance(250, -1, Image.SCALE_SMOOTH);
-            	lblImage.setIcon( new ImageIcon(scaledPic));
+            	
+            	if (blob != null) {
+					try {
+						icon = new ImageIcon(blob.getBytes(1, (int) blob.length()));
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}            	             	
+	            	Image scaledPic = icon.getImage().getScaledInstance(250, -1, Image.SCALE_SMOOTH);
+	            	lblImage.setIcon( new ImageIcon(scaledPic));
+            	}
             }
         }
 	}
-
-
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		
-		
     	artists = database.getArtists();
-    	
+    	    	
 		frame = new JFrame();
-		frame.getContentPane().setBackground(new Color(51, 0, 255));
+		frame.getContentPane().setBackground(Color.LIGHT_GRAY);
 		frame.getContentPane().setLayout(null);
 		
+		lblSignedIn.setForeground(Color.DARK_GRAY);
+		lblSignedIn.setBounds(10, 577, 294, 15);
+		lblSignedIn.setText("Signed in as " + getUser_fullname());
+		frame.getContentPane().add(lblSignedIn);
+		
 		JPanel panelBio = new JPanel();
-		panelBio.setBackground(new Color(30, 144, 255));
-		panelBio.setBounds(10, 46, 294, 425);
+		panelBio.setBackground(Color.DARK_GRAY);
+		panelBio.setBounds(10, 123, 294, 443);
 		frame.getContentPane().add(panelBio);
 		panelBio.setLayout(null);
 		
 		
-		lblImage.setBounds(10, 36, 284, 201);
+		lblImage.setBounds(10, 36, 284, 199);
 		panelBio.add(lblImage);
 		
 		JLabel lblBio = new JLabel("\u0392\u03B9\u03BF\u03B3\u03C1\u03B1\u03C6\u03B9\u03BA\u03CC");
+		lblBio.setForeground(Color.WHITE);
 		lblBio.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblBio.setBackground(new Color(0, 128, 0));
-		lblBio.setBounds(100, 248, 100, 14);
+		lblBio.setBounds(103, 235, 100, 14);
 		panelBio.add(lblBio);
 		
 		JLabel lblNickName = new JLabel("\u03A8\u03B5\u03C5\u03B4\u03CE\u03BD\u03C5\u03BC\u03BF");
-		lblNickName.setBounds(10, 273, 140, 14);
+		lblNickName.setForeground(Color.WHITE);
+		lblNickName.setBounds(10, 263, 140, 14);
 		panelBio.add(lblNickName);
 		
 		JLabel lblName = new JLabel("\u038C\u03BD\u03BF\u03BC\u03B1");
-		lblName.setBounds(10, 298, 140, 14);
+		lblName.setForeground(Color.WHITE);
+		lblName.setBounds(10, 300, 140, 14);
 		panelBio.add(lblName);
 		
 		JLabel lblSurname = new JLabel("\u0395\u03C0\u03CE\u03BD\u03C5\u03BC\u03BF");
-		lblSurname.setBounds(10, 323, 140, 14);
+		lblSurname.setForeground(Color.WHITE);
+		lblSurname.setBounds(10, 325, 140, 14);
 		panelBio.add(lblSurname);
 		
 		JLabel lblBirthDate = new JLabel("\u0397\u03BC.\u0393\u03AD\u03BD\u03B7\u03C3\u03B7\u03C2");
-		lblBirthDate.setBounds(10, 348, 140, 14);
+		lblBirthDate.setForeground(Color.WHITE);
+		lblBirthDate.setBounds(10, 356, 140, 14);
 		panelBio.add(lblBirthDate);
 		
-		JLabel lblNationality = new JLabel("\u0395\u03B8\u03BD\u03B9\u03BA\u03CC\u03C4\u03B7\u03C4\u03B1");
-		lblNationality.setBounds(10, 373, 114, 14);
-		panelBio.add(lblNationality);
-		
 		JLabel lblFirstSong = new JLabel("\u0397\u03BC.\u03A0\u03C1\u03CE\u03C4\u03B7\u03C2 \u039A\u03C5\u03BA\u03BB.");
-		lblFirstSong.setBounds(10, 398, 114, 14);
+		lblFirstSong.setForeground(Color.WHITE);
+		lblFirstSong.setBounds(10, 387, 114, 14);
 		panelBio.add(lblFirstSong);
 		
 		textFieldNickN = new JTextField();
-		textFieldNickN.setBounds(154, 270, 125, 20);
+		textFieldNickN.setBounds(154, 260, 125, 20);
 		panelBio.add(textFieldNickN);
 		textFieldNickN.setColumns(10);
 		
 		textFieldName = new JTextField();
-		textFieldName.setBounds(154, 295, 125, 20);
+		textFieldName.setBounds(154, 291, 125, 20);
 		panelBio.add(textFieldName);
 		textFieldName.setColumns(10);
 		
 		textFieldSurName = new JTextField();
-		textFieldSurName.setBounds(154, 320, 125, 20);
+		textFieldSurName.setBounds(154, 322, 125, 20);
 		panelBio.add(textFieldSurName);
 		textFieldSurName.setColumns(10);
 		
 		textFieldBirth = new JTextField();
-		textFieldBirth.setBounds(154, 345, 125, 20);
+		textFieldBirth.setBounds(154, 353, 125, 20);
 		panelBio.add(textFieldBirth);
 		textFieldBirth.setColumns(10);
 		
 		textFieldNation = new JTextField();
-		textFieldNation.setBounds(154, 370, 125, 20);
+		textFieldNation.setBounds(154, 384, 125, 20);
 		panelBio.add(textFieldNation);
 		textFieldNation.setColumns(10);
 		
 		textFieldFirstSong = new JTextField();
-		textFieldFirstSong.setBounds(154, 395, 125, 20);
+		textFieldFirstSong.setBounds(154, 415, 125, 20);
 		panelBio.add(textFieldFirstSong);
 		textFieldFirstSong.setColumns(10);
 		
 		textFieldSearchArtist = new JTextField();
-		textFieldSearchArtist.setBounds(10, 11, 168, 20);
+		textFieldSearchArtist.setBounds(10, 11, 147, 20);
 		panelBio.add(textFieldSearchArtist);
 		textFieldSearchArtist.setColumns(10);
 		
@@ -198,14 +245,21 @@ public class FormMusify{
 		btnNewButton.setBounds(179, 8, 100, 25);
 		panelBio.add(btnNewButton);
 		
+		JLabel lblNationality = new JLabel("\u0395\u03B8\u03BD\u03B9\u03BA\u03CC\u03C4\u03B7\u03C4\u03B1");
+		lblNationality.setBounds(10, 418, 114, 14);
+		panelBio.add(lblNationality);
+		lblNationality.setForeground(Color.WHITE);
+		
+		
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setIcon(new ImageIcon(FormMusify.class.getResource("/Images/musifyLogoNew.png")));
 		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLogo.setBounds(329, 11, 441, 50);
 		frame.getContentPane().add(lblLogo);
 		
+		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(30, 144, 255));
+		panel_1.setBackground(Color.DARK_GRAY);
 		panel_1.setBounds(329, 72, 441, 39);
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
@@ -221,20 +275,44 @@ public class FormMusify{
 		frame.getContentPane().add(panel_3);
 		panel_3.setLayout(null);
 		
-		/*table = new JTable();		
+		table = new JTable();	
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				//System.out.print(artists.get(0).getNickname());
-				
 				Point point = e.getPoint();
-				int column = table.columnAtPoint(point);
-				int row = table.rowAtPoint(point);								
-				table.setSelectionBackground(Color.YELLOW);
-				searchArtist(table.getModel().getValueAt(row, 0).toString());
+				int row = table.rowAtPoint(point);
+				int col = table.columnAtPoint(point);
+				String artist_nickname = table.getModel().getValueAt(row, 0).toString();
+				String track = table.getModel().getValueAt(row, 1).toString();	        
+				searchArtist(artist_nickname);
+	
+				if (col == 2) {
+					
+					if(table.getModel().getValueAt(row, col) == "\u2764") {						
+						
+						database.deleteFavourite(
+								Integer.parseInt(getUser_id()), 
+								artist_nickname, 
+								track);
+						
+						displayFavourites();
+						table.getModel().setValueAt("",row,col);
+						
+					}
+					else {						
+						
+						database.addFavourite(
+								Integer.parseInt(getUser_id()), 
+								artist_nickname, 
+								track);
+						
+						displayFavourites();
+						table.getModel().setValueAt("\u2764",row,col);
+					}
+				}
 			}
-		});*/
+		});
 		
 		JScrollPane scrollPane = new JScrollPane(table);		
 		scrollPane.setBounds(0, 0, panel_3.getWidth(), panel_3.getHeight());
@@ -249,6 +327,22 @@ public class FormMusify{
 		btnClose.setBounds(27, 624, 89, 23);
 		frame.getContentPane().add(btnClose);
 		
+		JButton btnFavourites = new JButton("Show Favourites");
+		btnFavourites.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
+		btnFavourites.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				FormFavourites.main(null);
+			}
+		});
+		btnFavourites.setBounds(558, 624, 218, 23);
+		frame.getContentPane().add(btnFavourites);
+		
 		JButton btnLogOut = new JButton("Log Out");
 		btnLogOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -259,12 +353,24 @@ public class FormMusify{
 		btnLogOut.setBounds(883, 624, 89, 23);
 		frame.getContentPane().add(btnLogOut);
 		
+		JButton btnCreateNewPlaylist = new JButton("Create New Playlist");
+		btnCreateNewPlaylist.addActionListener(new ActionListener () {
+			 public void actionPerformed(ActionEvent e) {
+				 frame.dispose();
+				 Playlist.main(null);
+		 }
+	});
+		
+		btnCreateNewPlaylist.setBounds(780, 135, 170, 23);
+		frame.getContentPane().add(btnCreateNewPlaylist);
+		
+		
 		JButton btnAbout = new JButton("About");
 		btnAbout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Musify"+ System.lineSeparator()+ "ÊùóôéíÜò ÄçìÞôñéïò 4609"+ System.lineSeparator()
-                +"Êùößäçò Ãåþñãéïò 4665"+ System.lineSeparator()+ "ÊáñáðéëéÜöçò Ãåþñãéïò 4679"+ System.lineSeparator()+ "ÄáñÜò ÄçìÞôñéïò 4585"
-                + System.lineSeparator()+ "Éùáííßäçò ÄçìÞôñéïò 4578"+ System.lineSeparator()+ "Ðüðôóçò Íéêüëáïò 4598"+ System.lineSeparator()+ "Ðáëïõêôóüãëïõ ÌåëÝôéïò 4636");
+				JOptionPane.showMessageDialog(null, "Musify"+ System.lineSeparator()+ "ÎšÏ‰ÏƒÏ„Î¹Î½Î¬Ï‚ Î”Î·Î¼Î®Ï„ÏÎ¹Î¿Ï‚ 4609"+ System.lineSeparator()
+                +"ÎšÏ‰Ï†Î¯Î´Î·Ï‚ Î“ÎµÏŽÏÎ³Î¹Î¿Ï‚ 4665"+ System.lineSeparator()+ "ÎšÎ±ÏÎ±Ï€Î¹Î»Î¹Î¬Ï†Î·Ï‚ Î“ÎµÏŽÏÎ³Î¹Î¿Ï‚ 4679"+ System.lineSeparator()+ "Î”Î±ÏÎ¬Ï‚ Î”Î·Î¼Î®Ï„ÏÎ¹Î¿Ï‚ 4585"
+                + System.lineSeparator()+ "Î™Ï‰Î±Î½Î½Î¯Î´Î·Ï‚ Î”Î·Î¼Î®Ï„ÏÎ¹Î¿Ï‚ 4578"+ System.lineSeparator()+ "Î ÏŒÏ€Ï„ÏƒÎ·Ï‚ ÎÎ¹ÎºÏŒÎ»Î±Î¿Ï‚ 4598"+ System.lineSeparator()+ "Î Î±Î»Î¿Ï…ÎºÏ„ÏƒÏŒÎ³Î»Î¿Ï… ÎœÎµÎ»Î­Ï„Î¹Î¿Ï‚ 4636");
 			}
 		});
 		btnAbout.setBounds(784, 624, 89, 23);
@@ -301,4 +407,21 @@ public class FormMusify{
             }
         });
 	}
+
+	public static String getUser_id() {
+		return user_id;
+	}
+
+	public static void setUser_id(String user_id) {
+		FormMusify.user_id = user_id;
+	}
+
+	public static String getUser_fullname() {
+		return user_fullname;
+	}
+
+	public static void setUser_fullname(String user_fullname) {
+		FormMusify.user_fullname = user_fullname;
+	}
 }
+

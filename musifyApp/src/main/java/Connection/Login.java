@@ -1,4 +1,3 @@
-package Connection;
 
 import java.awt.EventQueue;
 
@@ -26,7 +25,7 @@ public class Login{
 	
 	Connection con = null;
 	PreparedStatement pst =null;
-	Result rs =null;
+	Result rs =null;	
 
 	private JFrame frame;
 	//private JPanel contentPane;
@@ -95,9 +94,7 @@ public class Login{
 		JButton btnEnter = new JButton("Login");
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
-				
+					
 				try {
 					
 					//Class.forName("com.mysql.jdbc.Driver");
@@ -109,14 +106,15 @@ public class Login{
 					
 					Statement stm = con.createStatement();
 					
-					String sql = "select USERNAME, PASSWORD from register where USERNAME='"+username+"' and PASSWORD='"+password+"'";
+					String sql = "select ID, NAME, SURNAME, USERNAME, PASSWORD from register where USERNAME='"+username+"' and PASSWORD='"+password+"'";
 					ResultSet rs = stm.executeQuery(sql);
 					
 					
-					if(((ResultSet) rs).next()) {
+					if(((ResultSet) rs).next()) {						
 						JOptionPane.showMessageDialog(null, "Welcome");
 						frame.dispose();
-						FormMusify.main(null);
+						String[] user = {rs.getString("ID"), rs.getString("NAME"), rs.getString("SURNAME")};
+						FormMusify.main(user);
 					}else {
 						JOptionPane.showMessageDialog(null, "username or password is wrong...");
 						textFieldUserN.setText("");

@@ -118,7 +118,8 @@ public class Database {
 		return flag;
 	}
 	
-	public int updateData(String Username, String Password) {
+	public int updatePassword(String Username, String Password) {
+		int numb = 0;
 		try {
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			
@@ -126,14 +127,12 @@ public class Database {
 			
 			PreparedStatement preparedStmt = conn.prepareStatement(query);
 			
-			preparedStmt.executeUpdate();
+			numb = preparedStmt.executeUpdate();
 			
 			conn.close();
 		}
 		catch (SQLException e){
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "User doesn't exist","Error", JOptionPane.ERROR_MESSAGE);
-			return 1;
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -156,7 +155,7 @@ public class Database {
 			}
 			
 		}
-		return 0;
+		return numb;
 	}
 	public void connec(){
 		try {
@@ -186,6 +185,27 @@ public class Database {
 			return null;
 		}
 	}
+	/*
+	public ResultSet SearchDataArtist(String setext){
+		try {
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		
+		String query = "SELECT * FROM artist WHERE NAME IN ('"+ setext +"') OR NICKNAME IN ('"+ setext +"') OR LASTNAME IN ('"+ setext +"');";
+		
+		PreparedStatement preparedStmt = conn.prepareStatement(query);
+		
+		ResultSet rs = preparedStmt.executeQuery(query);
+		
+		
+		return rs;
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	*/
 	public DefaultTableModel selectDataArtist() {
 	      DefaultTableModel dm = new DefaultTableModel(0, 0);
 	      try {
@@ -196,17 +216,15 @@ public class Database {
 	         		+ "ORDER BY TRACK_NAME";
 	         ResultSet rs = stmt.executeQuery(sql);
 	         JTable tblTaskList = new JTable();
-	         String header[] = new String[] {"Nickname", "Track"};
+	         String header[] = new String[] {"Nickname", "Track", "\u2764"};
 	         dm.setColumnIdentifiers(header);
-	         tblTaskList.setModel(dm);
+	         tblTaskList.setModel(dm);     
+	         
 
 	         while (rs.next()) {
 	            Vector<Object> data = new Vector<Object>();
 	            data.add(rs.getString(1));
 	            data.add(rs.getString(2));
-	            //data.add(rs.getString(3));
-	           // data.add(rs.getString(4));
-	            //data.add(rs.getString(5));
 	            
 	            dm.addRow(data);
 	         }
@@ -237,6 +255,8 @@ public class Database {
 	      }
 	      return dm;
 	   }
+	
+
 	
 	// TEST CONNECTION IN DATABASE
 	public static void main(String[]args) {
@@ -345,7 +365,7 @@ public class Database {
 	}	
 	
 	public void insertDataArtist(String Name, String Lastname, String Nickname, String Birthday, String FirstTrackDate, 
-	String Nationality, String Photo_Artist) {
+	String Nationality, Blob photo_artist) {
 		try {
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			
@@ -360,7 +380,7 @@ public class Database {
 			preparedStmt.setString(4, Birthday);
 			preparedStmt.setString(5, FirstTrackDate);
 			preparedStmt.setString(6, Nationality);
-			preparedStmt.setString(7, Photo_Artist);
+			preparedStmt.setBlob(7, photo_artist);
 			
 			preparedStmt.execute();
 			
@@ -437,6 +457,153 @@ public class Database {
 		}
 		return flag;
 	}
+	
+public void addFavourite(int register_id, String artist_nickname, String track) {
+		
+		try {
+		
+		conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		
+		
+		String sql_query = "INSERT INTO favourites (register_id, artist, track) VALUES (?,?,?)";
+		
+		
+		PreparedStatement preparedStmt = conn.prepareStatement(sql_query);
+		
+		
+		preparedStmt.setInt(1, register_id);
+		preparedStmt.setString(2, artist_nickname);
+		preparedStmt.setString(3, track);
+		
+		
+		preparedStmt.execute();
+		
+		conn.close();
+		
+	}
+		catch (SQLException e){
+			e.printStackTrace();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if(stmt != null) 
+					stmt.close();
+			}
+				catch (SQLException e2) {
+					
+				}
+			try {
+				if(conn != null)
+					conn.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+				
+			}
+		}
+			
+	}
+
+public void deleteFavourite(int register_id, String artist_nickname, String track) {
+	
+	try {
+	
+	conn = DriverManager.getConnection(DB_URL, USER, PASS);
+	
+	String query = "DELETE FROM favourites WHERE register_id = ? AND artist = ? AND track = ?";
+    PreparedStatement preparedStmt = conn.prepareStatement(query);
+    preparedStmt.setInt(1, register_id);
+    preparedStmt.setString(2, artist_nickname);
+	preparedStmt.setString(3, track);    
+	
+	
+	preparedStmt.execute();
+	
+	conn.close();
+	
+}
+	catch (SQLException e){
+		e.printStackTrace();
+	}
+	catch (Exception e) {
+		e.printStackTrace();
+	}
+	finally {
+		try {
+			if(stmt != null) 
+				stmt.close();
+		}
+			catch (SQLException e2) {
+				
+			}
+		try {
+			if(conn != null)
+				conn.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+			
+		}
+	}
+		
+}
+
+public List<Favourites> getFavourites(){
+	List<Favourites> favourites = new ArrayList<>();
+	
+	try {
+         conn = DriverManager.getConnection(DB_URL, USER, PASS);
+         stmt = conn.createStatement();
+         String sql;
+         sql = "SELECT register_id, artist, track FROM favourites";
+         ResultSet rs = stmt.executeQuery(sql);
+         
+         
+         while (rs.next()) {
+	            
+	            
+        	 favourites.add(new Favourites(
+	            		rs.getInt("register_id"), 
+	            		rs.getString("artist"), 
+	            		rs.getString("track")
+	            		));
+	         }    
+         
+         rs.close();
+         stmt.close();
+         conn.close();
+         
+         
+      }
+      catch (SQLException se) {
+    	  
+         se.printStackTrace();
+      }
+      catch (Exception e) {
+         e.printStackTrace();
+      }
+      finally {
+         try {
+            if (stmt!=null)
+               stmt.close();
+         }
+         catch (SQLException se2) {
+         }
+         try {
+            if (conn!=null)
+               conn.close();
+         }
+         catch (SQLException se) {
+            se.printStackTrace();
+         }
+      }
+	return favourites;
+      
+}
+
 	
 }
 
