@@ -17,7 +17,7 @@ public class Database {
 	static final String DB_URL = "jdbc:mysql://localhost:3306/mydb";
 	
 	static final String USER = "root";
-	static final String PASS = "Sarap4610_Kof4665_Ioan4578_Alex4631";
+	static final String PASS = "";
 	
 	
 	
@@ -262,7 +262,7 @@ public class Database {
 	public static void main(String[]args) {
 		String url = "jdbc:mysql://localhost:3306/mydb";
 		String username = "root";
-		String password = "Sarap4610_Kof4665_Ioan4578_Alex4631";
+		String password = "";
 		
 		System.out.println("Connecting to server...");
 		try(Connection connection = DriverManager.getConnection(url, username, password)){
