@@ -62,66 +62,58 @@ public class Playlist {
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.LIGHT_GRAY);
-		frame.setBounds(100, 100, 749, 618);
+		frame.setBounds(100, 100, 749, 636);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-	    
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(Color.DARK_GRAY);
-		panel_1.setBounds(416, 11, 282, 46);
-		frame.getContentPane().add(panel_1);
-		panel_1.setLayout(null);
+		JPanel panel_1_1 = new JPanel();
+		panel_1_1.setLayout(null);
+		panel_1_1.setBackground(Color.DARK_GRAY);
+		panel_1_1.setBounds(0, 0, 733, 597);
+		frame.getContentPane().add(panel_1_1);
+		
+		JLabel img = new JLabel("");
+		img.setHorizontalAlignment(SwingConstants.CENTER);
+		img.setBounds(0, 0, 410, 523);
+		panel_1_1.add(img);
+		img.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
+		
+		table = new JTable();
+		table.setBounds(420, 59, 303, 464);
+		panel_1_1.add(table);
 		
 		JPanel panel = new JPanel();
+		panel.setBounds(420, 11, 262, 37);
+		panel_1_1.add(panel);
 		panel.setBackground(Color.WHITE);
-		panel.setBounds(10, 11, 262, 27);
-		panel_1.add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel_1 = new JLabel("Your Playlist");
 		lblNewLabel_1.setVerticalAlignment(SwingConstants.TOP);
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setBackground(Color.MAGENTA);
-		lblNewLabel_1.setFont(new Font("Dubai", Font.BOLD, 13));
-		lblNewLabel_1.setBounds(10, 5, 242, 22);
+		lblNewLabel_1.setFont(new Font("Dubai", Font.BOLD, 18));
+		lblNewLabel_1.setBounds(10, 0, 242, 37);
 		lblNewLabel_1.setToolTipText("");
 		panel.add(lblNewLabel_1);
 		
-		JPanel panel_1_1 = new JPanel();
-		panel_1_1.setLayout(null);
-		panel_1_1.setBackground(Color.DARK_GRAY);
-		panel_1_1.setBounds(10, 11, 386, 512);
-		frame.getContentPane().add(panel_1_1);
-		
-		JLabel img = new JLabel("");
-		img.setHorizontalAlignment(SwingConstants.CENTER);
-		img.setBounds(10, 11, 366, 490);
-		panel_1_1.add(img);
-		img.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\Images\\LogoMain.png"));
-		
-		JButton btnBack = new JButton("Back");
-		btnBack.setFont(new Font("Dubai", Font.PLAIN, 11));
+		JButton btnBack = new JButton("");
+		btnBack.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\src\\main\\java\\buttons\\back.png"));
+		btnBack.setBounds(21, 539, 63, 47);
+		panel_1_1.add(btnBack);
+		btnBack.setFont(new Font("Dubai", Font.PLAIN, 14));
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				//FormMusify.main(null);
+				FormMusify.main(null);
 			
 			}
 		});
 		btnBack.setBackground(Color.WHITE);
-		btnBack.setBounds(10, 534, 89, 34);
-		frame.getContentPane().add(btnBack);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(Color.DARK_GRAY);
-		panel_2.setBounds(416, 49, 282, 460);
-		frame.getContentPane().add(panel_2);
-		panel_2.setLayout(null);
-		
-		table = new JTable();
-		table.setBounds(10, 11, 262, 438);
-		panel_2.add(table);
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(275, 59, 150, 464);
+		panel_1_1.add(panel_1);
 	}
 
 }

@@ -82,14 +82,82 @@ public class FormMusify{
 	 */
 	public FormMusify() {
 		initialize();
-		table.setModel(database.selectDataArtist());	
+		table.setModel(database.selectDataArtist());
+		//table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+		table.getColumnModel().getColumn(2).setMaxWidth(50);
+		
+		JButton btnClose = new JButton("");
+		btnClose.setBounds(10, 633, 47, 39);
+		frame.getContentPane().add(btnClose);
+		btnClose.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\src\\main\\java\\buttons\\close.png"));
+		
+		
+		JButton btnAbout = new JButton("About");
+		btnAbout.setBounds(714, 633, 128, 39);
+		frame.getContentPane().add(btnAbout);
+		btnAbout.setIcon(new ImageIcon(FormMusify.class.getResource("/buttons/about.png")));
+		
+		JButton btnLogOut = new JButton("Log Out");
+		btnLogOut.setBounds(844, 633, 128, 39);
+		frame.getContentPane().add(btnLogOut);
+		btnLogOut.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\src\\main\\java\\buttons\\logout.png"));
+		
+		textFieldSearchSong = new JTextField();
+		textFieldSearchSong.setBounds(340, 83, 421, 20);
+		frame.getContentPane().add(textFieldSearchSong);
+		textFieldSearchSong.setColumns(10);
+		
+		textFieldSearchSong.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+            }
+        });
+		
+		textFieldSearchSong.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
+                table.setRowSorter(sorter);
+                String text = textFieldSearchSong.getText();
+                if(text.length() == 0) {
+                   sorter.setRowFilter(null);
+                } else {
+                	
+                   try { 
+                	   // (?i) means case insensitive search
+                      sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                   }
+                   catch(PatternSyntaxException pse) {
+                         System.out.println("Bad regex pattern");
+                   }
+                 }
+            }
+        });
+		btnLogOut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				Login.main(null);
+			}
+		});
+		btnAbout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Musify"+ System.lineSeparator()+ "Kostinas Dimitrios 4609"+ System.lineSeparator()
+                +"Kofidis Georgios 4665"+ System.lineSeparator()+ "Karapiliafis Georgios 4679"+ System.lineSeparator()+ "Daras Dimitrios 4585"
+                + System.lineSeparator()+ "Ioannidis Dimitrios 4578"+ System.lineSeparator()+ "Poptsis Nikolaos 4598"+ System.lineSeparator()+ "Palouktsoglou Meletios 4636");
+			}
+		});
+		btnClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		
 
 		
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-		table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-		table.getColumnModel().getColumn(2).setMaxWidth(50);
 		displayFavourites();
 	}
 	
@@ -155,15 +223,15 @@ public class FormMusify{
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.LIGHT_GRAY);
 		frame.getContentPane().setLayout(null);
+		lblSignedIn.setBounds(10, 0, 309, 15);
 		
 		lblSignedIn.setForeground(Color.DARK_GRAY);
-		lblSignedIn.setBounds(10, 577, 294, 15);
 		lblSignedIn.setText("Signed in as " + getUser_fullname());
 		frame.getContentPane().add(lblSignedIn);
 		
 		JPanel panelBio = new JPanel();
+		panelBio.setBounds(0, 21, 330, 596);
 		panelBio.setBackground(Color.DARK_GRAY);
-		panelBio.setBounds(10, 123, 294, 443);
 		frame.getContentPane().add(panelBio);
 		panelBio.setLayout(null);
 		
@@ -252,28 +320,50 @@ public class FormMusify{
 		panelBio.add(lblNationality);
 		lblNationality.setForeground(Color.WHITE);
 		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(10, 446, 309, 124);
+		panelBio.add(panel_2);
+		panel_2.setBackground(Color.GRAY);
+		panel_2.setLayout(null);
+		
+		JButton btnFavourites = new JButton("Show Favourites");
+		btnFavourites.setBounds(49, 68, 214, 33);
+		panel_2.add(btnFavourites);
+		btnFavourites.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\src\\main\\java\\buttons\\quaver.png"));
+		
+		JButton btnCreateNewPlaylist = new JButton("Create New Playlist");
+		btnCreateNewPlaylist.setBounds(49, 24, 214, 33);
+		panel_2.add(btnCreateNewPlaylist);
+		btnCreateNewPlaylist.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\src\\main\\java\\buttons\\quaver.png"));
+		btnCreateNewPlaylist.addActionListener(new ActionListener () {
+			 public void actionPerformed(ActionEvent e) {
+				 frame.dispose();
+				 Playlist.main(null);
+		 }
+	});
+		btnFavourites.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
+		btnFavourites.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				FormFavourites.main(null);
+			}
+		});
+		
 		
 		JLabel lblLogo = new JLabel("");
+		lblLogo.setBounds(340, 0, 441, 83);
 		lblLogo.setIcon(new ImageIcon(FormMusify.class.getResource("/Images/musifyLogoNew.png")));
 		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLogo.setBounds(329, 11, 441, 50);
 		frame.getContentPane().add(lblLogo);
 		
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(Color.DARK_GRAY);
-		panel_1.setBounds(329, 72, 441, 39);
-		frame.getContentPane().add(panel_1);
-		panel_1.setLayout(null);
-		
-		textFieldSearchSong = new JTextField();
-		textFieldSearchSong.setBounds(10, 11, 421, 20);
-		panel_1.add(textFieldSearchSong);
-		textFieldSearchSong.setColumns(10);
-		
 		JPanel panel_3 = new JPanel();
-		panel_3.setBackground(new Color(30, 144, 255));
-		panel_3.setBounds(329, 122, 441, 491);
+		panel_3.setBounds(329, 114, 653, 503);
+		panel_3.setBackground(Color.DARK_GRAY);
 		frame.getContentPane().add(panel_3);
 		panel_3.setLayout(null);
 		
@@ -316,98 +406,11 @@ public class FormMusify{
 			}
 		});
 		
-		JScrollPane scrollPane = new JScrollPane(table);		
-		scrollPane.setBounds(0, 0, panel_3.getWidth(), panel_3.getHeight());
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setBounds(0, 17, 441, 483);
 		panel_3.add(scrollPane);
-		
-		JButton btnClose = new JButton("Close");
-		btnClose.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		btnClose.setBounds(27, 624, 89, 23);
-		frame.getContentPane().add(btnClose);
-		
-		JButton btnFavourites = new JButton("Show Favourites");
-		btnFavourites.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-			}
-		});
-		btnFavourites.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-				FormFavourites.main(null);
-			}
-		});
-		btnFavourites.setBounds(558, 624, 218, 23);
-		frame.getContentPane().add(btnFavourites);
-		
-		JButton btnLogOut = new JButton("Log Out");
-		btnLogOut.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-				Login.main(null);
-			}
-		});
-		btnLogOut.setBounds(883, 624, 89, 23);
-		frame.getContentPane().add(btnLogOut);
-		
-		JButton btnCreateNewPlaylist = new JButton("Create New Playlist");
-		btnCreateNewPlaylist.addActionListener(new ActionListener () {
-			 public void actionPerformed(ActionEvent e) {
-				 frame.dispose();
-				 Playlist.main(null);
-		 }
-	});
-		
-		btnCreateNewPlaylist.setBounds(780, 135, 170, 23);
-		frame.getContentPane().add(btnCreateNewPlaylist);
-		
-		
-		JButton btnAbout = new JButton("About");
-		btnAbout.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Musify"+ System.lineSeparator()+ "Κωστινάς Δημήτριος 4609"+ System.lineSeparator()
-                +"Κωφίδης Γεώργιος 4665"+ System.lineSeparator()+ "Καραπιλιάφης Γεώργιος 4679"+ System.lineSeparator()+ "Δαράς Δημήτριος 4585"
-                + System.lineSeparator()+ "Ιωαννίδης Δημήτριος 4578"+ System.lineSeparator()+ "Πόπτσης Νικόλαος 4598"+ System.lineSeparator()+ "Παλουκτσόγλου Μελέτιος 4636");
-			}
-		});
-		btnAbout.setBounds(784, 624, 89, 23);
-		frame.getContentPane().add(btnAbout);
-		frame.setBounds(100, 100, 998, 697);
+		frame.setBounds(100, 100, 998, 722);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		textFieldSearchSong.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-            }
-        });
-		
-		textFieldSearchSong.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                super.keyReleased(e);
-                final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
-                table.setRowSorter(sorter);
-                String text = textFieldSearchSong.getText();
-                if(text.length() == 0) {
-                   sorter.setRowFilter(null);
-                } else {
-                	
-                   try { 
-                	   // (?i) means case insensitive search
-                      sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-                   }
-                   catch(PatternSyntaxException pse) {
-                         System.out.println("Bad regex pattern");
-                   }
-                 }
-            }
-        });
 	}
 
 	public static String getUser_id() {

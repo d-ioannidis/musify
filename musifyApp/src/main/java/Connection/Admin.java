@@ -54,7 +54,7 @@ public class Admin {
 				try {
 					
 					//Class.forName("com.mysql.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","");
+					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","Sarap4610_Kof4665_Ioan4578_Alex4631");
 					
 					String username = userText.getText();
 					String password = String.valueOf(passText.getPassword());

@@ -49,66 +49,64 @@ public class FormFavourites {
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.LIGHT_GRAY);
-		frame.setBounds(100, 100, 698, 536);
+		frame.setBounds(100, 100, 808, 674);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lblLogo = new JLabel("");
-		lblLogo.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\Images\\musifyLogoNew.png"));
-		lblLogo.setBounds(124, 11, 439, 50);
-		frame.getContentPane().add(lblLogo);
-		
-		
-		//button back
-		JButton btnBack = new JButton("Back");
-		btnBack.setFont(new Font("Dubai", Font.PLAIN, 11));
-		btnBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-				//FormMusify.main(null);
-			}
-		});
-		btnBack.setBounds(27, 453, 89, 33);
-		frame.getContentPane().add(btnBack);
-		
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.DARK_GRAY);
-		panel.setBounds(10, 109, 662, 336);
+		panel.setBounds(0, 0, 792, 635);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		tableFavourites = new JTable();
-		tableFavourites.setBounds(10, 11, 642, 314);
+		tableFavourites.setBounds(425, 69, 357, 473);
 		panel.add(tableFavourites);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(Color.DARK_GRAY);
-		panel_1.setBounds(244, 60, 173, 38);
-		frame.getContentPane().add(panel_1);
-		panel_1.setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("Your Favourite Songs List");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Dubai", Font.BOLD, 11));
-		lblNewLabel.setForeground(Color.BLACK);
-		lblNewLabel.setBackground(Color.BLACK);
-		lblNewLabel.setBounds(10, 11, 153, 14);
-		panel_1.add(lblNewLabel);
-		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(10, 11, 152, 16);
-		panel_1.add(panel_2);
+		panel_2.setBackground(Color.WHITE);
+		panel_2.setBounds(494, 11, 248, 47);
+		panel.add(panel_2);
 		panel_2.setLayout(null);
 		
+		JLabel lblNewLabel = new JLabel("Your Favourite Songs List");
+		lblNewLabel.setBounds(10, 0, 234, 47);
+		panel_2.add(lblNewLabel);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Dubai", Font.BOLD, 18));
+		lblNewLabel.setForeground(Color.BLACK);
+		lblNewLabel.setBackground(Color.BLACK);
+		
+		JLabel lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
+		lblNewLabel_1.setBounds(0, 0, 447, 572);
+		panel.add(lblNewLabel_1);
+		
+		
+		//button back
+		JButton btnBack = new JButton("");
+		btnBack.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\src\\main\\java\\buttons\\back.png"));
+		btnBack.setBounds(20, 577, 63, 47);
+		panel.add(btnBack);
+		btnBack.setFont(new Font("Dubai", Font.PLAIN, 14));
+		
 		//button Close
-		JButton btnClose = new JButton("Close");
+		JButton btnClose = new JButton("");
+		btnClose.setBounds(719, 577, 63, 47);
+		panel.add(btnClose);
+		btnClose.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\src\\main\\java\\buttons\\close.png"));
 		btnClose.setFont(new Font("Dubai", Font.PLAIN, 11));
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
-		btnClose.setBounds(583, 453, 89, 33);
-		frame.getContentPane().add(btnClose);
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				//FormMusify.main(null);
+			}
+		});
 	}
 }
