@@ -1,5 +1,3 @@
-package Connection;
-
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -603,9 +601,48 @@ public List<Favourites> getFavourites(){
          }
       }
 	return favourites;
-      
+}
+
+// KOFIDIS deletePlaylist()
+
+public void deletePlaylist(int id) {
+	try {
+		
+		conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		
+		String sql_delete = "DELETE FROM playlist WHERE playlist_id = ?";
+		
+		PreparedStatement prepareStmt = conn.prepareStatement(sql_delete);
+		prepareStmt.setInt(1, id);
+		prepareStmt.execute();
+		
+		conn.close();
+	}
+	catch (SQLException e){
+		e.printStackTrace();
+	}
+	catch (Exception e) {
+		e.printStackTrace();
+	}
+	finally {
+		try {
+			if(stmt != null) 
+				stmt.close();
+		}
+			catch (SQLException e2) {
+				
+			}
+		try {
+			if(conn != null)
+				conn.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+			
+		}
+	}
+}
 }
 
 	
-}
 
