@@ -14,7 +14,7 @@
         </plugins>
     </build>
     <dependencies>
-	
+
 	<dependency>
 	    <groupId>org.junit.jupiter</groupId>
 	    <artifactId>junit-jupiter-engine</artifactId>
@@ -28,22 +28,14 @@
         <artifactId>mysql-connector-java</artifactId>
         <version>8.0.27</version>
     </dependency>
-    
-<!-- https://mvnrepository.com/artifact/javazoom/jlayer -->
-<dependency>
-    <groupId>javazoom</groupId>
-    <artifactId>jlayer</artifactId>
-    <version>1.0.1</version>
-</dependency>
 
- 
     </dependencies>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
         <java.version>16</java.version>
     </properties>
-    
-</project>
+
+</project> 
