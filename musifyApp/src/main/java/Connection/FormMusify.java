@@ -108,7 +108,7 @@ public class FormMusify{
 		JButton btnClose = new JButton("");
 		btnClose.setBounds(10, 633, 47, 39);
 		frame.getContentPane().add(btnClose);
-		btnClose.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\src\\main\\java\\buttons\\close.png"));
+		btnClose.setIcon(new ImageIcon("/buttons/close.png"));
 		
 		
 		JButton btnAbout = new JButton("About");
@@ -119,7 +119,7 @@ public class FormMusify{
 		JButton btnLogOut = new JButton("Log Out");
 		btnLogOut.setBounds(844, 633, 128, 39);
 		frame.getContentPane().add(btnLogOut);
-		btnLogOut.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\src\\main\\java\\buttons\\logout.png"));
+		btnLogOut.setIcon(new ImageIcon("/buttons/logout.png"));
 		
 		textFieldSearchSong = new JTextField();
 		textFieldSearchSong.setBounds(340, 83, 421, 20);
@@ -488,12 +488,12 @@ public class FormMusify{
 		JButton btnFavourites = new JButton("Show Favourites");
 		btnFavourites.setBounds(49, 68, 214, 33);
 		panel_2.add(btnFavourites);
-		btnFavourites.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\src\\main\\java\\buttons\\quaver.png"));
+		btnFavourites.setIcon(new ImageIcon("/buttons/quaver.png"));
 		
 		JButton btnCreateNewPlaylist = new JButton("Create New Playlist");
 		btnCreateNewPlaylist.setBounds(49, 24, 214, 33);
 		panel_2.add(btnCreateNewPlaylist);
-		btnCreateNewPlaylist.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\src\\main\\java\\buttons\\quaver.png"));
+		btnCreateNewPlaylist.setIcon(new ImageIcon("/buttons/quaver.png"));
 		btnCreateNewPlaylist.addActionListener(new ActionListener () {
 			 public void actionPerformed(ActionEvent e) {
 				 frame.dispose();
