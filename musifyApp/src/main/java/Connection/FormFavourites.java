@@ -16,19 +16,18 @@ import javax.swing.SwingConstants;
 
 
 public class FormFavourites {
-	
+
 	private JFrame frame;
 	private JTable tableFavourites;
+	private static Database database = new Database();
 
 	/**
 	 * Launch the application.
-	 * @return 
 	 */
-	public static void main(final String[] args) {
+	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					
 					FormFavourites window = new FormFavourites();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -62,6 +61,9 @@ public class FormFavourites {
 		panel.setLayout(null);
 		
 		tableFavourites = new JTable();
+		tableFavourites.setModel(database.selectFavourites());
+		//table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
+		tableFavourites.getColumnModel().getColumn(2).setMaxWidth(50);
 		tableFavourites.setBounds(425, 69, 357, 473);
 		panel.add(tableFavourites);
 		
@@ -81,14 +83,14 @@ public class FormFavourites {
 		
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setIcon(new ImageIcon("C:\\Dimitris\\Workspace\\University\\Δημήτριος Ιωαννίδης\\TEI\\Εργαστήρια\\7o\\Τεχνολογία Λογισμικού\\musifyApp\\src\\main\\java\\buttons\\logoMain.png"));
+		lblNewLabel_1.setIcon(new ImageIcon(FormFavourites.class.getResource("/Images/logoMain.png")));
 		lblNewLabel_1.setBounds(0, 0, 447, 572);
 		panel.add(lblNewLabel_1);
 		
 		
 		//button back
 		JButton btnBack = new JButton("");
-		btnBack.setIcon(new ImageIcon("C:\\Dimitris\\Workspace\\University\\Δημήτριος Ιωαννίδης\\TEI\\Εργαστήρια\\7o\\Τεχνολογία Λογισμικού\\musifyApp\\src\\main\\java\\buttons\\back.png"));
+		btnBack.setIcon(new ImageIcon(FormFavourites.class.getResource("/buttons/back.png")));
 		btnBack.setBounds(20, 577, 63, 47);
 		panel.add(btnBack);
 		btnBack.setFont(new Font("Dubai", Font.PLAIN, 14));
@@ -97,7 +99,7 @@ public class FormFavourites {
 		JButton btnClose = new JButton("");
 		btnClose.setBounds(719, 577, 63, 47);
 		panel.add(btnClose);
-		btnClose.setIcon(new ImageIcon("C:\\Dimitris\\Workspace\\University\\Δημήτριος Ιωαννίδης\\TEI\\Εργαστήρια\\7o\\Τεχνολογία Λογισμικού\\musifyApp\\src\\main\\java\\buttons\\close.png"));
+		btnClose.setIcon(new ImageIcon(FormFavourites.class.getResource("/buttons/close.png")));
 		btnClose.setFont(new Font("Dubai", Font.PLAIN, 11));
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -107,8 +109,11 @@ public class FormFavourites {
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				FormMusify.main(FormMusify.getArgs());
+				//FormMusify.main(null);
 			}
+			
 		});
+		frame.setLocationRelativeTo(null);
 	}
+	
 }
