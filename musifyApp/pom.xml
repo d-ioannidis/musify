@@ -14,7 +14,14 @@
         </plugins>
     </build>
     <dependencies>
-
+    
+    <!-- https://mvnrepository.com/artifact/javazoom/jlayer -->
+    <dependency>
+        <groupId>javazoom</groupId>
+        <artifactId>jlayer</artifactId>
+        <version>1.0.1</version>
+    </dependency>
+	
 	<dependency>
 	    <groupId>org.junit.jupiter</groupId>
 	    <artifactId>junit-jupiter-engine</artifactId>
@@ -30,7 +37,6 @@
     </dependency>
 
     </dependencies>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>16</maven.compiler.source>
