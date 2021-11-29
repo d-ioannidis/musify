@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,8 +20,10 @@ import java.util.regex.PatternSyntaxException;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JTable;
 
 import java.awt.event.ActionListener;
@@ -30,6 +33,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowListener;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.lang.Thread;
+import javazoom.jl.player.Player;
 
 public class FormMusify{
 
@@ -44,9 +53,17 @@ public class FormMusify{
 	private JTextField textFieldSearchSong;
 	private JLabel lblImage = new JLabel("");
 	private JLabel lblSignedIn = new JLabel("");
+	private JLabel songName = new JLabel("");
 	private static JTable table = new JTable();
 	private static Database database = new Database();
 	private List<Favourites> favourites = new ArrayList<>();
+	private File myFile;
+	private String filename,filePath;
+	private FileInputStream fis;
+	private BufferedInputStream bis;
+	private Player MP;
+	private int LT;
+	private int TL;
 
 	private static String user_id = null;
 	private static String user_fullname = null;
@@ -107,10 +124,107 @@ public class FormMusify{
 		frame.getContentPane().add(textFieldSearchSong);
 		textFieldSearchSong.setColumns(10);
 		
+		JLabel Previous = new JLabel("");
+		Previous.setIcon(new ImageIcon(FormMusify.class.getResource("/buttons/previous.png")));
+		Previous.setBounds(121, 639, 27, 27);
+		frame.getContentPane().add(Previous);
+		
+		JLabel Pause = new JLabel("");
+		Pause.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				try {
+					LT = fis.available();
+					MP.close();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		Pause.setIcon(new ImageIcon(FormMusify.class.getResource("/buttons/pause.png")));
+		Pause.setBounds(158, 634, 35, 38);
+		frame.getContentPane().add(Pause);
+		
+		JLabel Start = new JLabel("");
+		Start.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				
+				Runnable runnablePlay = new Runnable() {
+			        @Override
+			        public void run() {
+			            try {
+			            	if (LT != 0) {
+			            		fis = new FileInputStream(myFile);
+				            	fis.skip(TL-LT);
+				            	bis = new BufferedInputStream(fis);
+				            	MP = new Player(bis);
+				            	MP.play();
+			            	}
+			            	else {
+			            		fis = new FileInputStream(myFile);
+				            	bis = new BufferedInputStream(fis);
+				            	MP = new Player(bis);
+				            	try {
+									TL = fis.available();
+									MP.play();
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
+			            	}
+			            } catch (Exception e) {
+			                e.printStackTrace();
+			            }
+			        }
+			    };
+			    if (filename != null) {
+			    	if (MP != null) {
+			    		MP.close();
+			    	}
+			    	Thread task = new Thread(runnablePlay);
+			    	task.start();
+                    songName.setText("Now playing : " + filename);
+                } else {
+                    songName.setText("No File was selected!");
+                }
+			}
+		});
+		Start.setIcon(new ImageIcon(FormMusify.class.getResource("/buttons/play.png")));
+		Start.setBounds(203, 634, 35, 38);
+		frame.getContentPane().add(Start);
+		
+		JLabel Next = new JLabel("");
+		Next.setIcon(new ImageIcon(FormMusify.class.getResource("/buttons/next.png")));
+		Next.setBounds(248, 639, 27, 27);
+		frame.getContentPane().add(Next);
+		
+		JButton btnNewButton_1 = new JButton("Add Songs");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fs = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Mp3 files", "mp3");
+				fs.setFileFilter(filter);
+				int r =fs.showOpenDialog(null);
+				if (r == JFileChooser.APPROVE_OPTION) {
+					myFile = fs.getSelectedFile();
+	                filename = fs.getSelectedFile().getName();
+	                filePath = fs.getSelectedFile().getPath();
+	                songName.setText("File Selected : " + filename);
+	                TL = 0;
+	                LT = 0;
+				}
+			}
+		});
+		btnNewButton_1.setBounds(315, 641, 100, 23);
+		frame.getContentPane().add(btnNewButton_1);
+		
+		songName.setBounds(425, 645, 279, 14);
+		frame.getContentPane().add(songName);
+		
 		textFieldSearchSong.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
+            	 super.keyTyped(e);
             }
         });
 		
