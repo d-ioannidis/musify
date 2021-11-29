@@ -9,21 +9,17 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
 
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JTable;
 
 import java.awt.event.ActionListener;
@@ -32,13 +28,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowListener;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.lang.Thread;
-import javazoom.jl.player.Player;
 
 public class FormMusify{
 
@@ -53,23 +42,16 @@ public class FormMusify{
 	private JTextField textFieldSearchSong;
 	private JLabel lblImage = new JLabel("");
 	private JLabel lblSignedIn = new JLabel("");
-	private JLabel songName = new JLabel("");
 	private static JTable table = new JTable();
 	private static Database database = new Database();
 	private List<Favourites> favourites = new ArrayList<>();
-	private File myFile;
-	private String filename,filePath;
-	private FileInputStream fis;
-	private BufferedInputStream bis;
-	private Player MP;
-	private int LT;
-	private int TL;
-
+	private List<Playlist> playlist = new ArrayList<>();
+	
 	private static String user_id = null;
 	private static String user_fullname = null;
+	private static String[] args = null;
 
 	private List<Artist> artists = new ArrayList<>();
-	//private Component btnCreateNewPlaylist;
 	
 	/**
 	 * Launch the application.
@@ -81,11 +63,11 @@ public class FormMusify{
 					
 					setUser_id(args[0]);
 					setUser_fullname(args[1] + " " + args[2]);
+					setArgs(args);
 					
 					FormMusify window = new FormMusify();
 					window.frame.setVisible(true);
-					
-					
+	
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -99,156 +81,40 @@ public class FormMusify{
 	 */
 	public FormMusify() {
 		initialize();
-		table.setModel(database.selectDataArtist());
-		//table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-		table.getColumnModel().getColumn(2).setMaxWidth(50);
+		table.setModel(database.selectDataArtist());	
 		
-		JButton btnClose = new JButton("");
-		btnClose.setBounds(10, 633, 47, 39);
-		frame.getContentPane().add(btnClose);
-		btnClose.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\src\\main\\java\\buttons\\close.png"));
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.DARK_GRAY);
+		panel.setBounds(0, 617, 982, 66);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
 		
 		
 		JButton btnAbout = new JButton("About");
-		btnAbout.setBounds(714, 633, 128, 39);
-		frame.getContentPane().add(btnAbout);
 		btnAbout.setIcon(new ImageIcon(FormMusify.class.getResource("/buttons/about.png")));
+		btnAbout.setBounds(706, 11, 128, 39);
+		panel.add(btnAbout);
 		
 		JButton btnLogOut = new JButton("Log Out");
-		btnLogOut.setBounds(844, 633, 128, 39);
-		frame.getContentPane().add(btnLogOut);
-		btnLogOut.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\src\\main\\java\\buttons\\logout.png"));
+		btnLogOut.setIcon(new ImageIcon("C:\\Dimitris\\Workspace\\University\\Δημήτριος Ιωαννίδης\\TEI\\Εργαστήρια\\7o\\Τεχνολογία Λογισμικού\\musifyApp\\src\\main\\java\\buttons\\logout.png"));
+		btnLogOut.setBounds(844, 11, 128, 39);
+		panel.add(btnLogOut);
 		
-		textFieldSearchSong = new JTextField();
-		textFieldSearchSong.setBounds(340, 83, 421, 20);
-		frame.getContentPane().add(textFieldSearchSong);
-		textFieldSearchSong.setColumns(10);
+		JButton btnClose = new JButton("");
+		btnClose.setBounds(10, 11, 47, 39);
+		panel.add(btnClose);
+		btnClose.setIcon(new ImageIcon("C:\\Dimitris\\Workspace\\University\\Δημήτριος Ιωαννίδης\\TEI\\Εργαστήρια\\7o\\Τεχνολογία Λογισμικού\\musifyApp\\src\\main\\java\\buttons\\close.png"));
 		
-		JLabel Previous = new JLabel("");
-		Previous.setIcon(new ImageIcon(FormMusify.class.getResource("/buttons/previous.png")));
-		Previous.setBounds(121, 639, 27, 27);
-		frame.getContentPane().add(Previous);
-		
-		JLabel Pause = new JLabel("");
-		Pause.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				try {
-					LT = fis.available();
-					MP.close();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		Pause.setIcon(new ImageIcon(FormMusify.class.getResource("/buttons/pause.png")));
-		Pause.setBounds(158, 634, 35, 38);
-		frame.getContentPane().add(Pause);
-		
-		JLabel Start = new JLabel("");
-		Start.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				
-				Runnable runnablePlay = new Runnable() {
-			        @Override
-			        public void run() {
-			            try {
-			            	if (LT != 0) {
-			            		fis = new FileInputStream(myFile);
-				            	fis.skip(TL-LT);
-				            	bis = new BufferedInputStream(fis);
-				            	MP = new Player(bis);
-				            	MP.play();
-			            	}
-			            	else {
-			            		fis = new FileInputStream(myFile);
-				            	bis = new BufferedInputStream(fis);
-				            	MP = new Player(bis);
-				            	try {
-									TL = fis.available();
-									MP.play();
-								} catch (IOException e1) {
-									e1.printStackTrace();
-								}
-			            	}
-			            } catch (Exception e) {
-			                e.printStackTrace();
-			            }
-			        }
-			    };
-			    if (filename != null) {
-			    	if (MP != null) {
-			    		MP.close();
-			    	}
-			    	Thread task = new Thread(runnablePlay);
-			    	task.start();
-                    songName.setText("Now playing : " + filename);
-                } else {
-                    songName.setText("No File was selected!");
-                }
-			}
-		});
-		Start.setIcon(new ImageIcon(FormMusify.class.getResource("/buttons/play.png")));
-		Start.setBounds(203, 634, 35, 38);
-		frame.getContentPane().add(Start);
-		
-		JLabel Next = new JLabel("");
-		Next.setIcon(new ImageIcon(FormMusify.class.getResource("/buttons/next.png")));
-		Next.setBounds(248, 639, 27, 27);
-		frame.getContentPane().add(Next);
-		
-		JButton btnNewButton_1 = new JButton("Add Songs");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(Color.DARK_GRAY);
+		panel_1.setBounds(768, 83, 214, 537);
+		frame.getContentPane().add(panel_1);
+		panel_1.setLayout(null);
+		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser fs = new JFileChooser();
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("Mp3 files", "mp3");
-				fs.setFileFilter(filter);
-				int r =fs.showOpenDialog(null);
-				if (r == JFileChooser.APPROVE_OPTION) {
-					myFile = fs.getSelectedFile();
-	                filename = fs.getSelectedFile().getName();
-	                filePath = fs.getSelectedFile().getPath();
-	                songName.setText("File Selected : " + filename);
-	                TL = 0;
-	                LT = 0;
-				}
+				System.exit(0);
 			}
 		});
-		btnNewButton_1.setBounds(315, 641, 100, 23);
-		frame.getContentPane().add(btnNewButton_1);
-		
-		songName.setBounds(425, 645, 279, 14);
-		frame.getContentPane().add(songName);
-		
-		textFieldSearchSong.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-            	 super.keyTyped(e);
-            }
-        });
-		
-		textFieldSearchSong.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                super.keyReleased(e);
-                final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
-                table.setRowSorter(sorter);
-                String text = textFieldSearchSong.getText();
-                if(text.length() == 0) {
-                   sorter.setRowFilter(null);
-                } else {
-                	
-                   try { 
-                	   // (?i) means case insensitive search
-                      sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-                   }
-                   catch(PatternSyntaxException pse) {
-                         System.out.println("Bad regex pattern");
-                   }
-                 }
-            }
-        });
 		btnLogOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
@@ -262,25 +128,21 @@ public class FormMusify{
                 + System.lineSeparator()+ "Ioannidis Dimitrios 4578"+ System.lineSeparator()+ "Poptsis Nikolaos 4598"+ System.lineSeparator()+ "Palouktsoglou Meletios 4636");
 			}
 		});
-		btnClose.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
 		
-
-		
-		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		for (int i=2; i<=3; i++) {
+			DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+			centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+			table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+			table.getColumnModel().getColumn(i).setMaxWidth(50);
+		}
 		displayFavourites();
+		displayPlaylist();
 	}
 	
 	public void displayFavourites() {
 	    favourites = database.getFavourites();
 	    int fav_size = favourites.size();
-	    
-	    //System.out.print(favourites.size());	
-	    	
+	    	    	
 	    	for (int j = 0; j < fav_size; j++) {
 	    		
 	    		String favNickname = favourites.get(j).getArtistNickname().toLowerCase().trim();
@@ -292,6 +154,29 @@ public class FormMusify{
 	    		
 	    	    	if ( favNickname.equals(tblNickname) && favTrack.equals(tblTrack) ) {	    			
 	    	    		table.setValueAt("\u2764", i, 2);				
+	    			
+	    	    	}
+	    		
+	    		}
+	    		
+		    }	    	
+	}
+	
+	public void displayPlaylist() {
+	    playlist = database.getPlaylist();
+	    int playlist_size = playlist.size();
+	    	    	
+	    	for (int j = 0; j < playlist_size; j++) {
+	    		
+	    		String playlistNickname = playlist.get(j).getArtistNickname().toLowerCase().trim();
+	    		String playlistTrack = playlist.get(j).getTrack().toLowerCase().trim();
+	    		
+	    		for (int i = 0; i < table.getRowCount(); i++) {  // Loop through the rows	 
+	    	    	String tblNickname = table.getValueAt(i, 0).toString().toLowerCase().trim();
+	    	    	String tblTrack = table.getValueAt(i, 1).toString().toLowerCase().trim();
+	    		
+	    	    	if ( playlistNickname.equals(tblNickname) && playlistTrack.equals(tblTrack) ) {	    			
+	    	    		table.setValueAt("\u266B", i, 3);				
 	    			
 	    	    	}
 	    		
@@ -443,40 +328,46 @@ public class FormMusify{
 		JButton btnFavourites = new JButton("Show Favourites");
 		btnFavourites.setBounds(49, 68, 214, 33);
 		panel_2.add(btnFavourites);
-		btnFavourites.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\src\\main\\java\\buttons\\quaver.png"));
+		btnFavourites.setIcon(new ImageIcon("C:\\Dimitris\\Workspace\\University\\Δημήτριος Ιωαννίδης\\TEI\\Εργαστήρια\\7o\\Τεχνολογία Λογισμικού\\musifyApp\\src\\main\\java\\buttons\\quaver.png"));
 		
 		JButton btnCreateNewPlaylist = new JButton("Create New Playlist");
 		btnCreateNewPlaylist.setBounds(49, 24, 214, 33);
 		panel_2.add(btnCreateNewPlaylist);
-		btnCreateNewPlaylist.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\src\\main\\java\\buttons\\quaver.png"));
+		btnCreateNewPlaylist.setIcon(new ImageIcon("C:\\Dimitris\\Workspace\\University\\Δημήτριος Ιωαννίδης\\TEI\\Εργαστήρια\\7o\\Τεχνολογία Λογισμικού\\musifyApp\\src\\main\\java\\buttons\\quaver.png"));
 		btnCreateNewPlaylist.addActionListener(new ActionListener () {
 			 public void actionPerformed(ActionEvent e) {
 				 frame.dispose();
-				 Playlist.main(null);
+				 FormPlaylist.main(getArgs());
 		 }
-	});
-		btnFavourites.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-			}
 		});
 		btnFavourites.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				FormFavourites.main(null);
+				FormFavourites.main(getArgs());
 			}
 		});
 		
 		
 		JLabel lblLogo = new JLabel("");
-		lblLogo.setBounds(340, 0, 441, 83);
+		lblLogo.setBounds(329, 0, 441, 83);
 		lblLogo.setIcon(new ImageIcon(FormMusify.class.getResource("/Images/musifyLogoNew.png")));
 		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
 		frame.getContentPane().add(lblLogo);
 		
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(329, 83, 441, 39);
+		panel_1.setBackground(Color.DARK_GRAY);
+		frame.getContentPane().add(panel_1);
+		panel_1.setLayout(null);
+		
+		textFieldSearchSong = new JTextField();
+		textFieldSearchSong.setBounds(10, 11, 421, 20);
+		panel_1.add(textFieldSearchSong);
+		textFieldSearchSong.setColumns(10);
+		
 		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(329, 114, 653, 503);
+		panel_3.setBounds(329, 117, 441, 500);
 		panel_3.setBackground(Color.DARK_GRAY);
 		frame.getContentPane().add(panel_3);
 		panel_3.setLayout(null);
@@ -517,14 +408,68 @@ public class FormMusify{
 						table.getModel().setValueAt("\u2764",row,col);
 					}
 				}
+				
+				if (col == 3) {
+					
+					if(table.getModel().getValueAt(row, col) == "\u266B") {						
+						
+						database.deletePlaylist(
+								Integer.parseInt(getUser_id()),
+								artist_nickname,
+								track);
+						
+						displayPlaylist();
+						table.getModel().setValueAt("",row,col);
+						
+					}
+					else {						
+						
+						database.addToPlaylist(
+								Integer.parseInt(getUser_id()), 
+								artist_nickname, 
+								track);
+						
+						displayPlaylist();
+						table.getModel().setValueAt("\u266B",row,col);
+					}
+				}
 			}
 		});
 		
-		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(0, 17, 441, 483);
+		JScrollPane scrollPane = new JScrollPane(table);		
+		scrollPane.setBounds(0, 11, 441, 483);
 		panel_3.add(scrollPane);
 		frame.setBounds(100, 100, 998, 722);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		textFieldSearchSong.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+            }
+        });
+		
+		textFieldSearchSong.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(table.getModel());
+                table.setRowSorter(sorter);
+                String text = textFieldSearchSong.getText();
+                if(text.length() == 0) {
+                   sorter.setRowFilter(null);
+                } else {
+                	
+                   try { 
+                	   // (?i) means case insensitive search
+                      sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                   }
+                   catch(PatternSyntaxException pse) {
+                         System.out.println("Bad regex pattern");
+                   }
+                 }
+            }
+        });
 	}
 
 	public static String getUser_id() {
@@ -542,5 +487,14 @@ public class FormMusify{
 	public static void setUser_fullname(String user_fullname) {
 		FormMusify.user_fullname = user_fullname;
 	}
+	
+	public static String[] getArgs() {
+		return args;
+	}
+	
+	public static void setArgs(String[] args) {
+		FormMusify.args = args;
+	}
+
 }
 
