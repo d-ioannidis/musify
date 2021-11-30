@@ -1,9 +1,8 @@
-package Connection;
-
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import java.awt.Container;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +17,10 @@ public class Database {
 	static final String DB_URL = "jdbc:mysql://localhost:3306/mydb";
 	
 	static final String USER = "root";
-	static final String PASS = "N123456789";
-	 
+	static final String PASS = "Sarap4610_Kof4665_Ioan4578_Alex4631";
+	
+	
+	
 	public void addData(String Email,String Name, String Surname, String Username, String Password) {
 		
 		try {
@@ -165,7 +166,6 @@ public class Database {
 		}
       }
 	
-	// ������ �������� ��� SearchMusic �� SearchDataArtist()
 	public ResultSet SearchDataArtist(String setext){
 		try {
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -185,6 +185,28 @@ public class Database {
 			return null;
 		}
 	}
+	/*
+	public ResultSet SearchDataArtist(String setext){
+		try {
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		
+		String query = "SELECT * FROM artist WHERE NAME IN ('"+ setext +"') OR NICKNAME IN ('"+ setext +"') OR LASTNAME IN ('"+ setext +"');";
+		
+		PreparedStatement preparedStmt = conn.prepareStatement(query);
+		
+		ResultSet rs = preparedStmt.executeQuery(query);
+		
+		
+		return rs;
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	*/
+	/*
 	public DefaultTableModel selectDataArtist() {
 	      DefaultTableModel dm = new DefaultTableModel(0, 0);
 	      try {
@@ -195,7 +217,7 @@ public class Database {
 	         		+ "ORDER BY TRACK_NAME";
 	         ResultSet rs = stmt.executeQuery(sql);
 	         JTable tblTaskList = new JTable();
-	         String header[] = new String[] {"Nickname", "Track", "\u2764","\u266B"};
+	         String header[] = new String[] {"Nickname", "Track", "\u2764"};
 	         dm.setColumnIdentifiers(header);
 	         tblTaskList.setModel(dm);     
 	         
@@ -234,6 +256,8 @@ public class Database {
 	      }
 	      return dm;
 	   }
+	
+*/
 	
 	// TEST CONNECTION IN DATABASE
 	public static void main(String[]args) {
@@ -283,7 +307,6 @@ public class Database {
 	        throw new IllegalStateException("Cannot connect the server!", e);
 	    }
 		}
-	
 	public List<Artist> getArtists(){
 		List<Artist> artists = new ArrayList<>();
 		
@@ -341,6 +364,100 @@ public class Database {
 		return artists;
 	      
 	}	
+	
+	public void insertDataArtist(String Name, String Lastname, String Nickname, String Birthday, String FirstTrackDate, 
+	String Nationality, Blob photo_artist) {
+		try {
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			
+			String sql_query = "INSERT INTO artist (NAME,LASTNAME,NICKNAME,BIRTHDAY,FIRST_TRACK_DATE,NATIONALITY,PHOTO_ARTIST) "
+					+ "VALUES (?,?,?,?,?,?,?)";
+			
+			PreparedStatement preparedStmt = conn.prepareStatement(sql_query);
+			
+			preparedStmt.setString(1, Name);
+			preparedStmt.setString(2, Lastname);
+			preparedStmt.setString(3, Nickname);
+			preparedStmt.setString(4, Birthday);
+			preparedStmt.setString(5, FirstTrackDate);
+			preparedStmt.setString(6, Nationality);
+			preparedStmt.setBlob(7, photo_artist);
+			
+			preparedStmt.execute();
+			
+			conn.close();
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if(stmt != null) 
+					stmt.close();
+			}
+				catch (SQLException e2) {
+					
+				}
+			try {
+				if(conn != null)
+					conn.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+				
+			}
+		}
+			
+	}
+	
+	public Boolean existingArtist(String Nickname) {
+		Boolean flag = true; 
+		
+		try {
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			
+			String sql_query = "SELECT * FROM ARTIST WHERE NICKNAME = ?";
+			
+			PreparedStatement preparedStmt = conn.prepareStatement(sql_query);
+			
+			preparedStmt.setString(1, Nickname);
+			ResultSet rs = preparedStmt.executeQuery();
+			
+			if (rs.next()) {
+				flag = false;
+			}
+			
+			preparedStmt.execute();
+			conn.close();
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if(stmt != null) 
+					stmt.close();
+			}
+				catch (SQLException e2) {
+					
+				}
+			try {
+				if(conn != null)
+					conn.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+				
+			}
+		}
+		return flag;
+	}
 	
 public void addFavourite(int register_id, String artist_nickname, String track) {
 		
@@ -432,6 +549,7 @@ public void deleteFavourite(int register_id, String artist_nickname, String trac
 			
 		}
 	}
+		
 }
 
 public List<Favourites> getFavourites(){
@@ -453,7 +571,7 @@ public List<Favourites> getFavourites(){
 	            		rs.getString("artist"), 
 	            		rs.getString("track")
 	            		));
-	     }    
+	         }    
          
          rs.close();
          stmt.close();
@@ -484,9 +602,108 @@ public List<Favourites> getFavourites(){
          }
       }
 	return favourites;
-      
 }
 
+
+public DefaultTableModel selectDataArtist() {
+    DefaultTableModel dm = new DefaultTableModel(0, 0);
+    try {
+       conn = DriverManager.getConnection(DB_URL, USER, PASS);
+       stmt = conn.createStatement();
+       String sql;
+       sql = "SELECT NICKNAME, TRACK_NAME FROM artist,tracks,participate WHERE (artist.ID_ARTIST = participate.ID_ARTIST) AND (tracks.id_tracks = participate.id_tracks) "
+       		+ "ORDER BY TRACK_NAME";
+       ResultSet rs = stmt.executeQuery(sql);
+       JTable tblTaskList = new JTable();
+       String header[] = new String[] {"Nickname", "Track", "\u2764","\u266B"};
+       dm.setColumnIdentifiers(header);
+       tblTaskList.setModel(dm);     
+       
+
+       while (rs.next()) {
+          Vector<Object> data = new Vector<Object>();
+          data.add(rs.getString(1));
+          data.add(rs.getString(2));
+          
+          dm.addRow(data);
+       }
+       rs.close();
+       stmt.close();
+       conn.close();
+    }
+    catch (SQLException se) {
+       se.printStackTrace();
+    }
+    catch (Exception e) {
+       e.printStackTrace();
+    }
+    finally {
+       try {
+          if (stmt!=null)
+             stmt.close();
+       }
+       catch (SQLException se2) {
+       }
+       try {
+          if (conn!=null)
+             conn.close();
+       }
+       catch (SQLException se) {
+          se.printStackTrace();
+       }
+    }
+    return dm;
+ }
+
+public DefaultTableModel selectFavourites() {
+    DefaultTableModel dm = new DefaultTableModel(0, 0);
+    try {
+       conn = DriverManager.getConnection(DB_URL, USER, PASS);
+       stmt = conn.createStatement();
+       String sql;
+       sql = "SELECT ARTIST, TRACK FROM FAVOURITES "
+               + "ORDER BY TRACK";
+       ResultSet rs = stmt.executeQuery(sql);
+       JTable tblTaskList = new JTable();
+       String header[] = new String[] {"Nickname", "Track", "\u2764"};
+       dm.setColumnIdentifiers(header);
+       tblTaskList.setModel(dm);
+
+
+       while (rs.next()) {
+          Vector<Object> data = new Vector<Object>();
+          data.add(rs.getString(1));
+          data.add(rs.getString(2));
+
+          dm.addRow(data);
+       }
+       rs.close();
+       stmt.close();
+       conn.close();
+    }
+    catch (SQLException se) {
+       se.printStackTrace();
+    }
+    catch (Exception e) {
+       e.printStackTrace();
+    }
+    finally {
+       try {
+          if (stmt!=null)
+             stmt.close();
+       }
+       catch (SQLException se2) {
+       }
+       try {
+          if (conn!=null)
+             conn.close();
+       }
+       catch (SQLException se) {
+          se.printStackTrace();
+       }
+    }
+    return dm;
+ }
 public void addToPlaylist(int register_id, String artist_nickname, String track) {
 	
 	try {
@@ -624,98 +841,70 @@ public List<Playlist> getPlaylist(){
          }
       }
 	return playlist;
+      
 }
-public void insertDataArtist(String Name, String Lastname, String Nickname, String Birthday, String FirstTrackDate, 
-		String Nationality, Blob photo_artist) {
-			try {
-				conn = DriverManager.getConnection(DB_URL, USER, PASS);
-				
-				String sql_query = "INSERT INTO artist (NAME,LASTNAME,NICKNAME,BIRTHDAY,FIRST_TRACK_DATE,NATIONALITY,PHOTO_ARTIST) "
-						+ "VALUES (?,?,?,?,?,?,?)";
-				
-				PreparedStatement preparedStmt = conn.prepareStatement(sql_query);
-				
-				preparedStmt.setString(1, Name);
-				preparedStmt.setString(2, Lastname);
-				preparedStmt.setString(3, Nickname);
-				preparedStmt.setString(4, Birthday);
-				preparedStmt.setString(5, FirstTrackDate);
-				preparedStmt.setString(6, Nationality);
-				preparedStmt.setBlob(7, photo_artist);
-				
-				preparedStmt.execute();
-				
-				conn.close();
-			}
-			catch (SQLException e){
-				e.printStackTrace();
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-			finally {
-				try {
-					if(stmt != null) 
-						stmt.close();
-				}
-					catch (SQLException e2) {
-						
-					}
-				try {
-					if(conn != null)
-						conn.close();
-				}
-				catch (SQLException e) {
-					e.printStackTrace();
-					
-				}
-			}
-				
-		}
-		
-		public Boolean existingArtist(String Nickname) {
-			Boolean flag = true; 
-			
-			try {
-				conn = DriverManager.getConnection(DB_URL, USER, PASS);
-				
-				String sql_query = "SELECT * FROM ARTIST WHERE NICKNAME = ?";
-				
-				PreparedStatement preparedStmt = conn.prepareStatement(sql_query);
-				
-				preparedStmt.setString(1, Nickname);
-				ResultSet rs = preparedStmt.executeQuery();
-				
-				if (rs.next()) {
-					flag = false;
-				}
-				
-				preparedStmt.execute();
-				conn.close();
-			}
-			catch (SQLException e){
-				e.printStackTrace();
-			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-			finally {
-				try {
-					if(stmt != null) 
-						stmt.close();
-				}
-					catch (SQLException e2) {
-						
-					}
-				try {
-					if(conn != null)
-						conn.close();
-				}
-				catch (SQLException e) {
-					e.printStackTrace();
-					
-				}
-			}
-			return flag;
-		}
+
+public Boolean existingTrack(String Holder) {
+    Boolean flag = true; 
+
+    try {
+        conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+        String sql_query = "SELECT * FROM TRACKS WHERE TRACK_NAME = ?";
+
+        PreparedStatement preparedStmt = conn.prepareStatement(sql_query);
+
+        preparedStmt.setString(1, Holder);
+        ResultSet rs = preparedStmt.executeQuery();
+
+        if (rs.next()) {
+            flag = false;
+        }
+
+        preparedStmt.execute();
+        conn.close();
+    }
+    catch (SQLException e){
+        e.printStackTrace();
+    }
+    catch (Exception e) {
+        e.printStackTrace();
+    }
+    finally {
+        try {
+            if(stmt != null) 
+                stmt.close();
+        }
+            catch (SQLException e2) {
+
+            }
+        try {
+            if(conn != null)
+                conn.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+    return flag;
 }
+
+static Connection c;
+public static Connection getCon() throws Exception {
+    if(c == null) {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        c= DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","Sarap4610_Kof4665_Ioan4578_Alex4631");
+
+    }
+    return c;
+}
+public static void InsertData(String sql ) throws Exception {
+    getCon().createStatement().executeUpdate(sql);
+}
+
+}
+
+
+	
+

@@ -1,5 +1,3 @@
-package Connection;
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -60,7 +58,7 @@ public class FormPlaylist {
 		img.setHorizontalAlignment(SwingConstants.CENTER);
 		img.setBounds(0, 0, 410, 523);
 		panel_1_1.add(img);
-		img.setIcon(new ImageIcon("C:\\Dimitris\\Workspace\\University\\Δημήτριος Ιωαννίδης\\TEI\\Εργαστήρια\\7o\\Τεχνολογία Λογισμικού\\musifyApp\\src\\main\\java\\buttons\\logoMain.png"));
+		img.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
 		
 		table = new JTable();
 		table.setBounds(420, 59, 303, 464);
@@ -82,7 +80,7 @@ public class FormPlaylist {
 		panel.add(lblNewLabel_1);
 		
 		JButton btnBack = new JButton("");
-		btnBack.setIcon(new ImageIcon("C:\\Dimitris\\Workspace\\University\\Δημήτριος Ιωαννίδης\\TEI\\Εργαστήρια\\7o\\Τεχνολογία Λογισμικού\\musifyApp\\src\\main\\java\\buttons\\back.png"));
+		btnBack.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\back.png"));
 		btnBack.setBounds(21, 539, 63, 47);
 		panel_1_1.add(btnBack);
 		btnBack.setFont(new Font("Dubai", Font.PLAIN, 14));

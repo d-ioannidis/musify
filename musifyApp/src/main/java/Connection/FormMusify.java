@@ -1,5 +1,3 @@
-package Connection;
-
 import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -108,7 +106,7 @@ public class FormMusify{
 		JButton btnClose = new JButton("");
 		btnClose.setBounds(10, 633, 47, 39);
 		frame.getContentPane().add(btnClose);
-		btnClose.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\src\\main\\java\\buttons\\close.png"));
+		btnClose.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\close.png"));
 		
 		
 		JButton btnAbout = new JButton("About");
@@ -119,12 +117,14 @@ public class FormMusify{
 		JButton btnLogOut = new JButton("Log Out");
 		btnLogOut.setBounds(844, 633, 128, 39);
 		frame.getContentPane().add(btnLogOut);
-		btnLogOut.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\src\\main\\java\\buttons\\logout.png"));
+		btnLogOut.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\logout.png"));
 		
+		/*
 		textFieldSearchSong = new JTextField();
 		textFieldSearchSong.setBounds(340, 83, 421, 20);
 		frame.getContentPane().add(textFieldSearchSong);
 		textFieldSearchSong.setColumns(10);
+		*/
 		
 		JLabel Previous = new JLabel("");
 		Previous.setIcon(new ImageIcon(FormMusify.class.getResource("/buttons/previous.png")));
@@ -273,13 +273,6 @@ public class FormMusify{
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 				Login.main(null);
-			}
-		});
-		btnAbout.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Musify"+ System.lineSeparator()+ "Kostinas Dimitrios 4609"+ System.lineSeparator()
-                +"Kofidis Georgios 4665"+ System.lineSeparator()+ "Karapiliafis Georgios 4679"+ System.lineSeparator()+ "Daras Dimitrios 4585"
-                + System.lineSeparator()+ "Ioannidis Dimitrios 4578"+ System.lineSeparator()+ "Poptsis Nikolaos 4598"+ System.lineSeparator()+ "Palouktsoglou Meletios 4636");
 			}
 		});
 		
@@ -488,12 +481,12 @@ public class FormMusify{
 		JButton btnFavourites = new JButton("Show Favourites");
 		btnFavourites.setBounds(49, 68, 214, 33);
 		panel_2.add(btnFavourites);
-		btnFavourites.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\src\\main\\java\\buttons\\quaver.png"));
+		btnFavourites.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\quaver.png"));
 		
 		JButton btnCreateNewPlaylist = new JButton("Create New Playlist");
 		btnCreateNewPlaylist.setBounds(49, 24, 214, 33);
 		panel_2.add(btnCreateNewPlaylist);
-		btnCreateNewPlaylist.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\src\\main\\java\\buttons\\quaver.png"));
+		btnCreateNewPlaylist.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\quaver.png"));
 		btnCreateNewPlaylist.addActionListener(new ActionListener () {
 			 public void actionPerformed(ActionEvent e) {
 				 frame.dispose();
@@ -626,6 +619,8 @@ public class FormMusify{
                  }
             }
         });
+		frame.setLocationRelativeTo(null);
+
 	}
 
 	public static String getUser_id() {
@@ -653,4 +648,3 @@ public class FormMusify{
 	}
 
 }
-

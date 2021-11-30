@@ -1,5 +1,3 @@
-package Connection;
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;

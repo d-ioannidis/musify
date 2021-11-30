@@ -1,4 +1,3 @@
-package Connection;
 
 import java.awt.EventQueue;
 
@@ -99,7 +98,7 @@ public class Login{
 				try {
 					
 					//Class.forName("com.mysql.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","N123456789");
+					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","Sarap4610_Kof4665_Ioan4578_Alex4631");
 					
 					String username = textFieldUserN.getText();
 					String password = String.valueOf(passwordField.getPassword());
