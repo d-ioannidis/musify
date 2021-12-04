@@ -13,6 +13,9 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
+import java.awt.Color;
+import java.awt.Font;
 
 public class Register {
 
@@ -117,139 +120,84 @@ public class Register {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(Color.GRAY);
 		frame.setBounds(100, 100, 450, 364);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		frame.getContentPane().setLayout(gridBagLayout);
+		frame.getContentPane().setLayout(null);
 		
 		JLabel lblWelcomeMessage = new JLabel("Welcome");
+		lblWelcomeMessage.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblWelcomeMessage.setBounds(156, 8, 125, 22);
 		lblWelcomeMessage.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_lblWelcomeMessage = new GridBagConstraints();
-		gbc_lblWelcomeMessage.insets = new Insets(0, 0, 5, 5);
-		gbc_lblWelcomeMessage.gridx = 3;
-		gbc_lblWelcomeMessage.gridy = 0;
-		frame.getContentPane().add(lblWelcomeMessage, gbc_lblWelcomeMessage);
-		
-		JPanel panel_1 = new JPanel();
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.gridx = 5;
-		gbc_panel_1.gridy = 0;
-		frame.getContentPane().add(panel_1, gbc_panel_1);
+		frame.getContentPane().add(lblWelcomeMessage);
 		
 		JLabel lblUsername = new JLabel("Username: ");
+		lblUsername.setBounds(96, 38, 55, 14);
 		lblUsername.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_lblUsername = new GridBagConstraints();
-		gbc_lblUsername.insets = new Insets(0, 0, 5, 5);
-		gbc_lblUsername.anchor = GridBagConstraints.EAST;
-		gbc_lblUsername.gridx = 2;
-		gbc_lblUsername.gridy = 1;
-		frame.getContentPane().add(lblUsername, gbc_lblUsername);
+		frame.getContentPane().add(lblUsername);
 		
 		textFieldUsername = new JTextField();
+		textFieldUsername.setBounds(156, 35, 125, 20);
 		textFieldUsername.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_textFieldUsername = new GridBagConstraints();
-		gbc_textFieldUsername.insets = new Insets(0, 0, 5, 5);
-		gbc_textFieldUsername.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textFieldUsername.gridx = 3;
-		gbc_textFieldUsername.gridy = 1;
-		frame.getContentPane().add(textFieldUsername, gbc_textFieldUsername);
+		frame.getContentPane().add(textFieldUsername);
 		textFieldUsername.setColumns(10);
 		
 		JLabel lblPassword = new JLabel("Password: ");
+		lblPassword.setBounds(98, 63, 53, 14);
 		lblPassword.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_lblPassword = new GridBagConstraints();
-		gbc_lblPassword.insets = new Insets(0, 0, 5, 5);
-		gbc_lblPassword.anchor = GridBagConstraints.EAST;
-		gbc_lblPassword.gridx = 2;
-		gbc_lblPassword.gridy = 2;
-		frame.getContentPane().add(lblPassword, gbc_lblPassword);
+		frame.getContentPane().add(lblPassword);
 		
 		passwordField = new JPasswordField();
+		passwordField.setBounds(156, 60, 125, 20);
 		passwordField.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_passwordField = new GridBagConstraints();
-		gbc_passwordField.insets = new Insets(0, 0, 5, 5);
-		gbc_passwordField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_passwordField.gridx = 3;
-		gbc_passwordField.gridy = 2;
-		frame.getContentPane().add(passwordField, gbc_passwordField);
+		frame.getContentPane().add(passwordField);
 		
 		JLabel lblFirstname = new JLabel("Firstname: ");
+		lblFirstname.setBounds(97, 88, 54, 14);
 		lblFirstname.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_lblFirstname = new GridBagConstraints();
-		gbc_lblFirstname.insets = new Insets(0, 0, 5, 5);
-		gbc_lblFirstname.anchor = GridBagConstraints.EAST;
-		gbc_lblFirstname.gridx = 2;
-		gbc_lblFirstname.gridy = 3;
-		frame.getContentPane().add(lblFirstname, gbc_lblFirstname);
+		frame.getContentPane().add(lblFirstname);
 		
 		textFieldFirstname = new JTextField();
+		textFieldFirstname.setBounds(156, 85, 125, 20);
 		textFieldFirstname.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_textFieldFirstname = new GridBagConstraints();
-		gbc_textFieldFirstname.insets = new Insets(0, 0, 5, 5);
-		gbc_textFieldFirstname.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textFieldFirstname.gridx = 3;
-		gbc_textFieldFirstname.gridy = 3;
-		frame.getContentPane().add(textFieldFirstname, gbc_textFieldFirstname);
+		frame.getContentPane().add(textFieldFirstname);
 		textFieldFirstname.setColumns(10);
 		
 		JLabel lblLastname = new JLabel("Lastname:");
+		lblLastname.setBounds(101, 113, 50, 14);
 		lblLastname.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_lblLastname = new GridBagConstraints();
-		gbc_lblLastname.insets = new Insets(0, 0, 5, 5);
-		gbc_lblLastname.anchor = GridBagConstraints.EAST;
-		gbc_lblLastname.gridx = 2;
-		gbc_lblLastname.gridy = 4;
-		frame.getContentPane().add(lblLastname, gbc_lblLastname);
+		frame.getContentPane().add(lblLastname);
 		
 		textFieldLastname = new JTextField();
+		textFieldLastname.setBounds(156, 110, 125, 20);
 		textFieldLastname.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_textFieldLastname = new GridBagConstraints();
-		gbc_textFieldLastname.insets = new Insets(0, 0, 5, 5);
-		gbc_textFieldLastname.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textFieldLastname.gridx = 3;
-		gbc_textFieldLastname.gridy = 4;
-		frame.getContentPane().add(textFieldLastname, gbc_textFieldLastname);
+		frame.getContentPane().add(textFieldLastname);
 		textFieldLastname.setColumns(10);
 		
 		JLabel lblEmail = new JLabel("Email: ");
+		lblEmail.setBounds(120, 138, 31, 14);
 		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_lblEmail = new GridBagConstraints();
-		gbc_lblEmail.anchor = GridBagConstraints.EAST;
-		gbc_lblEmail.insets = new Insets(0, 0, 5, 5);
-		gbc_lblEmail.gridx = 2;
-		gbc_lblEmail.gridy = 5;
-		frame.getContentPane().add(lblEmail, gbc_lblEmail);
+		frame.getContentPane().add(lblEmail);
 		
 		textFieldEmail = new JTextField();
+		textFieldEmail.setBounds(156, 135, 125, 20);
 		textFieldEmail.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_textFieldEmail = new GridBagConstraints();
-		gbc_textFieldEmail.insets = new Insets(0, 0, 5, 5);
-		gbc_textFieldEmail.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textFieldEmail.gridx = 3;
-		gbc_textFieldEmail.gridy = 5;
-		frame.getContentPane().add(textFieldEmail, gbc_textFieldEmail);
+		frame.getContentPane().add(textFieldEmail);
 		textFieldEmail.setColumns(10);
 		
-		JButton btnClose = new JButton("Back");
+		JButton btnClose = new JButton("");
+		btnClose.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\musify\\musifyApp\\src\\main\\java\\buttons\\back.png"));
+		btnClose.setBounds(10, 266, 43, 30);
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 				Login.main(null);
 			}
 		});
-		GridBagConstraints gbc_btnClose = new GridBagConstraints();
-		gbc_btnClose.insets = new Insets(0, 0, 5, 5);
-		gbc_btnClose.gridx = 2;
-		gbc_btnClose.gridy = 10;
-		frame.getContentPane().add(btnClose, gbc_btnClose);
+		frame.getContentPane().add(btnClose);
 		
 		JButton btnRegister = new JButton("Register");
+		btnRegister.setBounds(334, 266, 90, 30);
 		btnRegister.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Boolean flag_search, flag_blanks, flag_specialChar;
@@ -275,18 +223,15 @@ public class Register {
 				} 
 			}
 		});
-		
-		GridBagConstraints gbc_btnRegister = new GridBagConstraints();
-		gbc_btnRegister.insets = new Insets(0, 0, 5, 5);
-		gbc_btnRegister.gridx = 3;
-		gbc_btnRegister.gridy = 10;
-		frame.getContentPane().add(btnRegister, gbc_btnRegister);
+		frame.getContentPane().add(btnRegister);
 		
 		JLabel lblLoginForm = new JLabel("Click here to Login instead");
-		GridBagConstraints gbc_lblLoginForm = new GridBagConstraints();
-		gbc_lblLoginForm.insets = new Insets(0, 0, 0, 5);
-		gbc_lblLoginForm.gridx = 3;
-		gbc_lblLoginForm.gridy = 11;
-		frame.getContentPane().add(lblLoginForm, gbc_lblLoginForm);
+		lblLoginForm.setBounds(119, 300, 205, 14);
+		frame.getContentPane().add(lblLoginForm);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\musify\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
+		lblNewLabel.setBounds(0, 0, 434, 325);
+		frame.getContentPane().add(lblNewLabel);
 	}
 }
