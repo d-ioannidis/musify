@@ -1,3 +1,4 @@
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -7,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class Intro {
 
@@ -40,6 +42,9 @@ public class Intro {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(Color.LIGHT_GRAY);
+		frame.setBackground(Color.GRAY);
+		frame.getContentPane().setForeground(Color.GRAY);
 		frame.setBounds(100, 100, 450, 386);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -69,13 +74,14 @@ public class Intro {
 		lblNewLabel.setBounds(-47, 11, 425, 107);
 		frame.getContentPane().add(lblNewLabel);
 		
-		JButton btnClose = new JButton("Close");
+		JButton btnClose = new JButton("");
+		btnClose.setIcon(new ImageIcon(Intro.class.getResource("/buttons/close.png")));
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 			}
 		});
-		btnClose.setBounds(10, 313, 89, 23);
+		btnClose.setBounds(10, 292, 59, 44);
 		frame.getContentPane().add(btnClose);
 	}
 }
