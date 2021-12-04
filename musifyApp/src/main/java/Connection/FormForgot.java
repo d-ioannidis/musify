@@ -7,6 +7,9 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 
 public class FormForgot {
 
@@ -43,7 +46,8 @@ public class FormForgot {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 263, 300);
+		frame.getContentPane().setBackground(Color.GRAY);
+		frame.setBounds(100, 100, 263, 372);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -59,14 +63,15 @@ public class FormForgot {
 		lblNewLabel_1.setBounds(10, 116, 132, 14);
 		frame.getContentPane().add(lblNewLabel_1);
 		
-		JButton btnNewButton_1 = new JButton("Back");
+		JButton btnNewButton_1 = new JButton("");
+		btnNewButton_1.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\musify\\musifyApp\\src\\main\\java\\buttons\\back.png"));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 				Login.main(null);
 			}
 		});
-		btnNewButton_1.setBounds(10, 192, 89, 23);
+		btnNewButton_1.setBounds(10, 299, 27, 23);
 		frame.getContentPane().add(btnNewButton_1);
 		
 		JButton btnNewButton = new JButton("Submit");
@@ -87,7 +92,7 @@ public class FormForgot {
 				}
 			}
 		});
-		btnNewButton.setBounds(149, 192, 89, 23);
+		btnNewButton.setBounds(152, 299, 89, 23);
 		frame.getContentPane().add(btnNewButton);
 		
 		textField = new JTextField();
@@ -104,5 +109,12 @@ public class FormForgot {
 		textField_2.setColumns(10);
 		textField_2.setBounds(152, 11, 86, 20);
 		frame.getContentPane().add(textField_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\musify\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
+		lblNewLabel_3.setBounds(0, 0, 247, 333);
+		frame.getContentPane().add(lblNewLabel_3);
 	}
 }
