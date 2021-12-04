@@ -12,13 +12,16 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import java.awt.Color;
+import javax.swing.ImageIcon;
 
 public class Admin {
 
 	public static void main(String[] args) {
 		
 		final JFrame frame = new JFrame();	
-		frame.setBounds(100, 100, 500, 317);
+		frame.getContentPane().setBackground(Color.GRAY);
+		frame.setBounds(100, 100, 500, 455);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -44,6 +47,7 @@ public class Admin {
 		frame.getContentPane().add(passText);
 		
 		JButton btnEnter = new JButton("Login");
+		btnEnter.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\musify\\musifyApp\\src\\main\\java\\buttons\\login.png"));
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -52,7 +56,7 @@ public class Admin {
 				try {
 					
 					//Class.forName("com.mysql.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","Sarap4610_Kof4665_Ioan4578_Alex4631");
+					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","");
 					
 					String username = userText.getText();
 					String password = String.valueOf(passText.getPassword());
@@ -83,17 +87,18 @@ public class Admin {
 				
 			}
 		});
-		btnEnter.setBounds(390,230,80,25);
+		btnEnter.setBounds(368,380,106,25);
 		frame.getContentPane().add(btnEnter);
 		
-		JButton btnClose = new JButton("Close");
+		JButton btnClose = new JButton("");
+		btnClose.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\musify\\musifyApp\\src\\main\\java\\buttons\\close.png"));
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
 				System.exit(0);
 			}
 		});
-		btnClose.setBounds(10,10,80,25);
+		btnClose.setBounds(10,10,45,39);
 		frame.getContentPane().add(btnClose);
 		
 		JButton btnReset = new JButton("Reset");
@@ -103,11 +108,15 @@ public class Admin {
 				passText.setText("");
 			}
 		});
-		btnReset.setBounds(10,230,80,25);
+		btnReset.setBounds(10,380,80,25);
 		frame.getContentPane().add(btnReset);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\musify\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
+		lblNewLabel.setBounds(0, 0, 484, 416);
+		frame.getContentPane().add(lblNewLabel);
 		
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
-
 }
