@@ -103,7 +103,7 @@ public class Login{
 				try {
 					
 					//Class.forName("com.mysql.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","giwrgos2131");
+					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","");
 					
 					String username = textFieldUserN.getText();
 					String password = String.valueOf(passwordField.getPassword());
