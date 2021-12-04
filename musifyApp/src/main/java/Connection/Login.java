@@ -19,6 +19,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
+import javax.swing.ImageIcon;
+import java.awt.Color;
 
 
 public class Login{
@@ -52,13 +54,14 @@ public class Login{
 
 	private void initialize(){
 		frame = new JFrame();
-		frame.setBounds(100, 100, 520, 368);
+		frame.getContentPane().setBackground(Color.GRAY);
+		frame.setBounds(100, 100, 520, 534);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lbLogin = new JLabel("Login");
 		lbLogin.setFont(new Font("Tahoma", Font.BOLD, 24));
-		lbLogin.setBounds(243, 21, 122, 31);
+		lbLogin.setBounds(192, 11, 122, 31);
 		frame.getContentPane().add(lbLogin);
 		
 		JLabel lblUsername = new JLabel("Username :");
@@ -76,29 +79,31 @@ public class Login{
 		frame.getContentPane().add(textFieldUserN);
 		textFieldUserN.setColumns(10);
 		
-		JButton btnClose = new JButton("Close");
+		JButton btnClose = new JButton("");
+		btnClose.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\musify\\musifyApp\\src\\main\\java\\buttons\\close.png"));
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
 				System.exit(0);
 			}
 		});
-		btnClose.setBounds(21,0,89,23);
+		btnClose.setBounds(10,11,37,31);
 		frame.getContentPane().add(btnClose);
 		
 		JButton btnForget = new JButton("Forgot your password?");
-		btnForget.setBounds(178, 302, 167, 23);
+		btnForget.setBounds(163, 461, 167, 23);
 		frame.getContentPane().add(btnForget);
 
 		
 		JButton btnEnter = new JButton("Login");
+		btnEnter.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\musify\\musifyApp\\src\\main\\java\\buttons\\login.png"));
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					
 				try {
 					
 					//Class.forName("com.mysql.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","Sarap4610_Kof4665_Ioan4578_Alex4631");
+					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","giwrgos2131");
 					
 					String username = textFieldUserN.getText();
 					String password = String.valueOf(passwordField.getPassword());
@@ -130,7 +135,7 @@ public class Login{
 				
 			}
 		});
-		btnEnter.setBounds(408, 302, 89, 23);
+		btnEnter.setBounds(388, 461, 99, 23);
 		frame.getContentPane().add(btnEnter);
 		
 		JButton btnNewUser = new JButton("Register");
@@ -140,7 +145,7 @@ public class Login{
 				Register.main(null);
 			}
 		});
-		btnNewUser.setBounds(398, 0, 89, 23);
+		btnNewUser.setBounds(398, 11, 89, 23);
 		frame.getContentPane().add(btnNewUser);
 		
 		JButton btnReset = new JButton("Reset");
@@ -150,12 +155,17 @@ public class Login{
 				passwordField.setText("");
 			}
 		});
-		btnReset.setBounds(10, 302, 89, 23);
+		btnReset.setBounds(10, 461, 89, 23);
 		frame.getContentPane().add(btnReset);
 		
 		passwordField = new JPasswordField();
 		passwordField.setBounds(150, 165, 155, 20);
 		frame.getContentPane().add(passwordField);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\musify\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
+		lblNewLabel.setBounds(0, 0, 504, 495);
+		frame.getContentPane().add(lblNewLabel);
 		
         btnForget.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
