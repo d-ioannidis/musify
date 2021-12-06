@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
@@ -20,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -37,6 +39,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.Thread;
 import javazoom.jl.player.Player;
+import javax.swing.table.DefaultTableModel;
 
 public class FormMusify{
 
@@ -56,13 +59,16 @@ public class FormMusify{
 	private static Database database = new Database();
 	private List<Favourites> favourites = new ArrayList<>();
 	private List<Playlist> playlist = new ArrayList<>();
-	private File myFile;
+	private File[] myFile;
 	private String filename,filePath;
 	private FileInputStream fis;
 	private BufferedInputStream bis;
 	private Player MP;
-	private int LT;
-	private int TL;
+	private Thread task;
+	private int trackNo=0,playstatus=0,filepathresponse,TL,LT;
+	private DefaultListModel<String> listModel;
+	private JList<String> list;
+	public static DefaultTableModel model;
 
 	private static String user_id = null;
 	private static String user_fullname = null;
@@ -99,6 +105,7 @@ public class FormMusify{
 	/**
 	 * Create the application.
 	 */
+	@SuppressWarnings("serial")
 	public FormMusify() {
 		initialize();
 		table.setModel(database.selectDataArtist());
@@ -108,7 +115,7 @@ public class FormMusify{
 		JButton btnClose = new JButton("");
 		btnClose.setBounds(10, 633, 47, 39);
 		frame.getContentPane().add(btnClose);
-		btnClose.setIcon(new ImageIcon("/buttons/close.png"));
+		btnClose.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\close.png"));
 		
 		
 		JButton btnAbout = new JButton("About");
@@ -119,14 +126,35 @@ public class FormMusify{
 		JButton btnLogOut = new JButton("Log Out");
 		btnLogOut.setBounds(844, 633, 128, 39);
 		frame.getContentPane().add(btnLogOut);
-		btnLogOut.setIcon(new ImageIcon("/buttons/logout.png"));
+		btnLogOut.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\logout.png"));
 		
+		/*
 		textFieldSearchSong = new JTextField();
 		textFieldSearchSong.setBounds(340, 83, 421, 20);
 		frame.getContentPane().add(textFieldSearchSong);
 		textFieldSearchSong.setColumns(10);
+		*/
 		
 		JLabel Previous = new JLabel("");
+		Previous.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try
+				{
+					if(trackNo==0)
+						trackNo=myFile.length;
+				
+					MP.close();
+					trackNo--;
+				}
+				catch(Exception e2) {}
+				
+				if(trackNo == myFile.length-1 && myFile.length-1 == 0)
+				{
+					jumpTrack(myFile.length-1);
+				}
+			}
+		});
 		Previous.setIcon(new ImageIcon(FormMusify.class.getResource("/buttons/previous.png")));
 		Previous.setBounds(121, 639, 27, 27);
 		frame.getContentPane().add(Previous);
@@ -151,41 +179,13 @@ public class FormMusify{
 		Start.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				
-				Runnable runnablePlay = new Runnable() {
-			        @Override
-			        public void run() {
-			            try {
-			            	if (LT != 0) {
-			            		fis = new FileInputStream(myFile);
-				            	fis.skip(TL-LT);
-				            	bis = new BufferedInputStream(fis);
-				            	MP = new Player(bis);
-				            	MP.play();
-			            	}
-			            	else {
-			            		fis = new FileInputStream(myFile);
-				            	bis = new BufferedInputStream(fis);
-				            	MP = new Player(bis);
-				            	try {
-									TL = fis.available();
-									MP.play();
-								} catch (IOException e1) {
-									e1.printStackTrace();
-								}
-			            	}
-			            } catch (Exception e) {
-			                e.printStackTrace();
-			            }
-			        }
-			    };
 			    if (filename != null) {
 			    	if (MP != null) {
 			    		MP.close();
 			    	}
-			    	Thread task = new Thread(runnablePlay);
+			    	task = new Thread(runnablePlay);
 			    	task.start();
-                    songName.setText("Now playing : " + filename);
+                    songName.setText("Now playing : " + myFile[trackNo].getName());
                 } else {
                     songName.setText("No File was selected!");
                 }
@@ -196,6 +196,25 @@ public class FormMusify{
 		frame.getContentPane().add(Start);
 		
 		JLabel Next = new JLabel("");
+		Next.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try
+				{
+					if(trackNo==myFile.length-1)
+						trackNo=-1;
+					
+					MP.close();
+					trackNo++;
+				}
+				catch(Exception e2){}
+				
+				if(trackNo == 0 && myFile.length-1 == 0)
+				{
+					jumpTrack(trackNo);
+				}
+			}
+		});
 		Next.setIcon(new ImageIcon(FormMusify.class.getResource("/buttons/next.png")));
 		Next.setBounds(248, 639, 27, 27);
 		frame.getContentPane().add(Next);
@@ -206,22 +225,84 @@ public class FormMusify{
 				JFileChooser fs = new JFileChooser();
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("Mp3 files", "mp3");
 				fs.setFileFilter(filter);
+				fs.setMultiSelectionEnabled(true);
 				int r =fs.showOpenDialog(null);
 				if (r == JFileChooser.APPROVE_OPTION) {
-					myFile = fs.getSelectedFile();
+					myFile = fs.getSelectedFiles();
 	                filename = fs.getSelectedFile().getName();
 	                filePath = fs.getSelectedFile().getPath();
-	                songName.setText("File Selected : " + filename);
+	                for (int i=0; i<myFile.length; i++) {
+	                	Object[] rowData = {myFile[i].getName()};
+	                	model.addRow(rowData);
+	                	table_1.setModel(model);
+	                }
 	                TL = 0;
 	                LT = 0;
 				}
 			}
 		});
+		model = new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"Songs"
+				}
+			) {
+		     public boolean isCellEditable(int row, int column) {
+		         return false;
+		      }
+		     public Class<?> getColumnClass(int column) {
+		        if (getRowCount() > 0) {
+		           Object value = getValueAt(0, column);
+		           if (value != null) {
+		              return getValueAt(0, column).getClass(); 
+		           }
+		        }
+
+		        return super.getColumnClass(column);
+		     }
+		};
 		btnNewButton_1.setBounds(315, 641, 100, 23);
 		frame.getContentPane().add(btnNewButton_1);
 		
 		songName.setBounds(425, 645, 279, 14);
 		frame.getContentPane().add(songName);
+		
+		table_1 = new JTable();
+		table_1.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Songs"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		table_1.getColumnModel().getColumn(0).setPreferredWidth(228);
+		table_1.setBounds(780, 132, 192, 485);
+		frame.getContentPane().add(table_1);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.DARK_GRAY);
+		panel.setBounds(770, 83, 202, 49);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(10, 11, 182, 27);
+		panel.add(panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Songs");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(0, 0, 182, 27);
+		panel_1.add(lblNewLabel);
 		
 		textFieldSearchSong.addKeyListener(new KeyAdapter() {
             @Override
@@ -275,13 +356,6 @@ public class FormMusify{
 				Login.main(null);
 			}
 		});
-		btnAbout.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Musify"+ System.lineSeparator()+ "Kostinas Dimitrios 4609"+ System.lineSeparator()
-                +"Kofidis Georgios 4665"+ System.lineSeparator()+ "Karapiliafis Georgios 4679"+ System.lineSeparator()+ "Daras Dimitrios 4585"
-                + System.lineSeparator()+ "Ioannidis Dimitrios 4578"+ System.lineSeparator()+ "Poptsis Nikolaos 4598"+ System.lineSeparator()+ "Palouktsoglou Meletios 4636");
-			}
-		});
 		
 		for (int i=2; i<=3; i++) {
 			DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -297,6 +371,48 @@ public class FormMusify{
 		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 		displayFavourites();
 	}
+	 Runnable runnablePlay = new Runnable() {
+	        @Override
+	        public void run() {
+	            try {
+	            	if (LT != 0) {
+	            		fis = new FileInputStream(myFile[trackNo]);
+		            	fis.skip(TL-LT);
+		            	bis = new BufferedInputStream(fis);
+		            	MP = new Player(bis);
+		            	MP.play();
+	            	}
+	            	else {
+	            		fis = new FileInputStream(myFile[trackNo]);
+		            	bis = new BufferedInputStream(fis);
+		            	MP = new Player(bis);
+		            	try {
+							TL = fis.available();
+							MP.play();
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+	            	}
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    };
+	 private JTable table_1;
+	    
+	    public void jumpTrack(int index) {
+			try
+			{	
+				MP.close();
+				trackNo = index;
+				filePath=myFile[trackNo].getAbsolutePath();
+				filePath=filePath.replace("\\", "\\\\");
+			}
+			catch(Exception e2){}
+			if(filepathresponse==0 && playstatus!=0)
+				task = new Thread(runnablePlay);
+	    	    task.start();
+		}
 	
 	public void displayFavourites() {
 	    favourites = database.getFavourites();
@@ -488,12 +604,12 @@ public class FormMusify{
 		JButton btnFavourites = new JButton("Show Favourites");
 		btnFavourites.setBounds(49, 68, 214, 33);
 		panel_2.add(btnFavourites);
-		btnFavourites.setIcon(new ImageIcon("/buttons/quaver.png"));
+		btnFavourites.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\quaver.png"));
 		
 		JButton btnCreateNewPlaylist = new JButton("Create New Playlist");
 		btnCreateNewPlaylist.setBounds(49, 24, 214, 33);
 		panel_2.add(btnCreateNewPlaylist);
-		btnCreateNewPlaylist.setIcon(new ImageIcon("/buttons/quaver.png"));
+		btnCreateNewPlaylist.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\quaver.png"));
 		btnCreateNewPlaylist.addActionListener(new ActionListener () {
 			 public void actionPerformed(ActionEvent e) {
 				 frame.dispose();
@@ -626,6 +742,8 @@ public class FormMusify{
                  }
             }
         });
+		frame.setLocationRelativeTo(null);
+
 	}
 
 	public static String getUser_id() {
@@ -651,6 +769,4 @@ public class FormMusify{
 	public static void setArgs(String[] args) {
 		FormMusify.args = args;
 	}
-
 }
-
