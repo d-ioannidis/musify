@@ -1,5 +1,3 @@
-package Connection;
-  
 public class Playlist {
 	private Integer register_id;
 	private String artist_nickname;
@@ -40,11 +38,6 @@ public class Playlist {
 
 	public void setTrack(String track) {
 		this.track = track;
-	}
-
-	public static void main(Object object) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	

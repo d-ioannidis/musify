@@ -1,5 +1,3 @@
-package Connection;
-
 public class Favourites {
 	private Integer register_id;
 	private String artist_nickname;

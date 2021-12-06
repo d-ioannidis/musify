@@ -1,11 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>com.github.dmitris1821gr.dipae.musify</groupId>
-    <artifactId>musifyApp</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <build>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.github.GeorgeKofidis</groupId>
+  <artifactId>musifyApp</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  
+  <build>
         <plugins>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -13,21 +13,14 @@
             </plugin>
         </plugins>
     </build>
-    <dependencies>
-    
-    <!-- https://mvnrepository.com/artifact/javazoom/jlayer -->
+<dependencies>
+
     <dependency>
-        <groupId>javazoom</groupId>
-        <artifactId>jlayer</artifactId>
-        <version>1.0.1</version>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>5.8.1</version>
+        <scope>test</scope>
     </dependency>
-	
-	<dependency>
-	    <groupId>org.junit.jupiter</groupId>
-	    <artifactId>junit-jupiter-engine</artifactId>
-	    <version>5.8.1</version>
-	    <scope>test</scope>
-	</dependency>
 
     <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
     <dependency>
@@ -36,12 +29,32 @@
         <version>8.0.27</version>
     </dependency>
 
-    </dependencies>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
-        <java.version>16</java.version>
-    </properties>
+	<dependency>
+   		<groupId>com.konghq</groupId>
+    	<artifactId>unirest-java</artifactId>
+    	<version>3.13.3</version>
+    	<classifier>standalone</classifier>
+	</dependency>
+	
+	<dependency>
+     <groupId>com.mashape.unirest</groupId>
+     <artifactId>unirest-java</artifactId>
+     <version>1.4.9</version>
+	</dependency>
+	
+	<dependency>
+  <groupId>com.google.code.gson</groupId>
+  <artifactId>gson</artifactId>
+  <version>2.8.5</version>
+</dependency>
 
-</project> 
+    <dependency>
+        <groupId>javazoom</groupId>
+        <artifactId>jlayer</artifactId>
+        <version>1.0.1</version>
+    </dependency>
+    
+	</dependencies>
+
+</project>
+
