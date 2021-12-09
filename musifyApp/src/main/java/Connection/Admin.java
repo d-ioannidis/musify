@@ -47,7 +47,7 @@ public class Admin {
 		frame.getContentPane().add(passText);
 		
 		JButton btnEnter = new JButton("Login");
-		btnEnter.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\musify\\musifyApp\\src\\main\\java\\buttons\\login.png"));
+		btnEnter.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\login.png"));
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -56,7 +56,7 @@ public class Admin {
 				try {
 					
 					//Class.forName("com.mysql.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","");
+					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","Sarap4610_Kof4665_Ioan4578_Alex4631");
 					
 					String username = userText.getText();
 					String password = String.valueOf(passText.getPassword());
@@ -91,7 +91,7 @@ public class Admin {
 		frame.getContentPane().add(btnEnter);
 		
 		JButton btnClose = new JButton("");
-		btnClose.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\musify\\musifyApp\\src\\main\\java\\buttons\\close.png"));
+		btnClose.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\close.png"));
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -112,7 +112,7 @@ public class Admin {
 		frame.getContentPane().add(btnReset);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\musify\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
+		lblNewLabel.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
 		lblNewLabel.setBounds(0, 0, 484, 416);
 		frame.getContentPane().add(lblNewLabel);
 		

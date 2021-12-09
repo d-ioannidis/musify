@@ -64,7 +64,7 @@ public class FormForgot {
 		frame.getContentPane().add(lblNewLabel_1);
 		
 		JButton btnNewButton_1 = new JButton("");
-		btnNewButton_1.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\musify\\musifyApp\\src\\main\\java\\buttons\\back.png"));
+		btnNewButton_1.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\back.png"));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
@@ -113,7 +113,7 @@ public class FormForgot {
 		JLabel lblNewLabel_3 = new JLabel("");
 		lblNewLabel_3.setVerticalAlignment(SwingConstants.BOTTOM);
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\musify\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
+		lblNewLabel_3.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
 		lblNewLabel_3.setBounds(0, 0, 247, 333);
 		frame.getContentPane().add(lblNewLabel_3);
 	}

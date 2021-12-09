@@ -11,11 +11,13 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class FormPlaylist {
 
 	private JFrame frame;
-	private JTable table;
+	private JTable tablePlaylist;
+	private Database database = new Database();
 
 	/**
 	 * Launch the application.
@@ -60,9 +62,12 @@ public class FormPlaylist {
 		panel_1_1.add(img);
 		img.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
 		
-		table = new JTable();
-		table.setBounds(420, 59, 303, 464);
-		panel_1_1.add(table);
+		tablePlaylist = new JTable();
+		tablePlaylist.setModel(database.selectPlaylist());
+		tablePlaylist.getColumnModel().getColumn(2).setPreferredWidth(50);
+		tablePlaylist.getColumnModel().getColumn(2).setMaxWidth(50);
+		tablePlaylist.setBounds(420, 59, 303, 464);
+		panel_1_1.add(tablePlaylist);
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(420, 11, 262, 37);
@@ -99,3 +104,4 @@ public class FormPlaylist {
 	}
 
 }
+

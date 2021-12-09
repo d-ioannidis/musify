@@ -1,4 +1,3 @@
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -80,7 +79,7 @@ public class Login{
 		textFieldUserN.setColumns(10);
 		
 		JButton btnClose = new JButton("");
-		btnClose.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\musify\\musifyApp\\src\\main\\java\\buttons\\close.png"));
+		btnClose.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\close.png"));
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -96,14 +95,14 @@ public class Login{
 
 		
 		JButton btnEnter = new JButton("Login");
-		btnEnter.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\musify\\musifyApp\\src\\main\\java\\buttons\\login.png"));
+		btnEnter.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\login.png"));
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					
 				try {
 					
 					//Class.forName("com.mysql.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","");
+					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","Sarap4610_Kof4665_Ioan4578_Alex4631");
 					
 					String username = textFieldUserN.getText();
 					String password = String.valueOf(passwordField.getPassword());
@@ -163,7 +162,7 @@ public class Login{
 		frame.getContentPane().add(passwordField);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\musify\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
+		lblNewLabel.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
 		lblNewLabel.setBounds(0, 0, 504, 495);
 		frame.getContentPane().add(lblNewLabel);
 		
@@ -175,4 +174,3 @@ public class Login{
         });
 	}
 }
-

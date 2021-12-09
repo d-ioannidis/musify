@@ -186,7 +186,7 @@ public class Register {
 		textFieldEmail.setColumns(10);
 		
 		JButton btnClose = new JButton("");
-		btnClose.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\musify\\musifyApp\\src\\main\\java\\buttons\\back.png"));
+		btnClose.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\back.png"));
 		btnClose.setBounds(10, 266, 43, 30);
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -230,7 +230,7 @@ public class Register {
 		frame.getContentPane().add(lblLoginForm);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musifyApp\\musify\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
+		lblNewLabel.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
 		lblNewLabel.setBounds(0, 0, 434, 325);
 		frame.getContentPane().add(lblNewLabel);
 	}

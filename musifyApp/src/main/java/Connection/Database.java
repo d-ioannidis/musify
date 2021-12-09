@@ -370,7 +370,8 @@ public class Database {
 		try {
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			
-			String sql_query = "INSERT INTO artist (NAME,LASTNAME,NICKNAME,BIRTHDAY,FIRST_TRACK_DATE,NATIONALITY,PHOTO_ARTIST) "
+			String sql_query = "INSERT INTO artist (NAME,LASTNAME,NICKNAME,BIRTHDAY,FIRST_TRACK_DATE,"
+					+ "NATIONALITY,PHOTO_ARTIST) "
 					+ "VALUES (?,?,?,?,?,?,?)";
 			
 			PreparedStatement preparedStmt = conn.prepareStatement(sql_query);
@@ -385,7 +386,7 @@ public class Database {
 			
 			preparedStmt.execute();
 			
-			conn.close();
+			conn.close(); 
 		}
 		catch (SQLException e){
 			e.printStackTrace();
@@ -790,7 +791,54 @@ public void deletePlaylist(int register_id, String artist_nickname, String track
 		}
 	}
 }
+public DefaultTableModel selectPlaylist() {
+    DefaultTableModel dm = new DefaultTableModel(0, 0);
+    try {
+       conn = DriverManager.getConnection(DB_URL, USER, PASS);
+       stmt = conn.createStatement();
+       String sql;
+       sql = "SELECT ARTIST, TRACK FROM PLAYLIST "
+               + "ORDER BY TRACK";
+       ResultSet rs = stmt.executeQuery(sql);
+       JTable tblTaskList = new JTable();
+       String header[] = new String[] {"Nickname", "Track", "\u2764"};
+       dm.setColumnIdentifiers(header);
+       tblTaskList.setModel(dm);
 
+       while (rs.next()) {
+          Vector<Object> data = new Vector<Object>();
+          data.add(rs.getString(1));
+          data.add(rs.getString(2));
+
+          dm.addRow(data);
+       }
+       rs.close();
+       stmt.close();
+       conn.close();
+    }
+    catch (SQLException se) {
+       se.printStackTrace();
+    }
+    catch (Exception e) {
+       e.printStackTrace();
+    }
+    finally {
+       try {
+          if (stmt!=null)
+             stmt.close();
+       }
+       catch (SQLException se2) {
+       }
+       try {
+          if (conn!=null)
+             conn.close();
+       }
+       catch (SQLException se) {
+          se.printStackTrace();
+       }
+    }
+    return dm;
+ }
 public List<Playlist> getPlaylist(){
 	List<Playlist> playlist = new ArrayList<>();
 	

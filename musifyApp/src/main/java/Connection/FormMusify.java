@@ -1,5 +1,3 @@
-package Connection;
-
 import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
