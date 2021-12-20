@@ -1,5 +1,3 @@
-package Connection;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +21,9 @@ class selectFavouritesTest {
 	public void findIfArtistExistsAndTrackExist() {  
 	    
 		//given
-		String artist_nickname = "50 Cent";
+		String artist_nickname = "Justin Timberlake";
 		String artist_result = "";
-		String track = "Ayo Technology Ft. Justin Timberlake";
+		String track = "Ayo Technology Ft. 50 Cent";
 		String track_result = "";
 				
 		// when
@@ -39,8 +37,8 @@ class selectFavouritesTest {
         }
 		
 		// then
-		String expected = "50 Cent";
-		String expected1 = "Ayo Technology Ft. Justin Timberlake";
+		String expected = "Justin Timberlake";
+		String expected1 = "Ayo Technology Ft. 50 Cent";
 		Assertions.assertEquals(expected, artist_result);
 		Assertions.assertEquals(expected1, track_result);	
  }

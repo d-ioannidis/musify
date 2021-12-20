@@ -27,7 +27,8 @@ class getPlaylistTest {
 		
 		// when testing our method
 		for(Playlist playlist : playlists) {
-			if(playlist.getArtistNickname().equals(artist_nickname) && (playlist.getTrack().equals(track)) && (playlist.getId().equals(id))) {
+			if(playlist.getArtistNickname().equals(artist_nickname) && 
+					(playlist.getTrack().equals(track)) && (playlist.getId().equals(id))) {
 				artist_result = playlist.getArtistNickname();
 				track_result = playlist.getTrack();
 				id_result = playlist.getId();

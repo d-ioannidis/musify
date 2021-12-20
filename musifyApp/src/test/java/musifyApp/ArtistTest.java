@@ -1,12 +1,9 @@
-package musifyApp;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import Connection.Artist;
-import Connection.Database;
 
 @DisplayName("Write assertions for Artists Class")
 public class ArtistTest {
