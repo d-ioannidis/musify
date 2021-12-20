@@ -11,6 +11,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 public class App {
+	private static String prettyJsonString;
+	
 	public static void main(String[] args) throws Exception {
 		// Host URL
 		String host = "https://genius.p.rapidapi.com/artists/16775";
@@ -38,8 +40,11 @@ public class App {
 	    	      Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	    	      JsonParser jp = new JsonParser();
 	    	      JsonElement je = jp.parse(response.getBody().toString());
-	    	      String prettyJsonString = gson.toJson(je);
+	    	      prettyJsonString = gson.toJson(je);
 	    	      System.out.println(prettyJsonString);
+	}
+	String getJsonStringArtist() {
+		return prettyJsonString;
 	}
 
 }
