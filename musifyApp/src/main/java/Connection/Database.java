@@ -185,79 +185,6 @@ public class Database {
 			return null;
 		}
 	}
-	/*
-	public ResultSet SearchDataArtist(String setext){
-		try {
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
-		
-		String query = "SELECT * FROM artist WHERE NAME IN ('"+ setext +"') OR NICKNAME IN ('"+ setext +"') OR LASTNAME IN ('"+ setext +"');";
-		
-		PreparedStatement preparedStmt = conn.prepareStatement(query);
-		
-		ResultSet rs = preparedStmt.executeQuery(query);
-		
-		
-		return rs;
-		
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-	}
-	*/
-	/*
-	public DefaultTableModel selectDataArtist() {
-	      DefaultTableModel dm = new DefaultTableModel(0, 0);
-	      try {
-	         conn = DriverManager.getConnection(DB_URL, USER, PASS);
-	         stmt = conn.createStatement();
-	         String sql;
-	         sql = "SELECT NICKNAME, TRACK_NAME FROM artist,tracks,participate WHERE (artist.ID_ARTIST = participate.ID_ARTIST) AND (tracks.id_tracks = participate.id_tracks) "
-	         		+ "ORDER BY TRACK_NAME";
-	         ResultSet rs = stmt.executeQuery(sql);
-	         JTable tblTaskList = new JTable();
-	         String header[] = new String[] {"Nickname", "Track", "\u2764"};
-	         dm.setColumnIdentifiers(header);
-	         tblTaskList.setModel(dm);     
-	         
-
-	         while (rs.next()) {
-	            Vector<Object> data = new Vector<Object>();
-	            data.add(rs.getString(1));
-	            data.add(rs.getString(2));
-	            
-	            dm.addRow(data);
-	         }
-	         rs.close();
-	         stmt.close();
-	         conn.close();
-	      }
-	      catch (SQLException se) {
-	         se.printStackTrace();
-	      }
-	      catch (Exception e) {
-	         e.printStackTrace();
-	      }
-	      finally {
-	         try {
-	            if (stmt!=null)
-	               stmt.close();
-	         }
-	         catch (SQLException se2) {
-	         }
-	         try {
-	            if (conn!=null)
-	               conn.close();
-	         }
-	         catch (SQLException se) {
-	            se.printStackTrace();
-	         }
-	      }
-	      return dm;
-	   }
-	
-*/
 	
 	// TEST CONNECTION IN DATABASE
 	public static void main(String[]args) {
@@ -951,8 +878,125 @@ public static void InsertData(String sql ) throws Exception {
     getCon().createStatement().executeUpdate(sql);
 }
 
+public void loginAdmin(String username, String password) {
+	try {
+		conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		
+		String sql_query = "select USERNAME,PASSWORD from admin where USERNAME = ? AND PASSWORD = ?";
+		
+		PreparedStatement preparedStmt = conn.prepareStatement(sql_query);
+		
+		preparedStmt.setString(1, username);
+		preparedStmt.setString(2, password);
+		
+		preparedStmt.execute();
+		conn.close();
+	}
+	catch (SQLException e){
+		e.printStackTrace();
+	}
+	catch (Exception e) {
+		e.printStackTrace();
+	}
+	finally {
+		try {
+			if(stmt != null) 
+				stmt.close();
+		}
+			catch (SQLException e2) {
+				
+			}
+		try {
+			if(conn != null)
+				conn.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+			
+		}
+	}
 }
+public Boolean existingAdmin(String username) {
+	Boolean flag = false;
+	try {
+		conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		
+		String sql = "select * from admin WHERE USERNAME = ?";
+		PreparedStatement preparedStmt = conn.prepareStatement(sql);
+		
+		preparedStmt.setString(1, username);
+		ResultSet rs = preparedStmt.executeQuery();
+		
+		if (rs.next()) {
+			flag = true;
+		}
+		
+		preparedStmt.execute();
+		conn.close();
+	}
+	catch (SQLException e){
+		e.printStackTrace();
+	}
+	catch (Exception e) {
+		e.printStackTrace();
+	}
+	finally {
+		try {
+			if(stmt != null) 
+				stmt.close();
+		}
+			catch (SQLException e2) {
+				
+			}
+		try {
+			if(conn != null)
+				conn.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+			
+		}
+	}
+	return flag;
+	}
 
+public void selectLink(String links) {
+	try {
+		conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		
+		String sql_query = "SELECT links FROM tracks WHERE links = ?";
+		
+		PreparedStatement preparedStmt = conn.prepareStatement(sql_query);
+		preparedStmt.setString(1,links);
+		
+		preparedStmt.execute();
+		conn.close();
+	}
+	catch (SQLException e){
+		e.printStackTrace();
+	}
+	catch (Exception e) {
+		e.printStackTrace();
+	}
+	finally {
+		try {
+			if(stmt != null) 
+				stmt.close();
+		}
+			catch (SQLException e2) {
+				
+			}
+		try {
+			if(conn != null)
+				conn.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+			
+		}
+	}
+}
+}
 
 	
 

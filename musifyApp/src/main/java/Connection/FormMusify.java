@@ -36,6 +36,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.Thread;
+import java.net.URL;
+
 import javazoom.jl.player.Player;
 import javax.swing.table.DefaultTableModel;
 
@@ -173,10 +175,14 @@ public class FormMusify{
 		Pause.setBounds(158, 634, 35, 38);
 		frame.getContentPane().add(Pause);
 		
+		
+		
 		JLabel Start = new JLabel("");
 		Start.addMouseListener(new MouseAdapter() {
+			
 			@Override
 			public void mouseReleased(MouseEvent e) {
+				openWebpage("https://www.youtube.com/watch?v=_sV0S8qWSy0%22");
 			    if (filename != null) {
 			    	if (MP != null) {
 			    		MP.close();
@@ -192,6 +198,7 @@ public class FormMusify{
 		Start.setIcon(new ImageIcon(FormMusify.class.getResource("/buttons/play.png")));
 		Start.setBounds(203, 634, 35, 38);
 		frame.getContentPane().add(Start);
+		
 		
 		JLabel Next = new JLabel("");
 		Next.addMouseListener(new MouseAdapter() {
@@ -369,7 +376,14 @@ public class FormMusify{
 		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 		displayFavourites();
 	}
-	 Runnable runnablePlay = new Runnable() {
+	 public static void openWebpage(String urlString) {
+         try {
+             Desktop.getDesktop().browse(new URL(urlString).toURI());
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+     }
+	Runnable runnablePlay = new Runnable() {
 	        @Override
 	        public void run() {
 	            try {

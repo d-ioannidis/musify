@@ -17,6 +17,10 @@ import javax.swing.ImageIcon;
 
 public class Admin {
 
+	private static Database obj = new Database();
+	private static String username;
+	private static String password;
+	
 	public static void main(String[] args) {
 		
 		final JFrame frame = new JFrame();	
@@ -50,41 +54,20 @@ public class Admin {
 		btnEnter.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\login.png"));
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				boolean flag_admin;
 				
-				
-				
-				try {
-					
-					//Class.forName("com.mysql.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","Sarap4610_Kof4665_Ioan4578_Alex4631");
-					
-					String username = userText.getText();
-					String password = String.valueOf(passText.getPassword());
-					
-					
-					Statement stm = con.createStatement();
-					
-					String sql = "select USERNAME, PASSWORD from admin where USERNAME='"+username+"' and PASSWORD='"+password+"'";
-					ResultSet rs = stm.executeQuery(sql);
-					
-					
-					if(((ResultSet) rs).next()) {
-						JOptionPane.showMessageDialog(null, "Welcome");
-						frame.dispose();
-						InsertDataArtist.main(null);
-					}else {
-						JOptionPane.showMessageDialog(null, "username or password is wrong...");
-						userText.setText("");
-						passText.setText("");
-					}
-					
-					con.close();
-					
-					
-				}catch(Exception e1) {
-					System.out.println(e1.getMessage());
+				username = userText.getText();
+				password = String.valueOf(passText.getPassword());
+				 
+				if(flag_admin = obj.existingAdmin(username) == true) {
+					obj.loginAdmin(username, password);
+					JOptionPane.showMessageDialog(null, "Welcome");
+					frame.dispose();
+					InsertPhoto.main(null);
 				}
-				
+				else {
+					JOptionPane.showMessageDialog(null, "Username or Password is wrong...");
+				}
 			}
 		});
 		btnEnter.setBounds(368,380,106,25);
