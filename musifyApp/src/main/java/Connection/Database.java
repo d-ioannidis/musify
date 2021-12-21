@@ -17,7 +17,7 @@ public class Database {
 	static final String DB_URL = "jdbc:mysql://localhost:3306/mydb";
 	
 	static final String USER = "root";
-	static final String PASS = "Sarap4610_Kof4665_Ioan4578_Alex4631";
+	static final String PASS = "N123456789";
 	
 	
 	
@@ -190,7 +190,7 @@ public class Database {
 	public static void main(String[]args) {
 		String url = "jdbc:mysql://localhost:3306/mydb";
 		String username = "root";
-		String password = "Sarap4610_Kof4665_Ioan4578_Alex4631";
+		String password = "N123456789";
 		
 		System.out.println("Connecting to server...");
 		try(Connection connection = DriverManager.getConnection(url, username, password)){
@@ -291,6 +291,28 @@ public class Database {
 		return artists;
 	      
 	}	
+	
+	public String PlayYTSong (String track) {
+		String YTlink = null;
+		try {
+	         conn = DriverManager.getConnection(DB_URL, USER, PASS);
+	         stmt = conn.createStatement();
+	         String sql;
+	         sql = "SELECT * FROM tracks WHERE track_name = '"+ track +"'";
+	         ResultSet rs = stmt.executeQuery(sql);
+	         
+	         while (rs.next()) {
+	        	 YTlink = rs.getString("links");
+		     }
+	         rs.close();
+	         stmt.close();
+	         conn.close();
+	    }
+	    catch (SQLException se) {
+	    	se.printStackTrace();
+	    }
+		return YTlink;
+	}
 	
 	public void insertDataArtist(String Name, String Lastname, String Nickname, String Birthday, String FirstTrackDate, 
 	String Nationality, Blob photo_artist) {

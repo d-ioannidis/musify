@@ -60,7 +60,7 @@ public class FormMusify{
 	private List<Favourites> favourites = new ArrayList<>();
 	private List<Playlist> playlist = new ArrayList<>();
 	private File[] myFile;
-	private String filename,filePath;
+	private String filename,filePath,YTlink;
 	private FileInputStream fis;
 	private BufferedInputStream bis;
 	private Player MP;
@@ -182,8 +182,13 @@ public class FormMusify{
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				openWebpage("https://www.youtube.com/watch?v=_sV0S8qWSy0%22");
-			    if (filename != null) {
+				if (YTlink != null) {
+					openWebpage(YTlink);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "You didn't select a song or the song selected doesn't have a Youtube link.");
+				}
+			    /*if (filename != null) {
 			    	if (MP != null) {
 			    		MP.close();
 			    	}
@@ -192,7 +197,7 @@ public class FormMusify{
                     songName.setText("Now playing : " + myFile[trackNo].getName());
                 } else {
                     songName.setText("No File was selected!");
-                }
+                }*/
 			}
 		});
 		Start.setIcon(new ImageIcon(FormMusify.class.getResource("/buttons/play.png")));
@@ -668,7 +673,8 @@ public class FormMusify{
 				int row = table.rowAtPoint(point);
 				int col = table.columnAtPoint(point);
 				String artist_nickname = table.getModel().getValueAt(row, 0).toString();
-				String track = table.getModel().getValueAt(row, 1).toString();	        
+				String track = table.getModel().getValueAt(row, 1).toString();   
+				YTlink = database.PlayYTSong(track);
 				searchArtist(artist_nickname);
 	
 				if (col == 2) {
