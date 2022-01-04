@@ -1,56 +1,51 @@
-track_name,id_tracks,links
-"The Way -Ft. Mac Miller",1,https://www.youtube.com/watch?v=_sV0S8qWSy0
-"The A Team",2,https://www.youtube.com/watch?v=UAWcs5H-qgQ
-"In Da Club",3,https://www.youtube.com/watch?v=5qm8PH4xAss
-"Lose YourSelf",4,https://www.youtube.com/watch?v=_Yhyp-_hX2s
-1992,5,https://www.youtube.com/watch?v=FWpzQgHRJPg
-"Poso Wraia Matia Exeis",6,NULL
-"Ruby with the Sharpest Lies",7,NULL
-"Stone Cold Classic",8,NULL
-Baby,9,NULL
-"Don't Go Yet",10,NULL
-"7 Rings",11,NULL
-"First Times",12,NULL
-"Ayo Technology Ft. Justin Timberlake",13,NULL
-"Not Afraid",14,NULL
-"Pare me Agkalia",15,NULL
-"Monos Mou",16,NULL
-"Used to the Darkness",17,NULL
-"Up All Night",18,NULL
-Hustla,19,NULL
-Havana,20,NULL
-"Thank U, Next",21,NULL
-"Bad Habits",22,NULL
-"Candy Shop ft. Olivia",23,NULL
-Mockingbird,24,NULL
-"Sta Kalutera Mou",25,NULL
-"Otan Agapas",26,NULL
-"Maybe, I",27,NULL
-"Bad For You",28,NULL
-Elpida,29,NULL
-Senorita,30,NULL
-"Into You",31,NULL
-Shivers,32,NULL
-"I Ain't Gonna Lie",33,NULL
-"Stan (Long Version) Ft. Dido",34,NULL
-"Mhn Antistekesai",35,NULL
-"Den Me Pairnei",36,NULL
-"Suicide Romantics",37,NULL
-"I Want You",38,NULL
-Gucci,39,NULL
-Shameless,40,NULL
-"One Last Time",41,NULL
-"Shape of You",42,NULL
-"Just A Lil Bit",43,NULL
-"Without Me",44,NULL
-"Ela Mou",45,NULL
-"Giati Exw Esena",46,NULL
-"Let Me Live/Let Me Die",47,NULL
-Moonlight,48,NULL
-Areti,49,NULL
-Liar,50,NULL
-"Ayo Technology Ft. 50 Cent",51,NULL
-"The Way -Ft. Ariana Grande",52,NULL
-"Candy Shop ft. 50 Cent",53,NULL
-"Stan (Long Version) Ft. Eminem",54,NULL
-"Hail Mary",55,NULL
+track_name,id_tracks,links,category
+"The Way -Ft. Mac Miller",1,https://www.youtube.com/watch?v=_sV0S8qWSy0,Pop
+"The A Team",2,https://www.youtube.com/watch?v=UAWcs5H-qgQ,Pop
+"In Da Club",3,https://www.youtube.com/watch?v=5qm8PH4xAss,Rap
+"Lose YourSelf",4,https://www.youtube.com/watch?v=_Yhyp-_hX2s,Rap
+1992,5,https://www.youtube.com/watch?v=FWpzQgHRJPg,Pop
+"Ruby with the Sharpest Lies",7,https://www.youtube.com/watch?v=ML3E1X3VGbY,Rock
+"Stone Cold Classic",8,https://www.youtube.com/watch?v=u1NzEg0IkzI,Rock
+Baby,9,https://www.youtube.com/watch?v=s124I75lhLs,Trap
+"Do Not Go Yet",10,https://www.youtube.com/watch?v=0Kx3sobEBFE,Pop
+"7 Rings",11,https://www.youtube.com/watch?v=QYh6mYIJG2Y,Pop
+"First Times",12,https://www.youtube.com/watch?v=y6oryBG8xeQ,Pop
+"Ayo Technology Ft. Justin Timberlake",13,https://www.youtube.com/watch?v=5RDSkR8_AQ0,Rap
+"Not Afraid",14,https://www.youtube.com/watch?v=j5-yKhDd64s,Rap
+"Pare me Agkalia",15,https://www.youtube.com/watch?v=CWVqjbA5A9w,"Greek Pop"
+"Used to the Darkness",17,https://www.youtube.com/watch?v=7MrRi-2nokM,Rock
+"Up All Night",18,https://www.youtube.com/watch?v=dGDVreANXEI,Rock
+Hustla,19,https://www.youtube.com/watch?v=Hw6RFGzbc5Y,Trap
+Havana,20,https://www.youtube.com/watch?v=HCjNJDNzw8Y,Pop
+"Thank U, Next",21,https://www.youtube.com/watch?v=gl1aHhXnN1k,Pop
+"Bad Habits",22,https://www.youtube.com/watch?v=96fk9DMQ_2o,Pop
+"Candy Shop ft. Olivia",23,https://www.youtube.com/watch?v=SRcnnId15BA,Rap
+Mockingbird,24,https://www.youtube.com/watch?v=S9bCLPwzSC0,Rap
+"Sta Kalutera Mou",25,https://www.youtube.com/watch?v=lwnqkh3z7MA,"Greek Pop"
+"Maybe, I",27,https://www.youtube.com/watch?v=yHWDqRpqUgk,Rock
+"Bad For You",28,https://www.youtube.com/watch?v=grqHu-v5d2w,Rock
+Elpida,29,https://www.youtube.com/watch?v=9jTAjs5vcus,Trap
+Senorita,30,https://www.youtube.com/watch?v=Pkh8UtuejGw,Pop
+"Into You",31,https://www.youtube.com/watch?v=1ekZEVeXwek,Pop
+Shivers,32,https://www.youtube.com/watch?v=Il0S8BoucSA,Pop
+"I Ain't Gonna Lie",33,https://www.youtube.com/watch?v=olXBfU4Bjp8,Rap
+"Stan (Long Version) Ft. Dido",34,https://www.youtube.com/watch?v=gOMhN-hfMtY,Rap
+"Mhn Antistekesai",35,https://www.youtube.com/watch?v=Td13HMUc0N8,"Greek Pop"
+"Suicide Romantics",37,https://www.youtube.com/watch?v=7dwICsr0a6Y,Rock
+"I Want You",38,https://www.youtube.com/watch?v=ABqVYKLv6II,Rock
+Gucci,39,https://www.youtube.com/watch?v=NC3hXpl33sg,Trap
+Shameless,40,https://www.youtube.com/watch?v=sPoDJoTSpUk,Pop
+"One Last Time",41,https://www.youtube.com/watch?v=Wg92RrNhB8s,Pop
+"Shape of You",42,https://www.youtube.com/watch?v=JGwWNGJdvx8,Pop
+"Just A Lil Bit",43,https://www.youtube.com/watch?v=GllEDACUbNo,Rap
+"Without Me",44,https://www.youtube.com/watch?v=YVkUvmDQ3HY,Rap
+"Ela Mou",45,https://www.youtube.com/watch?v=qj1EZ8Y9Bbk,"Greek Pop"
+"Let Me Live/Let Me Die",47,https://www.youtube.com/watch?v=Ozo8LyvS4fE,Rock
+Moonlight,48,https://www.youtube.com/watch?v=FqwLj6dkHF0,Rock
+Areti,49,https://www.youtube.com/watch?v=w6HGAmq2xrg,Trap
+Liar,50,https://www.youtube.com/watch?v=6-OvO8ZuW98,Pop
+"Ayo Technology Ft. 50 Cent",51,https://www.youtube.com/watch?v=5RDSkR8_AQ0,Rap
+"The Way -Ft. Ariana Grande",52,https://www.youtube.com/watch?v=_sV0S8qWSy0,Pop
+"Candy Shop ft. 50 Cent",53,https://www.youtube.com/watch?v=SRcnnId15BA,Rap
+"Stan (Long Version) Ft. Eminem",54,https://www.youtube.com/watch?v=gOMhN-hfMtY,Rap
+"Hail Mary",55,https://www.youtube.com/watch?v=nkJA6SYwa94,Rap
