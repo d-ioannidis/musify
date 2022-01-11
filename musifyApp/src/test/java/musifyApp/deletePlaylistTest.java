@@ -3,6 +3,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import Connection.Database;
+
 class deletePlaylistTest {
 
     private Database obj = new Database();

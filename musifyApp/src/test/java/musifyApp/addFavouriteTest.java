@@ -5,21 +5,22 @@ import org.junit.jupiter.api.Test;
 
 import Connection.Database;
 
-class existingArtistTest {
+class addFavouriteTest {
+
 	
 	private Database obj = new Database();
-
+	
 	@Test
-	void itShouldExistingArtist() {
-		// given 
-		String nickname = "Eminem";
+	void itShouldAddFavourite() {
 		
-		// when testing our method
-		 obj.existingArtist(nickname);
+		int register_id = 1;
+		String artist_name = "Ed Sheeran";
+		String track = "Bad Habits";
 		
-		// then using assert
+		obj.addFavourite(register_id, artist_name, track);
+
 		Assertions.assertTrue(true);
-		
+
 	}
 
 }

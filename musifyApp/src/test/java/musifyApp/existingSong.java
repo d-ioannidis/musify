@@ -5,25 +5,22 @@ import org.junit.jupiter.api.Test;
 
 import Connection.Database;
 
-class AddToPlaylistTest {
-	
-	private Database obj = new Database();
-	
+class existingSong {
 
+	private Database obj = new Database();
+	Boolean flag_song;
+	
 	@Test
-	void itShouldAddToPlaylist() {
-		// given 
-		int register_id = 1;
-		String artist_name = "Ariana Grande";
-		String track = "Thank U, Next";
+	void itShouldExistingSong() {
+		// given
+		String track = "All Eyez On Me";
+		String link = "https://www.youtube.com/watch?v=H1HdZFgR-aA";
 		
 		// when testing our method
-		obj.addToPlaylist(register_id, artist_name, track);
+		flag_song = obj.existingSong(track, link);
 		
 		// then using assert
-		Assertions.assertTrue(true);
-		
-		
+		Assertions.assertTrue(flag_song);
 	}
 
 }

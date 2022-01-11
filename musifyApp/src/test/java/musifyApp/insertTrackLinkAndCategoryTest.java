@@ -5,24 +5,21 @@ import org.junit.jupiter.api.Test;
 
 import Connection.Database;
 
-public class deleteFavouriteTest {
-	
+class insertTrackLinkAndCategoryTest {
 	private Database obj = new Database();
 
 	@Test
-	void itShouldDeleteFavourite() {
-		// given
-		int register_id = 1;
-		String artist_nickname = "Sakis Rouvas";
-		String track = "1992";
+	void itShouldInsertTrackLinkAndCategory() {
+		// given 
+		String track = "All Eyez On Me";
+		String link = "https://www.youtube.com/watch?v=H1HdZFgR-aA";
+		String category = "Rap";
 		
-	
 		// when testing our method
-		 obj.deleteFavourite(register_id, artist_nickname, track);
+		obj.insertTrackLinkAndCategory(track, link, category);
 		
 		// then using assert
 		Assertions.assertTrue(true);
-		
 	}
 
 }

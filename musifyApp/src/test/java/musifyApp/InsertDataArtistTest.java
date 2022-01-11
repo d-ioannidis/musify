@@ -5,6 +5,8 @@ import java.sql.Blob;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import Connection.Database;
+
 class InsertDataArtistTest {
 
 	private Database obj = new Database();

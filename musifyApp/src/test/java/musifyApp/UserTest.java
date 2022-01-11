@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import Connection.Database;
+
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Write assertions for Register Class")
