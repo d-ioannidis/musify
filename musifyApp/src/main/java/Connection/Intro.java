@@ -1,3 +1,4 @@
+package Connection;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -34,6 +35,7 @@ public class Intro {
 	 */
 	public Intro() {
 		initialize();
+		frame.setLocationRelativeTo(null);
 	}
 
 	/**

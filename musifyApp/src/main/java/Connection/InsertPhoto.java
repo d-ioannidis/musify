@@ -1,3 +1,4 @@
+package Connection;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,7 +23,6 @@ public class InsertPhoto extends JFrame{
     JTextField Bday;
     JTextField ftn;
     JTextField Nation;
-     
     public InsertPhoto(){
     	
         
@@ -51,7 +51,8 @@ public class InsertPhoto extends JFrame{
     button2.setBounds(10, 270, 100, 30);
    
     label = new JLabel();
-    label.setBounds(10,11,670,250);   
+    label.setBounds(10,11,670,250);
+    
   
     //button to browse the image into jlabel
     button2.addActionListener(new ActionListener(){
@@ -124,4 +125,5 @@ public class InsertPhoto extends JFrame{
     public static void main(String[] args){
         new InsertPhoto();
     }
+    
    }

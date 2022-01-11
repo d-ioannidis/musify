@@ -1,3 +1,4 @@
+package Connection;
 public class Playlist {
 	private Integer register_id;
 	private String artist_nickname;

@@ -1,3 +1,4 @@
+package Connection;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -49,6 +51,16 @@ public class Admin {
 		final JPasswordField passText = new JPasswordField(20);
 		passText.setBounds(170,150,165,25);
 		frame.getContentPane().add(passText);
+		
+		JCheckBox ckbox = new JCheckBox("Show Password");
+        ckbox.setBounds(170,200,130,25);
+        if(ckbox.isSelected()) {
+            passText.setEchoChar((char)0);
+            }
+            else {
+                passText.setEchoChar('*');
+            }
+        frame.getContentPane().add(ckbox);
 		
 		JButton btnEnter = new JButton("Login");
 		btnEnter.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\login.png"));

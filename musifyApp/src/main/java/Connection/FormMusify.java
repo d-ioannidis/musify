@@ -1,3 +1,4 @@
+package Connection;
 import java.awt.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -182,6 +183,8 @@ public class FormMusify{
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
+				database.play();
+				/*
 				if (YTlink != null) {
 					openWebpage(YTlink);
 				}

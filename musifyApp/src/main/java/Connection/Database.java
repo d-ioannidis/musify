@@ -1,8 +1,17 @@
+package Connection;
+
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.Player;
+
 import java.awt.Container;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +26,7 @@ public class Database {
 	static final String DB_URL = "jdbc:mysql://localhost:3306/mydb";
 	
 	static final String USER = "root";
-	static final String PASS = "N123456789";
+	static final String PASS = "Sarap4610_Kof4665_Ioan4578_Alex4631";
 	
 	
 	
@@ -34,13 +43,7 @@ public class Database {
 		PreparedStatement preparedStmt = conn.prepareStatement(sql_query);
 		
 		
-		preparedStmt.setString(1, Email);
-		preparedStmt.setString(2, Name);
-		preparedStmt.setString(3, Surname);
-		preparedStmt.setString(4, Username);
-		preparedStmt.setString(5, Password);
-		
-		preparedStmt.execute();
+		dataSetter(Email, Name, Surname, Username, Password, preparedStmt);
 		
 		conn.close();
 		
@@ -69,6 +72,26 @@ public class Database {
 			}
 		}
 			
+	}
+
+	/**
+	 * @param Email
+	 * @param Name
+	 * @param Surname
+	 * @param Username
+	 * @param Password
+	 * @param preparedStmt
+	 * @throws SQLException
+	 */
+	public void dataSetter(String Email, String Name, String Surname, String Username, String Password,
+			PreparedStatement preparedStmt) throws SQLException {
+		preparedStmt.setString(1, Email);
+		preparedStmt.setString(2, Name);
+		preparedStmt.setString(3, Surname);
+		preparedStmt.setString(4, Username);
+		preparedStmt.setString(5, Password);
+		
+		preparedStmt.execute();
 	}
 	
 	public Boolean searchData(String Username, String Email) {
@@ -190,7 +213,7 @@ public class Database {
 	public static void main(String[]args) {
 		String url = "jdbc:mysql://localhost:3306/mydb";
 		String username = "root";
-		String password = "N123456789";
+		String password = "Sarap4610_Kof4665_Ioan4578_Alex4631";
 		
 		System.out.println("Connecting to server...");
 		try(Connection connection = DriverManager.getConnection(url, username, password)){
@@ -292,76 +315,70 @@ public class Database {
 	      
 	}	
 	
-	public String PlayYTSong (String track) {
-		String YTlink = null;
-		try {
-	         conn = DriverManager.getConnection(DB_URL, USER, PASS);
-	         stmt = conn.createStatement();
-	         String sql;
-	         sql = "SELECT * FROM tracks WHERE track_name = '"+ track +"'";
-	         ResultSet rs = stmt.executeQuery(sql);
-	         
-	         while (rs.next()) {
-	        	 YTlink = rs.getString("links");
-		     }
-	         rs.close();
-	         stmt.close();
-	         conn.close();
-	    }
-	    catch (SQLException se) {
-	    	se.printStackTrace();
-	    }
-		return YTlink;
-	}
-	
 	public void insertDataArtist(String Name, String Lastname, String Nickname, String Birthday, String FirstTrackDate, 
-	String Nationality, Blob photo_artist) {
-		try {
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
-			
-			String sql_query = "INSERT INTO artist (NAME,LASTNAME,NICKNAME,BIRTHDAY,FIRST_TRACK_DATE,"
-					+ "NATIONALITY,PHOTO_ARTIST) "
-					+ "VALUES (?,?,?,?,?,?,?)";
-			
-			PreparedStatement preparedStmt = conn.prepareStatement(sql_query);
-			
-			preparedStmt.setString(1, Name);
-			preparedStmt.setString(2, Lastname);
-			preparedStmt.setString(3, Nickname);
-			preparedStmt.setString(4, Birthday);
-			preparedStmt.setString(5, FirstTrackDate);
-			preparedStmt.setString(6, Nationality);
-			preparedStmt.setBlob(7, photo_artist);
-			
-			preparedStmt.execute();
-			
-			conn.close(); 
-		}
-		catch (SQLException e){
-			e.printStackTrace();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		finally {
-			try {
-				if(stmt != null) 
-					stmt.close();
-			}
-				catch (SQLException e2) {
+			String Nationality, Blob photo_artist) {
+				try {
+					conn = DriverManager.getConnection(DB_URL, USER, PASS);
 					
+					String sql_query = "INSERT INTO artist (NAME,LASTNAME,NICKNAME,BIRTHDAY,FIRST_TRACK_DATE,"
+							+ "NATIONALITY,PHOTO_ARTIST) "
+							+ "VALUES (?,?,?,?,?,?,?)";
+					
+					PreparedStatement preparedStmt = conn.prepareStatement(sql_query);
+					
+					artistSetter(Name, Lastname, Nickname, Birthday, FirstTrackDate, Nationality, photo_artist, preparedStmt);
+					
+					conn.close(); 
 				}
-			try {
-				if(conn != null)
-					conn.close();
+				catch (SQLException e){
+					e.printStackTrace();
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+				finally {
+					try {
+						if(stmt != null) 
+							stmt.close();
+					}
+						catch (SQLException e2) {
+							
+						}
+					try {
+						if(conn != null)
+							conn.close();
+					}
+					catch (SQLException e) {
+						e.printStackTrace();
+						
+					}
+				}
+					
 			}
-			catch (SQLException e) {
-				e.printStackTrace();
+
+			/**
+			 * @param Name
+			 * @param Lastname
+			 * @param Nickname
+			 * @param Birthday
+			 * @param FirstTrackDate
+			 * @param Nationality
+			 * @param photo_artist
+			 * @param preparedStmt
+			 * @throws SQLException
+			 */
+			public void artistSetter(String Name, String Lastname, String Nickname, String Birthday, String FirstTrackDate,
+					String Nationality, Blob photo_artist, PreparedStatement preparedStmt) throws SQLException {
+				preparedStmt.setString(1, Name);
+				preparedStmt.setString(2, Lastname);
+				preparedStmt.setString(3, Nickname);
+				preparedStmt.setString(4, Birthday);
+				preparedStmt.setString(5, FirstTrackDate);
+				preparedStmt.setString(6, Nationality);
+				preparedStmt.setBlob(7, photo_artist);
 				
+				preparedStmt.execute();
 			}
-		}
-			
-	}
 	
 	public Boolean existingArtist(String Nickname) {
 		Boolean flag = true; 
@@ -1018,6 +1035,248 @@ public void selectLink(String links) {
 		}
 	}
 }
+public String PlayYTSong (String track) {
+    String YTlink = null;
+    try {
+         conn = DriverManager.getConnection(DB_URL, USER, PASS);
+         stmt = conn.createStatement();
+         String sql;
+         sql = "SELECT * FROM tracks WHERE track_name = '"+ track +"'";
+         ResultSet rs = stmt.executeQuery(sql);
+
+         while (rs.next()) {
+             YTlink = rs.getString("links");
+         }
+         rs.close();
+         stmt.close();
+         conn.close();
+    	}
+    	catch (SQLException se) {
+        	se.printStackTrace();
+    	}
+    	return YTlink;
+	}
+	public void insertTrackLinkAndCategory(String track,String links, String category) {
+		try {
+			
+		conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		
+		
+		String sql_query = "INSERT INTO tracks (track_name,links,category) VALUES (?,?,?)";
+		
+		
+		PreparedStatement preparedStmt = conn.prepareStatement(sql_query);
+		
+		
+		preparedStmt.setString(1, track);
+		preparedStmt.setString(2, links);
+		preparedStmt.setString(3, category);
+		
+		preparedStmt.execute();
+		
+		conn.close();
+		
+	}
+		catch (SQLException e){
+			e.printStackTrace();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if(stmt != null) 
+					stmt.close();
+			}
+				catch (SQLException e2) {
+					
+				}
+			try {
+				if(conn != null)
+					conn.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+				
+			}
+		}
+			
+	}
+	public Boolean existingSong(String track, String link) {
+		Boolean flag = true;
+		try {
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			
+			String sql = "SELECT * FROM tracks WHERE (track_name = ?) AND (links = ?)";
+			PreparedStatement preparedStmt = conn.prepareStatement(sql);
+			
+			preparedStmt.setString(1, track);
+			preparedStmt.setString(2, link);
+			ResultSet rs = preparedStmt.executeQuery();
+			
+			if (rs.next()) {
+				flag = false;
+			}
+			
+			preparedStmt.execute();
+			conn.close();
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if(stmt != null) 
+					stmt.close();
+			}
+				catch (SQLException e2) {
+					
+				}
+			try {
+				if(conn != null)
+					conn.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+				
+			}
+		}
+		return flag;
+	}
+	public DefaultTableModel showRock(){
+	    DefaultTableModel dm = new DefaultTableModel();
+	    try {
+	       conn = DriverManager.getConnection(DB_URL, USER, PASS);
+	       stmt = conn.createStatement();
+	       String sql;
+	      /* sql = "SELECT nickname, track_name, category FROM artist,participate,tracks "
+	       		+ "WHERE artist.ID_ARTIST = participate.ID_ARTIST AND tracks.id_tracks = participate.id_tracks AND category = Rock ";
+	       		*/
+	       sql = "SELECT TRACK_NAME, CATEGORY FROM artist,participate,tracks WHERE artist.ID_ARTIST = participate.ID_ARTIST "
+	       		+ "AND tracks.id_tracks = participate.id_tracks ORDER BY TRACK_NAME";
+	       ResultSet rs = stmt.executeQuery(sql);
+	       JTable tblTaskList = new JTable();
+	       String header[] = new String[] {"Nickname", "Track", "Category","\u2764"};
+	       dm.setColumnIdentifiers(header);
+	       tblTaskList.setModel(dm);
+
+
+	       while (rs.next()) {
+	          Vector<Object> data = new Vector<Object>();
+	          data.add(rs.getString(1));
+	          data.add(rs.getString(2));
+	          //data.add(rs.getString(3));
+	          dm.addRow(data);
+	       }
+	       rs.close();
+	       stmt.close();
+	       conn.close();
+	    }
+	    catch (SQLException se) {
+	       se.printStackTrace();
+	    }
+	    catch (Exception e) {
+	       e.printStackTrace();
+	    }
+	    finally {
+	       try {
+	          if (stmt!=null)
+	             stmt.close();
+	       }
+	       catch (SQLException se2) {
+	       }
+	       try {
+	          if (conn!=null)
+	             conn.close();
+	       }
+	       catch (SQLException se) {
+	          se.printStackTrace();
+	       }
+	    }
+	    return dm;
+	 }
+	public static void play() {
+        Runnable runnablePlay = new Runnable() {
+
+            @Override
+            public void run() {
+                //String song = "http://www.ntonyx.com/mp3files/Morning_Flower.mp3";
+            	//String song = "https://www.youtube.com/watch?v=_sV0S8qWSy0";
+            	//String song = "https://soundcloud.com/dj-staif/bossikan-x-light-king-kong-in-da-getto-staif-blend-for-djs-2k21";
+                String song = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+                Player mp3player = null;
+                BufferedInputStream in = null;
+                try {
+                in = new BufferedInputStream(new URL(song).openStream());
+                mp3player = new Player(in);
+                mp3player.play();
+                } 
+                catch (MalformedURLException ex) {
+                } 
+                catch (IOException e) {
+                } 
+                catch (JavaLayerException e) {
+                } 
+                catch (NullPointerException ex) {
+                }
+            }
+
+        };
+        Thread task = new Thread(runnablePlay);
+        task.start();
+     }
+	public void addTracks(String track_name, String track_genre) {
+
+        try {
+
+        conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+
+        String sql_query = "INSERT INTO tracks (track_name, category) VALUES (?,?)";
+
+
+        PreparedStatement preparedStmt = conn.prepareStatement(sql_query);
+
+
+        preparedStmt.setString(1, track_name);
+        preparedStmt.setString(2, track_genre);
+
+
+
+        preparedStmt.execute();
+
+        conn.close();
+
+    }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if(stmt != null) 
+                    stmt.close();
+            }
+                catch (SQLException e2) {
+
+                }
+            try {
+                if(conn != null)
+                    conn.close();
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+
+            }
+        }
+
+    } 
+
 }
 
 	

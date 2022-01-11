@@ -1,3 +1,4 @@
+package Connection;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -113,6 +114,7 @@ public class Register {
 	 */
 	public Register() {
 		initialize();
+		frame.setLocationRelativeTo(null);
 	}
 
 	/**

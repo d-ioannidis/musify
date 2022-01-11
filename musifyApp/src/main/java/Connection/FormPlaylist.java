@@ -1,3 +1,4 @@
+package Connection;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -12,6 +13,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+//import org.w3c.dom.events.MouseEvent;
 
 public class FormPlaylist {
 
@@ -40,6 +45,7 @@ public class FormPlaylist {
 	 */
 	public FormPlaylist() {
 		initialize();
+		frame.setLocationRelativeTo(null);
 	}
 	 // Initialize the contents of the frame.
 	 
@@ -63,9 +69,9 @@ public class FormPlaylist {
 		img.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
 		
 		tablePlaylist = new JTable();
-		tablePlaylist.setModel(database.selectPlaylist());
-		tablePlaylist.getColumnModel().getColumn(2).setPreferredWidth(50);
-		tablePlaylist.getColumnModel().getColumn(2).setMaxWidth(50);
+		tablePlaylist.setModel(database.showRock());
+		//tablePlaylist.getColumnModel().getColumn(3).setPreferredWidth(50);
+		tablePlaylist.getColumnModel().getColumn(3).setMaxWidth(50);
 		tablePlaylist.setBounds(420, 59, 303, 464);
 		panel_1_1.add(tablePlaylist);
 		
@@ -101,7 +107,15 @@ public class FormPlaylist {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(275, 59, 150, 464);
 		panel_1_1.add(panel_1);
-	}
-
+	JLabel Start = new JLabel("");
+	Start.setIcon(new ImageIcon(FormPlaylist.class.getResource("/buttons/play.png")));
+	Start.addMouseListener(new MouseAdapter() {
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			Database.play();
+		}
+	});
+	Start.setBounds(364, 534, 46, 32);
+	panel_1_1.add(Start);
 }
-
+}

@@ -1,3 +1,4 @@
+package Connection;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -11,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class FormFavourites {
@@ -42,6 +45,7 @@ public class FormFavourites {
 	 */
 	public FormFavourites() {
 		initialize();
+		frame.setLocationRelativeTo(null);
 	}
 
 	/**
@@ -101,6 +105,17 @@ public class FormFavourites {
 		panel.add(btnClose);
 		btnClose.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\close.png"));
 		btnClose.setFont(new Font("Dubai", Font.PLAIN, 11));
+		
+		JLabel Start = new JLabel("");
+		Start.setIcon(new ImageIcon(FormFavourites.class.getResource("/buttons/play.png")));
+		Start.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				Database.play();
+			}
+		});
+		Start.setBounds(410, 577, 37, 37);
+		panel.add(Start);
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);

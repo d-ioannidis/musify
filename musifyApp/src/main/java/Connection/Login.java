@@ -1,3 +1,5 @@
+package Connection;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -11,6 +13,8 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,10 +23,13 @@ import java.sql.Statement;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 
 
-public class Login{
+public class Login implements KeyListener {
 	
 	Connection con = null;
 	PreparedStatement pst =null;
@@ -38,6 +45,7 @@ public class Login{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					
 					Login window = new Login();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -46,10 +54,11 @@ public class Login{
 			}
 		});
 	}
-
+	
 	public Login() {
 		initialize();
-	}
+		frame.setLocationRelativeTo(null);
+		}
 
 	private void initialize(){
 		frame = new JFrame();
@@ -57,6 +66,9 @@ public class Login{
 		frame.setBounds(100, 100, 520, 534);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		
+		
+		
 		
 		JLabel lbLogin = new JLabel("Login");
 		lbLogin.setFont(new Font("Tahoma", Font.BOLD, 24));
@@ -96,6 +108,8 @@ public class Login{
 		
 		JButton btnEnter = new JButton("Login");
 		btnEnter.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\login.png"));
+		frame.getRootPane().setDefaultButton(btnEnter);
+		
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					
@@ -172,5 +186,58 @@ public class Login{
                 FormForgot.main(null);
             }
         });
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode()== KeyEvent.VK_ENTER) {
+		try {
+			
+			//Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","Sarap4610_Kof4665_Ioan4578_Alex4631");
+			
+			String username = textFieldUserN.getText();
+			String password = String.valueOf(passwordField.getPassword());
+			
+			
+			Statement stm = con.createStatement();
+			
+			String sql = "select ID, NAME, SURNAME, USERNAME, PASSWORD from register where USERNAME='"+username+"' and PASSWORD='"+password+"'";
+			ResultSet rs = stm.executeQuery(sql);
+			
+			
+			if(((ResultSet) rs).next()) {						
+				JOptionPane.showMessageDialog(null, "Welcome");
+				frame.dispose();
+				String[] user = {rs.getString("ID"), rs.getString("NAME"), rs.getString("SURNAME")};
+				FormMusify.main(user);
+			}else {
+				JOptionPane.showMessageDialog(null, "username or password is wrong...");
+				textFieldUserN.setText("");
+				passwordField.setText("");
+			}
+			
+			con.close();
+			
+			
+		}catch(Exception e1) {
+			System.out.println(e1.getMessage());
+		}
+		
+	}
+	}
+	
+	
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
