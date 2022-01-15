@@ -62,7 +62,7 @@ public class Login implements KeyListener {
 
 	private void initialize(){
 		frame = new JFrame();
-		frame.getContentPane().setBackground(Color.GRAY);
+		frame.getContentPane().setBackground(Color.DARK_GRAY);
 		frame.setBounds(100, 100, 520, 534);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -71,16 +71,19 @@ public class Login implements KeyListener {
 		
 		
 		JLabel lbLogin = new JLabel("Login");
+		lbLogin.setForeground(Color.WHITE);
 		lbLogin.setFont(new Font("Tahoma", Font.BOLD, 24));
 		lbLogin.setBounds(192, 11, 122, 31);
 		frame.getContentPane().add(lbLogin);
 		
 		JLabel lblUsername = new JLabel("Username :");
+		lblUsername.setForeground(Color.WHITE);
 		lblUsername.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblUsername.setBounds(33, 119, 87, 14);
 		frame.getContentPane().add(lblUsername);
 		
 		JLabel lblPass = new JLabel("Password :");
+		lblPass.setForeground(Color.WHITE);
 		lblPass.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblPass.setBounds(33, 166, 87, 14);
 		frame.getContentPane().add(lblPass);
@@ -91,14 +94,14 @@ public class Login implements KeyListener {
 		textFieldUserN.setColumns(10);
 		
 		JButton btnClose = new JButton("");
-		btnClose.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\close.png"));
+		btnClose.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musify-main\\musifyApp\\src\\main\\java\\buttons\\close.png"));
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
 				System.exit(0);
 			}
 		});
-		btnClose.setBounds(10,11,37,31);
+		btnClose.setBounds(10,11,43,39);
 		frame.getContentPane().add(btnClose);
 		
 		JButton btnForget = new JButton("Forgot your password?");
@@ -107,7 +110,7 @@ public class Login implements KeyListener {
 
 		
 		JButton btnEnter = new JButton("Login");
-		btnEnter.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\login.png"));
+		btnEnter.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musify-main\\musifyApp\\src\\main\\java\\buttons\\login.png"));
 		frame.getRootPane().setDefaultButton(btnEnter);
 		
 		btnEnter.addActionListener(new ActionListener() {
@@ -116,7 +119,7 @@ public class Login implements KeyListener {
 				try {
 					
 					//Class.forName("com.mysql.jdbc.Driver");
-					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","Sarap4610_Kof4665_Ioan4578_Alex4631");
+					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","");
 					
 					String username = textFieldUserN.getText();
 					String password = String.valueOf(passwordField.getPassword());
@@ -176,7 +179,7 @@ public class Login implements KeyListener {
 		frame.getContentPane().add(passwordField);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
+		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musify-main\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
 		lblNewLabel.setBounds(0, 0, 504, 495);
 		frame.getContentPane().add(lblNewLabel);
 		
@@ -200,7 +203,7 @@ public class Login implements KeyListener {
 		try {
 			
 			//Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","Sarap4610_Kof4665_Ioan4578_Alex4631");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","");
 			
 			String username = textFieldUserN.getText();
 			String password = String.valueOf(passwordField.getPassword());
