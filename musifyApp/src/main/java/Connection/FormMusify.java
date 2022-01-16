@@ -183,8 +183,8 @@ public class FormMusify{
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				database.play();
-				/*
+				//database.play();
+				
 				if (YTlink != null) {
 					openWebpage(YTlink);
 				}
@@ -370,7 +370,7 @@ public class FormMusify{
 			}
 		});
 		
-		for (int i=2; i<=3; i++) {
+		for (int i=3; i<=4; i++) {
 			DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 			centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 			table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
@@ -444,13 +444,15 @@ public class FormMusify{
 	    		
 	    		String favNickname = favourites.get(j).getArtistNickname().toLowerCase().trim();
 	    		String favTrack = favourites.get(j).getTrack().toLowerCase().trim();
+	    		//String favCategory = favourites.get(j).getCategory().toLowerCase().trim();
 	    		
 	    		for (int i = 0; i < table.getRowCount(); i++) {  // Loop through the rows	 
 	    	    	String tblNickname = table.getValueAt(i, 0).toString().toLowerCase().trim();
 	    	    	String tblTrack = table.getValueAt(i, 1).toString().toLowerCase().trim();
+	    	    	//String tblCategory = table.getValueAt(i, 2).toString().toLowerCase().trim();
 	    		
-	    	    	if ( favNickname.equals(tblNickname) && favTrack.equals(tblTrack) ) {	    			
-	    	    		table.setValueAt("\u2764", i, 2);				
+	    	    	if ( favNickname.equals(tblNickname) && favTrack.equals(tblTrack)) {	    			
+	    	    		table.setValueAt("\u2764", i, 3);				
 	    			
 	    	    	}
 	    		
@@ -466,13 +468,15 @@ public class FormMusify{
 	    		
 	    		String playlistNickname = playlist.get(j).getArtistNickname().toLowerCase().trim();
 	    		String playlistTrack = playlist.get(j).getTrack().toLowerCase().trim();
+	    		//String playlistCategory = playlist.get(j).getCategory().toLowerCase().trim();
 	    		
 	    		for (int i = 0; i < table.getRowCount(); i++) {  // Loop through the rows	 
 	    	    	String tblNickname = table.getValueAt(i, 0).toString().toLowerCase().trim();
 	    	    	String tblTrack = table.getValueAt(i, 1).toString().toLowerCase().trim();
+	    	    	//String tblCategory = table.getValueAt(i, 4).toString().toLowerCase().trim();
 	    		
-	    	    	if ( playlistNickname.equals(tblNickname) && playlistTrack.equals(tblTrack) ) {	    			
-	    	    		table.setValueAt("\u266B", i, 3);				
+	    	    	if ( playlistNickname.equals(tblNickname) && playlistTrack.equals(tblTrack)) {	    			
+	    	    		table.setValueAt("\u266B", i, 4);				
 	    			
 	    	    	}
 	    		
@@ -677,17 +681,21 @@ public class FormMusify{
 				int col = table.columnAtPoint(point);
 				String artist_nickname = table.getModel().getValueAt(row, 0).toString();
 				String track = table.getModel().getValueAt(row, 1).toString();   
+				String category = table.getModel().getValueAt(row, 2).toString();
+				
 				YTlink = database.PlayYTSong(track);
 				searchArtist(artist_nickname);
 	
-				if (col == 2) {
+				if (col == 3) {
 					
 					if(table.getModel().getValueAt(row, col) == "\u2764") {						
 						
 						database.deleteFavourite(
 								Integer.parseInt(getUser_id()), 
 								artist_nickname, 
-								track);
+								track,
+								category
+								);
 						
 						displayFavourites();
 						table.getModel().setValueAt("",row,col);
@@ -695,21 +703,23 @@ public class FormMusify{
 					}
 					else {						
 						
-						database.addFavourite(Integer.parseInt(getUser_id()),artist_nickname,track);
+						database.addFavourite(Integer.parseInt(getUser_id()),artist_nickname,track,category);
 						
 						displayFavourites();
 						table.getModel().setValueAt("\u2764",row,col);
 					}
 				}
 				
-				if (col == 3) {
+				if (col == 4) {
 					
 					if(table.getModel().getValueAt(row, col) == "\u266B") {						
 						
 						database.deletePlaylist(
 								Integer.parseInt(getUser_id()),
 								artist_nickname,
-								track);
+								track,
+								category
+								);
 						
 						displayPlaylist();
 						table.getModel().setValueAt("",row,col);
@@ -720,11 +730,14 @@ public class FormMusify{
 						database.addToPlaylist(
 								Integer.parseInt(getUser_id()), 
 								artist_nickname, 
-								track);
+								track,
+								category
+								);
 						
 						displayPlaylist();
 						table.getModel().setValueAt("\u266B",row,col);
 					}
+					
 				}
 			}
 		});

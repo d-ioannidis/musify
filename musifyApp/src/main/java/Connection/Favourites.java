@@ -3,18 +3,21 @@ public class Favourites {
 	private Integer register_id;
 	private String artist_nickname;
     private String track;
+    private String category;
    
     
     public Favourites(
     		Integer register_id,
     		String artist_nickname,
-    		String track
+    		String track,
+    		String category
     		
     		) {
     	
     	this.setId(register_id);
     	this.setArtistNickname(artist_nickname);
     	this.setTrack(track);
+    	this.setCategory(category);
     	    	
 		
     }  
@@ -43,5 +46,11 @@ public class Favourites {
 		this.track = track;
 	}
 
+	public String getCategory() {
+		return category;
+	}
 	
+	public void setCategory(String category) {
+		this.category = category;
+	}
 }

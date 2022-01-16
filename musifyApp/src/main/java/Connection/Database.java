@@ -2,6 +2,7 @@ package Connection;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.plaf.basic.BasicBorders;
 import javax.swing.table.DefaultTableModel;
 
 import javazoom.jl.decoder.JavaLayerException;
@@ -426,14 +427,14 @@ public class Database {
 		return flag;
 	}
 	
-public void addFavourite(int register_id, String artist_nickname, String track) {
+public void addFavourite(int register_id, String artist_nickname, String track, String category) {
 		
 		try {
 		
 		conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		
 		
-		String sql_query = "INSERT INTO favourites (register_id, artist, track) VALUES (?,?,?)";
+		String sql_query = "INSERT INTO favourites (register_id, artist, track, category) VALUES (?,?,?,?)";
 		
 		
 		PreparedStatement preparedStmt = conn.prepareStatement(sql_query);
@@ -442,7 +443,7 @@ public void addFavourite(int register_id, String artist_nickname, String track) 
 		preparedStmt.setInt(1, register_id);
 		preparedStmt.setString(2, artist_nickname);
 		preparedStmt.setString(3, track);
-		
+		preparedStmt.setString(4, category);
 		
 		preparedStmt.execute();
 		
@@ -475,17 +476,18 @@ public void addFavourite(int register_id, String artist_nickname, String track) 
 			
 	}
 
-public void deleteFavourite(int register_id, String artist_nickname, String track) {
+public void deleteFavourite(int register_id, String artist_nickname, String track, String category) {
 	
 	try {
 	
 	conn = DriverManager.getConnection(DB_URL, USER, PASS);
 	
-	String query = "DELETE FROM favourites WHERE register_id = ? AND artist = ? AND track = ?";
+	String query = "DELETE FROM favourites WHERE register_id = ? AND artist = ? AND track = ? AND category =?";
     PreparedStatement preparedStmt = conn.prepareStatement(query);
     preparedStmt.setInt(1, register_id);
     preparedStmt.setString(2, artist_nickname);
 	preparedStmt.setString(3, track);    
+	preparedStmt.setString(4,category);
 	
 	
 	preparedStmt.execute();
@@ -526,7 +528,7 @@ public List<Favourites> getFavourites(){
          conn = DriverManager.getConnection(DB_URL, USER, PASS);
          stmt = conn.createStatement();
          String sql;
-         sql = "SELECT register_id, artist, track FROM favourites";
+         sql = "SELECT register_id, artist, track, category FROM favourites";
          ResultSet rs = stmt.executeQuery(sql);
          
          
@@ -536,7 +538,8 @@ public List<Favourites> getFavourites(){
         	 favourites.add(new Favourites(
 	            		rs.getInt("register_id"), 
 	            		rs.getString("artist"), 
-	            		rs.getString("track")
+	            		rs.getString("track"),
+	            		rs.getString("category")
 	            		));
 	         }    
          
@@ -573,16 +576,16 @@ public List<Favourites> getFavourites(){
 
 
 public DefaultTableModel selectDataArtist() {
-    DefaultTableModel dm = new DefaultTableModel(0, 0);
+    DefaultTableModel dm = new DefaultTableModel(0,0);
     try {
        conn = DriverManager.getConnection(DB_URL, USER, PASS);
        stmt = conn.createStatement();
        String sql;
-       sql = "SELECT NICKNAME, TRACK_NAME FROM artist,tracks,participate WHERE (artist.ID_ARTIST = participate.ID_ARTIST) AND (tracks.id_tracks = participate.id_tracks) "
+       sql = "SELECT NICKNAME, TRACK_NAME, CATEGORY FROM artist,tracks,participate WHERE (artist.ID_ARTIST = participate.ID_ARTIST) AND (tracks.id_tracks = participate.id_tracks) "
        		+ "ORDER BY TRACK_NAME";
        ResultSet rs = stmt.executeQuery(sql);
        JTable tblTaskList = new JTable();
-       String header[] = new String[] {"Nickname", "Track", "\u2764","\u266B"};
+       String header[] = new String[] {"Nickname", "Track","Category","\u2764","\u266B"};
        dm.setColumnIdentifiers(header);
        tblTaskList.setModel(dm);     
        
@@ -591,6 +594,7 @@ public DefaultTableModel selectDataArtist() {
           Vector<Object> data = new Vector<Object>();
           data.add(rs.getString(1));
           data.add(rs.getString(2));
+          data.add(rs.getString(3));
           
           dm.addRow(data);
        }
@@ -628,11 +632,11 @@ public DefaultTableModel selectFavourites() {
        conn = DriverManager.getConnection(DB_URL, USER, PASS);
        stmt = conn.createStatement();
        String sql;
-       sql = "SELECT ARTIST, TRACK FROM FAVOURITES "
+       sql = "SELECT artist,track,category FROM FAVOURITES "
                + "ORDER BY TRACK";
        ResultSet rs = stmt.executeQuery(sql);
        JTable tblTaskList = new JTable();
-       String header[] = new String[] {"Nickname", "Track", "\u2764"};
+       String header[] = new String[] {"Nickname", "Track","Category"};
        dm.setColumnIdentifiers(header);
        tblTaskList.setModel(dm);
 
@@ -641,6 +645,7 @@ public DefaultTableModel selectFavourites() {
           Vector<Object> data = new Vector<Object>();
           data.add(rs.getString(1));
           data.add(rs.getString(2));
+          data.add(rs.getString(3));
 
           dm.addRow(data);
        }
@@ -671,19 +676,20 @@ public DefaultTableModel selectFavourites() {
     }
     return dm;
  }
-public void addToPlaylist(int register_id, String artist_nickname, String track) {
+public void addToPlaylist(int register_id, String artist_nickname, String track, String category) {
 	
 	try {
 	
 	conn = DriverManager.getConnection(DB_URL, USER, PASS);
 	
 	
-	String sql_query = "INSERT INTO playlist (register_id, artist, track) VALUES (?,?,?)";
+	String sql_query = "INSERT INTO playlist (register_id, artist, track, category) VALUES (?,?,?,?)";
 	
 	PreparedStatement preparedStmt = conn.prepareStatement(sql_query);
 	preparedStmt.setInt(1, register_id);
 	preparedStmt.setString(2, artist_nickname);
 	preparedStmt.setString(3, track);
+	preparedStmt.setString(4, category);;
 	
 	
 	preparedStmt.execute();
@@ -717,16 +723,17 @@ public void addToPlaylist(int register_id, String artist_nickname, String track)
 		
 }
 
-public void deletePlaylist(int register_id, String artist_nickname, String track) {
+public void deletePlaylist(int register_id, String artist_nickname, String track, String category) {
 	try {
 		
 		conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		
-		String sql_delete = "DELETE FROM playlist WHERE register_id = ? AND artist = ? AND track = ?";
+		String sql_delete = "DELETE FROM playlist WHERE register_id = ? AND artist = ? AND track = ? AND category = ?";
 		PreparedStatement preparedStmt = conn.prepareStatement(sql_delete);
 		preparedStmt.setInt(1, register_id);
 		preparedStmt.setString(2, artist_nickname);
 		preparedStmt.setString(3, track);
+		preparedStmt.setString(4,category);
 		
 		
 		preparedStmt.execute();
@@ -758,16 +765,16 @@ public void deletePlaylist(int register_id, String artist_nickname, String track
 	}
 }
 public DefaultTableModel selectPlaylist() {
-    DefaultTableModel dm = new DefaultTableModel(0, 0);
+    DefaultTableModel dm = new DefaultTableModel(0,0);
     try {
        conn = DriverManager.getConnection(DB_URL, USER, PASS);
        stmt = conn.createStatement();
        String sql;
-       sql = "SELECT ARTIST, TRACK FROM PLAYLIST "
+       sql = "SELECT artist, track, category FROM PLAYLIST "
                + "ORDER BY TRACK";
        ResultSet rs = stmt.executeQuery(sql);
        JTable tblTaskList = new JTable();
-       String header[] = new String[] {"Nickname", "Track", "\u2764"};
+       String header[] = new String[]{"Nickname", "Track","Category"};
        dm.setColumnIdentifiers(header);
        tblTaskList.setModel(dm);
 
@@ -775,6 +782,9 @@ public DefaultTableModel selectPlaylist() {
           Vector<Object> data = new Vector<Object>();
           data.add(rs.getString(1));
           data.add(rs.getString(2));
+          data.add(rs.getString(3));
+          //data.add(rs.getString(4));
+          
 
           dm.addRow(data);
        }
@@ -812,7 +822,7 @@ public List<Playlist> getPlaylist(){
          conn = DriverManager.getConnection(DB_URL, USER, PASS);
          stmt = conn.createStatement();
          String sql;
-         sql = "SELECT register_id, artist, track FROM playlist";
+         sql = "SELECT register_id, artist, track, category FROM playlist";
          ResultSet rs = stmt.executeQuery(sql);
          
          
@@ -822,7 +832,8 @@ public List<Playlist> getPlaylist(){
         	 playlist.add(new Playlist(
 	            		rs.getInt("register_id"), 
 	            		rs.getString("artist"), 
-	            		rs.getString("track")
+	            		rs.getString("track"),
+	            		rs.getString("category")
 	            		));
 	     }    
          
@@ -1275,7 +1286,7 @@ public String PlayYTSong (String track) {
             }
         }
 
-    } 
+    }
 
 }
 

@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 import java.awt.Color;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -69,9 +71,9 @@ public class FormPlaylist {
 		img.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
 		
 		tablePlaylist = new JTable();
-		tablePlaylist.setModel(database.showRock());
+		tablePlaylist.setModel(database.selectPlaylist());
 		//tablePlaylist.getColumnModel().getColumn(3).setPreferredWidth(50);
-		tablePlaylist.getColumnModel().getColumn(3).setMaxWidth(50);
+		tablePlaylist.getColumnModel().getColumn(2).setMaxWidth(50);
 		tablePlaylist.setBounds(420, 59, 303, 464);
 		panel_1_1.add(tablePlaylist);
 		
