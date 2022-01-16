@@ -10,10 +10,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.awt.Color;
 
 
 public class InsertPhoto extends JFrame{
-    JButton btnInsert ;
+	JButton btnInsert ;
     JButton button2;
     JLabel label;
     String s;
@@ -23,7 +24,9 @@ public class InsertPhoto extends JFrame{
     JTextField Bday;
     JTextField ftn;
     JTextField Nation;
+    private JLabel lblNewLabel;
     public InsertPhoto(){
+    	getContentPane().setBackground(Color.DARK_GRAY);
     	
         
     	textName = new JTextField("Name");
@@ -81,7 +84,7 @@ public class InsertPhoto extends JFrame{
        @Override
        public void actionPerformed(ActionEvent e){
            try{
-               Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","Sarap4610_Kof4665_Ioan4578_Alex4631");
+               Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","giwrgos2131");
                PreparedStatement ps = con.prepareStatement("insert into artist(NAME,LASTNAME,NICKNAME,BIRTHDAY,FIRST_TRACK_DATE,NATIONALITY,PHOTO_ARTIST) values(?,?,?,?,?,?,?)");
                InputStream is = new FileInputStream(new File(s));   
                ps.setString(1, textName.getText());
@@ -108,6 +111,12 @@ public class InsertPhoto extends JFrame{
     getContentPane().add(btnInsert);
     getContentPane().add(button2);
     getContentPane().setLayout(null);
+    
+    lblNewLabel = new JLabel("");
+    lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+    lblNewLabel.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musify-main\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
+    lblNewLabel.setBounds(0, 0, 784, 381);
+    getContentPane().add(lblNewLabel);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setSize(800,420);
     setVisible(true);
@@ -125,5 +134,4 @@ public class InsertPhoto extends JFrame{
     public static void main(String[] args){
         new InsertPhoto();
     }
-    
    }

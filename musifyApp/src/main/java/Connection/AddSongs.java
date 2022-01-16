@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Font;
+import javax.swing.ImageIcon;
+import java.awt.Color;
 
 public class AddSongs {
 	
@@ -33,34 +35,38 @@ public class AddSongs {
 		
 		//new frame
 		final JFrame frame = new JFrame();
-        frame.setSize(500,300);
+		frame.getContentPane().setBackground(Color.DARK_GRAY);
+        frame.setSize(500,390);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
         //Label track name
         JLabel trName = new JLabel("Track name");
+        trName.setForeground(Color.WHITE);
         trName.setFont(new Font("Tahoma", Font.PLAIN, 13));
         trName.setBounds(20,46,100,25);
         frame.getContentPane().add(trName);
         //Close button
-        JButton btnClose = new JButton("Close");
+        JButton btnClose = new JButton("");
+        btnClose.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musify-main\\musifyApp\\src\\main\\java\\buttons\\close.png"));
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
 				System.exit(0);
 			}
 		});
-		btnClose.setBounds(20,230,100,25);
+		btnClose.setBounds(20,301,43,39);
 		frame.getContentPane().add(btnClose);
 		
   
        
         //Previous button update to InsertPhoto.java
-       JButton btnPrev = new JButton("Previous");
-       btnPrev.setBounds(370, 230, 100, 25);
+       JButton btnPrev = new JButton("");
+       btnPrev.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musify-main\\musifyApp\\src\\main\\java\\buttons\\back.png"));
+       btnPrev.setBounds(427, 301, 43, 39);
        btnPrev.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				 frame.dispose();
-	                InsertDataArtist.main(null);
+	                InsertPhoto.main(null);
 				
 			}
         });
@@ -94,6 +100,7 @@ public class AddSongs {
        frame.getContentPane().add(btnImport);	
        
        JLabel lblCategory = new JLabel("Category");
+       lblCategory.setForeground(Color.WHITE);
        lblCategory.setFont(new Font("Tahoma", Font.PLAIN, 13));
        lblCategory.setBounds(20, 93, 100, 25);
        frame.getContentPane().add(lblCategory);
@@ -104,6 +111,7 @@ public class AddSongs {
        textFieldCategory.setColumns(10);
        
        JLabel lblAddaSong = new JLabel("Add A Song");
+       lblAddaSong.setForeground(Color.WHITE);
        lblAddaSong.setFont(new Font("Tahoma", Font.BOLD, 16));
        lblAddaSong.setBounds(190, 11, 118, 25);
        frame.getContentPane().add(lblAddaSong);
@@ -115,10 +123,11 @@ public class AddSongs {
     		   Intro.main(null);
     	   }
        });
-       btnReturnToIntro.setBounds(167, 229, 129, 25);
+       btnReturnToIntro.setBounds(179, 315, 129, 25);
        frame.getContentPane().add(btnReturnToIntro);
        
        JLabel lblLinkOfTrack = new JLabel("Link of track");
+       lblLinkOfTrack.setForeground(Color.WHITE);
        lblLinkOfTrack.setFont(new Font("Tahoma", Font.PLAIN, 13));
        lblLinkOfTrack.setBounds(20, 142, 69, 14);
        frame.getContentPane().add(lblLinkOfTrack);
@@ -127,6 +136,11 @@ public class AddSongs {
        textFieldLinks.setBounds(155, 140, 180, 20);
        frame.getContentPane().add(textFieldLinks);
        textFieldLinks.setColumns(10);
+       
+       JLabel lblNewLabel = new JLabel("");
+       lblNewLabel.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musify-main\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
+       lblNewLabel.setBounds(0, 0, 484, 351);
+       frame.getContentPane().add(lblNewLabel);
        frame.setLocationRelativeTo(null);
        frame.setVisible(true);
 			}
