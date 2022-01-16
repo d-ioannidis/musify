@@ -3,6 +3,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -10,6 +11,8 @@ import javax.swing.JScrollPane;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Point;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -22,6 +25,7 @@ import java.awt.event.MouseEvent;
 
 public class FormPlaylist {
 
+	protected static String YTlink = null;
 	private JFrame frame;
 	private JTable tablePlaylist;
 	private Database database = new Database();
@@ -66,11 +70,26 @@ public class FormPlaylist {
 		
 		JLabel img = new JLabel("");
 		img.setHorizontalAlignment(SwingConstants.CENTER);
-		img.setBounds(0, 0, 410, 523);
+		img.setBounds(0, 0, 421, 523);
 		panel_1_1.add(img);
-		img.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
+		img.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musify-main\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
 		
 		tablePlaylist = new JTable();
+		tablePlaylist.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Point point = e.getPoint();
+				int row = tablePlaylist.rowAtPoint(point);
+				int col = tablePlaylist.columnAtPoint(point);
+				String artist_nickname = tablePlaylist.getModel().getValueAt(row, 0).toString();
+				String track = tablePlaylist.getModel().getValueAt(row, 1).toString();   
+				String category = tablePlaylist.getModel().getValueAt(row, 2).toString();
+				
+				YTlink = database.PlayYTSong(track);
+				database.SearchDataArtist(artist_nickname);
+				
+			}
+		});
 		tablePlaylist.setModel(database.selectPlaylist());
 		//tablePlaylist.getColumnModel().getColumn(3).setPreferredWidth(50);
 		tablePlaylist.getColumnModel().getColumn(2).setMaxWidth(50);
@@ -93,7 +112,7 @@ public class FormPlaylist {
 		panel.add(lblNewLabel_1);
 		
 		JButton btnBack = new JButton("");
-		btnBack.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\back.png"));
+		btnBack.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musify-main\\musifyApp\\src\\main\\java\\buttons\\close.png"));
 		btnBack.setBounds(21, 539, 63, 47);
 		panel_1_1.add(btnBack);
 		btnBack.setFont(new Font("Dubai", Font.PLAIN, 14));
@@ -105,16 +124,20 @@ public class FormPlaylist {
 			}
 		});
 		btnBack.setBackground(Color.WHITE);
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(275, 59, 150, 464);
-		panel_1_1.add(panel_1);
 	JLabel Start = new JLabel("");
 	Start.setIcon(new ImageIcon(FormPlaylist.class.getResource("/buttons/play.png")));
 	Start.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			Database.play();
+			//Database.play();
+			
+			if (YTlink != null) {
+				Database.openWebpage(YTlink);
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "You didn't select a song or the song selected doesn't have a Youtube link.");
+			}
+		
 		}
 	});
 	Start.setBounds(364, 534, 46, 32);

@@ -9,6 +9,7 @@ import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
 import java.awt.Container;
+import java.awt.Desktop;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -27,7 +28,7 @@ public class Database {
 	static final String DB_URL = "jdbc:mysql://localhost:3306/mydb";
 	
 	static final String USER = "root";
-	static final String PASS = "Sarap4610_Kof4665_Ioan4578_Alex4631";
+	static final String PASS = "giwrgos2131";
 	
 	
 	
@@ -214,7 +215,7 @@ public class Database {
 	public static void main(String[]args) {
 		String url = "jdbc:mysql://localhost:3306/mydb";
 		String username = "root";
-		String password = "Sarap4610_Kof4665_Ioan4578_Alex4631";
+		String password = "giwrgos2131";
 		
 		System.out.println("Connecting to server...");
 		try(Connection connection = DriverManager.getConnection(url, username, password)){
@@ -919,7 +920,7 @@ static Connection c;
 public static Connection getCon() throws Exception {
     if(c == null) {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        c= DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","Sarap4610_Kof4665_Ioan4578_Alex4631");
+        c= DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","giwrgos2131");
 
     }
     return c;
@@ -1287,8 +1288,16 @@ public String PlayYTSong (String track) {
         }
 
     }
-
-}
-
+	
+	
+	//open web page
+	 public static void openWebpage(String urlString) {
+         try {
+             Desktop.getDesktop().browse(new URL(urlString).toURI());
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+     }
 	
 
+}
