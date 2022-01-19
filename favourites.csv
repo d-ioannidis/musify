@@ -1,6 +1,12 @@
-favourite_id,artist,track,register_id
-3,"Sakis Rouvas",1992,1
-4,"Ariana Grande","Into You",1
-5,"Mad Clip",Areti,1
-7,"Ed Sheeran","Bad Habits",1
-8,"Ed Sheeran","Bad Habits",1
+favourite_id,artist,track,register_id,category
+4,"Ariana Grande","Into You",1,Pop
+5,"Mad Clip",Areti,1,Trap
+9,"Justin Timberlake","Ayo Technology Ft. 50 Cent",1,"Hip Hop"
+11,"Mad Clip",Baby,1,Trap
+12,"50 Cent","I Ain't Gonna Lie",1,"Hip Hop"
+13,"Ariana Grande","7 Rings",1,Pop
+14,"Camila Cabello","Don't Go Yet",1,Pop
+15,"Ed Sheeran","First Times",1,Pop
+16,"Des Rocs","Suicide Romantics",1,Rock
+17,"Ed Sheeran","Bad Habits",1,Pop
+18,"50 Cent","Just A Lil Bit",1,"Hip Hop"
