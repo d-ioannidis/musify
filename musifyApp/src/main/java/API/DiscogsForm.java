@@ -1,32 +1,53 @@
 package API;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.Font;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
 import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import Connection.Database;
+import chrriis.dj.nativeswing.swtimpl.NativeInterface;
+import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 
-public class DiscogsForm {
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+
+import javax.swing.JTextArea;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+
+import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.SystemColor;
+
+public class DiscogsForm extends JFrame {
 	
 	private DiscogsAPIv2 discogs_api = new DiscogsAPIv2();
 
@@ -51,7 +72,7 @@ public class DiscogsForm {
 	private JLabel lblCountryVal = new JLabel("");
 	private JTable tableTracklist;
 	private JTable tableArtists;
-	
+	private JButton btnPlay = new JButton("Play");
 	
 	/**
 	 * Launch the application.
@@ -67,6 +88,8 @@ public class DiscogsForm {
 				}
 			}
 		});
+		
+		
 	}
 
 	/**
@@ -88,13 +111,14 @@ public class DiscogsForm {
 		frame = new JFrame();		
 		
 		frame.setTitle("Musify App 1.0");        
-        frame.setSize((screenSize.width*67)/100, (screenSize.height*64)/100);
+        //frame.setSize((screenSize.width*67)/100, (screenSize.height*64)/100);
+        frame.setSize(1320,700);
 		
 		// 2. Calculates the position where the CenteredJFrame
         // should be paced on the screen.
         int x = (screenSize.width - frame.getWidth()) / 2;
         int y = (screenSize.height - frame.getHeight()) / 2;
-        frame.setLocation(x, y);
+        //frame.setLocation(x, y);
 		
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -107,24 +131,24 @@ public class DiscogsForm {
 		
 		JLabel lblArtist = new JLabel("Artist:");
 		lblArtist.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblArtist.setBounds(206, 54, 71, 28);
+		lblArtist.setBounds(167, 54, 71, 28);
 		panel.add(lblArtist);
 		
 		txtArtist = new JTextField();
 		txtArtist.setFont(new Font("Dialog", Font.PLAIN, 14));
-		txtArtist.setBounds(271, 52, 225, 34);
+		txtArtist.setBounds(239, 52, 228, 34);
 		panel.add(txtArtist);
 		txtArtist.setColumns(10);
 		
 		JLabel lblTrack = new JLabel("Track:");
 		lblTrack.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblTrack.setBounds(206, 12, 71, 28);
+		lblTrack.setBounds(167, 12, 71, 28);
 		panel.add(lblTrack);
 		
 		txtTrack = new JTextField();
 		txtTrack.setFont(new Font("Dialog", Font.PLAIN, 14));
 		txtTrack.setColumns(10);
-		txtTrack.setBounds(271, 10, 225, 34);
+		txtTrack.setBounds(239, 10, 228, 34);
 		panel.add(txtTrack);
 		
 		final JButton btnSearch = new JButton("Search");
@@ -263,7 +287,7 @@ public class DiscogsForm {
 		
 		JLabel lblGenre = new JLabel("Genre:");
 		lblGenre.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblGenre.setBounds(506, 12, 71, 28);
+		lblGenre.setBounds(485, 12, 81, 28);
 		panel.add(lblGenre);
 		
 		txtGenre = new JTextField();
@@ -285,7 +309,7 @@ public class DiscogsForm {
 		
 		JLabel lblCountry = new JLabel("Country:");
 		lblCountry.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblCountry.setBounds(506, 54, 71, 28);
+		lblCountry.setBounds(485, 54, 81, 28);
 		panel.add(lblCountry);
 		
 		txtCountry = new JTextField();
@@ -304,7 +328,7 @@ public class DiscogsForm {
 		txtPage.setText("1");
 		txtPage.setFont(new Font("Dialog", Font.PLAIN, 14));
 		txtPage.setColumns(10);
-		txtPage.setBounds(113, 10, 78, 34);
+		txtPage.setBounds(101, 10, 48, 34);
 		panel.add(txtPage);
 		
 		JLabel lblPerpage = new JLabel("Per Page:");
@@ -317,7 +341,7 @@ public class DiscogsForm {
 		txtPerpage.setText("6");
 		txtPerpage.setFont(new Font("Dialog", Font.PLAIN, 14));
 		txtPerpage.setColumns(10);
-		txtPerpage.setBounds(110, 52, 78, 34);
+		txtPerpage.setBounds(101, 52, 48, 34);
 		panel.add(txtPerpage);
 		
 		JPanel mainPanel = new JPanel();
@@ -329,7 +353,7 @@ public class DiscogsForm {
 		lblArtistImage.setBackground(new Color(255, 255, 255));
 		
 		
-		lblArtistImage.setBounds(12, 59, 373, 194);
+		lblArtistImage.setBounds(12, 59, 373, 183);
 		mainPanel.add(lblArtistImage);
 		
 		
@@ -347,7 +371,7 @@ public class DiscogsForm {
 		txtProfile.setBounds(541, 75, 499, 310);
 		
 		JLabel lblAlbumLabel = new JLabel(" Albums");
-		lblAlbumLabel.setBounds(0, 409, 976, 32);
+		lblAlbumLabel.setBounds(0, 381, 976, 32);
 		mainPanel.add(lblAlbumLabel);
 		lblAlbumLabel.setForeground(Color.WHITE);
 		lblAlbumLabel.setHorizontalAlignment(SwingConstants.LEFT);
@@ -356,11 +380,11 @@ public class DiscogsForm {
 		lblAlbumLabel.setFont(new Font("Dialog", Font.BOLD, 18));
 		
 		JScrollPane scrollPaneProfile = new JScrollPane(txtProfile);
-		scrollPaneProfile.setBounds(395, 11, 577, 297);
+		scrollPaneProfile.setBounds(395, 11, 577, 242);
 		mainPanel.add(scrollPaneProfile);
 		
 		JPanel panelAlbums = new JPanel();
-		panelAlbums.setBounds(0, 440, 976, 96);
+		panelAlbums.setBounds(0, 414, 976, 122);
 		mainPanel.add(panelAlbums);
 		panelAlbums.setLayout(null);
 		
@@ -368,21 +392,21 @@ public class DiscogsForm {
 		tableAlbum.setFont(new Font("Dialog", Font.PLAIN, 14));
 		
 		JScrollPane scrollPaneAlbums = new JScrollPane(tableAlbum);
-		scrollPaneAlbums.setBounds(0, 0, 976, 96);
+		scrollPaneAlbums.setBounds(0, 0, 976, 122);
 		
 		panelAlbums.add(scrollPaneAlbums);
 		
-		JLabel lblARtistLabel = new JLabel("Artists");
+		JLabel lblARtistLabel = new JLabel(" Artists");
 		lblARtistLabel.setOpaque(true);
 		lblARtistLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		lblARtistLabel.setForeground(Color.WHITE);
 		lblARtistLabel.setFont(new Font("Dialog", Font.BOLD, 18));
 		lblARtistLabel.setBackground(new Color(0, 128, 128));
-		lblARtistLabel.setBounds(0, 309, 976, 32);
+		lblARtistLabel.setBounds(0, 254, 976, 32);
 		mainPanel.add(lblARtistLabel);
 		
 		JPanel panelArtists = new JPanel();
-		panelArtists.setBounds(0, 340, 976, 70);
+		panelArtists.setBounds(0, 284, 976, 96);
 		mainPanel.add(panelArtists);
 		panelArtists.setLayout(null);
 		
@@ -391,7 +415,8 @@ public class DiscogsForm {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				String artist_id = tableArtists.getModel().getValueAt(tableArtists.getSelectedRow(),0).toString();
+				String artist_id = tableArtists.getModel().getValueAt(
+						tableArtists.getSelectedRow(),0).toString();
 				//System.out.println(artist_id);
 				
 				DefaultTableModel model = (DefaultTableModel) tableAlbum.getModel();
@@ -466,7 +491,7 @@ public class DiscogsForm {
 			}
 		});
 		JScrollPane scrollPaneArtists = new JScrollPane(tableArtists);
-		scrollPaneArtists.setBounds(0, 5, 976, 65);
+		scrollPaneArtists.setBounds(0, 5, 976, 91);
 		panelArtists.add(scrollPaneArtists);	
 		
 				
@@ -482,7 +507,7 @@ public class DiscogsForm {
 		});
 		lblAlbumImage.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		lblAlbumImage.setBounds(998, 12, 262, 148);
+		lblAlbumImage.setBounds(998, 12, 269, 148);
 		frame.getContentPane().add(lblAlbumImage);
 		
 		JLabel lblLabel = new JLabel("Genre:");
@@ -528,12 +553,26 @@ public class DiscogsForm {
 		panel_3.setLayout(null);
 		
 		tableTracklist = new JTable();
+		tableTracklist.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// Enable or Disable Play Button
+				String uri = tableTracklist.getModel().getValueAt(tableTracklist.getSelectedRow(),3).toString();
+				
+				if (uri.isEmpty() || uri.isBlank() || uri == null) {
+					btnPlay.setEnabled(false);
+				}
+				else {
+					btnPlay.setEnabled(true);
+				}
+			}
+		});
 		JScrollPane scrollPaneTracklist = new JScrollPane(tableTracklist);
 		scrollPaneTracklist.setBounds(0, 0, panel_3.getWidth(), panel_3.getHeight());
 		panel_3.add(scrollPaneTracklist);
 		
-		JButton btnAddTo = new JButton("Add Tracks");
-		btnAddTo.addMouseListener(new MouseAdapter() {
+		JButton btnSaveTracks = new JButton("Add Tracks");
+		btnSaveTracks.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Database db = new Database();
@@ -544,25 +583,41 @@ public class DiscogsForm {
 				if (row_count > 0) {
 					String track_name = null;
 					String track_genre = lblGenreVal.getText();
+					String links = null;
 					
 					for(int i=0; i < row_count; i++) {
 						track_name = tableTracklist.getModel().
 								getValueAt(i,2).toString();
+						links = tableTracklist.getModel().getValueAt(i, 3).toString();
 						
-						db.addTracks(track_name, track_genre);				
+						db.addTracks(track_name, track_genre, links);				
 					}				
 				}
 				
 			}
 		});
-		btnAddTo.setFont(new Font("Dialog", Font.BOLD, 12));
-		btnAddTo.setBounds(997, 607, 121, 34);
-		frame.getContentPane().add(btnAddTo);
+		btnSaveTracks.setFont(new Font("Dialog", Font.PLAIN, 12));
+		btnSaveTracks.setBounds(997, 607, 95, 34);
+		frame.getContentPane().add(btnSaveTracks);
 		
-		JButton btnAddToFavorites = new JButton("Add Artist");
-		btnAddToFavorites.setFont(new Font("Dialog", Font.BOLD, 12));
-		btnAddToFavorites.setBounds(1128, 607, 138, 34);
-		frame.getContentPane().add(btnAddToFavorites);
+		JButton btnSaveArtist = new JButton("Add Artist");
+		btnSaveArtist.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				Database db = new Database();
+				
+				String artist_name = tableArtists.getModel().getValueAt(tableArtists.getSelectedRow(),1).toString();
+				String artist_profile = tableArtists.getModel().getValueAt(tableArtists.getSelectedRow(),2).toString();
+				String artist_thumb = tableArtists.getModel().getValueAt(tableArtists.getSelectedRow(),3).toString();
+						 
+				db.addArtist(artist_name, artist_profile, artist_thumb);
+				
+			}
+		});
+		btnSaveArtist.setFont(new Font("Dialog", Font.PLAIN, 12));
+		btnSaveArtist.setBounds(1088, 607, 95, 34);
+		frame.getContentPane().add(btnSaveArtist);
 		txtAlbumTitleVal.setForeground(new Color(0, 0, 0));
 		txtAlbumTitleVal.setWrapStyleWord(true);
 		txtAlbumTitleVal.setBackground(new Color(250, 235, 215));
@@ -577,8 +632,22 @@ public class DiscogsForm {
 		scrollPane.setBounds(1000, 162, 267, 72);
 		frame.getContentPane().add(scrollPane);
 		
+		btnPlay.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				// Play Youtube video
+				String uri = tableTracklist.getModel().getValueAt(
+						tableTracklist.getSelectedRow(),3).toString();
+				
+				YouTubeViewer youtube = new YouTubeViewer(uri);					
+			}
+		});
+		btnPlay.setFont(new Font("Dialog", Font.PLAIN, 12));
+		btnPlay.setBounds(1180, 607, 88, 34);
+		btnPlay.setEnabled(false);
+		frame.getContentPane().add(btnPlay);
 	}
-	
 	// Custom methods
 	
 	private void displayArtist() {

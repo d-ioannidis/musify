@@ -1,23 +1,18 @@
 package API;
 
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -97,17 +92,41 @@ class DiscogsAlbum {
 class DiscogsTracklist {
 	String album_id = null;
 	String position = null;
-	String title = null;	
+	String title = null;
+	String youtube_uri = null;
 	
 	public DiscogsTracklist (
 			String album_id,
 			String position, 
-			String title 
+			String title,
+			String youtube_uri
 			) {
 		
 		this.album_id = album_id;
 		this.position = position;
-		this.title = title;		
+		this.title = title;	
+		this.youtube_uri = youtube_uri;
+	}
+
+}
+
+class DiscogsVideos {
+	String album_id = null;
+	String uri = null;
+	String title = null;
+	String description = null;
+	
+	public DiscogsVideos (
+			String album_id,
+			String uri, 
+			String title,
+			String description
+			) {
+		
+		this.album_id = album_id;
+		this.uri = uri;
+		this.title = title;	
+		this.description = description;
 	}
 
 }
@@ -127,6 +146,7 @@ public class DiscogsAPIv2 {
 	private Map <String, DiscogsArtist> artists = new LinkedHashMap <String, DiscogsArtist>( );
 	private Map <String, DiscogsAlbum> albums = new LinkedHashMap <String, DiscogsAlbum>( );
 	private List<DiscogsTracklist> track_list = new ArrayList<DiscogsTracklist> ();
+	
 	
 	public Map <String, DiscogsArtist> getArtists() {
 		
@@ -242,7 +262,7 @@ public class DiscogsAPIv2 {
 			    				artist_profile = artist_profile.replace("\\", "");
 			                }
 			                else {
-			                	artist_profile = "Not Found";
+			                	artist_profile = "";
 			                }
 			                artist_resource_url = jsonObj.optString("resource_url").toString().trim();
 			                
@@ -426,6 +446,7 @@ public class DiscogsAPIv2 {
 		
 		String track_position = "";
         String track_title = "";
+        String youtube_uri = "";
            
 		
 		String query = release_resource_url.trim();
@@ -528,28 +549,85 @@ public class DiscogsAPIv2 {
 		                			) );
 		                } 
 	                }
+					
+					// ***********************************************************************
+					
+					List <DiscogsVideos> youtube_videos = new ArrayList <DiscogsVideos>( );
+					
+					if(json.get("videos") != null) {
+						String jsonYoutubeList = json.get("videos").toString();
+						try
+				        {
+				            JSONArray jsonYoutubeArray = new JSONArray(jsonYoutubeList);				            
+				            			           
+				            for(int i=0; i < jsonYoutubeArray.length(); i++)
+				            {
+				               JSONObject jsonObj = jsonYoutubeArray.getJSONObject(i);             
+				                
+				               String uri = jsonObj.optString("uri").toString().trim().equals("") 
+					      				  ? "https://www.youtube.com/watch?v=C0DPdy98e4c" 
+					      				  : jsonObj.optString("uri").toString().trim();				               
+				               
+				               String title = jsonObj.optString("title").toString().trim();
+				               String description = jsonObj.optString("description").toString().trim();
+				               
+				               youtube_videos.add( new DiscogsVideos(
+				            		   album_id,
+				            		   uri,
+				            		   title,
+				            		   description));             
+				            }
+				        }
+				        catch (JSONException e)
+				        {
+				            e.printStackTrace();
+				        }
+					}
+					
+					// ***********************************************************************
 			        
+					//System.out.println(youtube_videos.size());
 			        String jsonTrackList = json.get("tracklist").toString();
 			        try
 			        {
-			            JSONArray jsonArray = new JSONArray(jsonTrackList);            
-
-			           
+			            JSONArray jsonArray = new JSONArray(jsonTrackList);
+			            
+			            //System.out.println(jsonArray.length());			           
 			            for(int i=0; i < jsonArray.length(); i++)
 			            {
-			                JSONObject jsonObj = jsonArray.getJSONObject(i);		                
+			                JSONObject jsonObj = jsonArray.getJSONObject(i);			                
+			                
 			                
 			                track_position = jsonObj.optString("position").toString().trim();
-			                track_title = jsonObj.optString("title").toString().trim();
+			                track_title = jsonObj.optString("title").toString().toLowerCase().trim();	
+			                String uri = "";
+			                
+			                Pattern pattern = Pattern.compile(track_title, Pattern.CASE_INSENSITIVE);
+			                //Matcher matcher = pattern.matcher("Visit W3Schools!");
+			                
+			                	
+			                	for (int j = 0; j < youtube_videos.size(); j ++) {
+			                		Matcher matcher = pattern.matcher(youtube_videos.get(j).title.toLowerCase().trim());
+			                		boolean matchFound = matcher.find();
+					                if(matchFound) {
+					                	uri = youtube_videos.get(j).uri;
+					                	//System.out.println("Match found");
+					                	//System.out.println(youtube_videos.get(j).title.toLowerCase().trim());
+					                	//System.out.println(track_title);
+					                	break;
+					                } 			                		
+			                	}            	
 			                
 			                track_list.add(new DiscogsTracklist(
 			                		album_id,
 			                		track_position,
-			                		track_title)
+			                		track_title,
+			                		uri)
 			                		);
 			               
 			                
 			            }
+			            //youtube_videos.clear();
 			        }
 			        catch (JSONException e)
 			        {
@@ -732,8 +810,7 @@ public class DiscogsAPIv2 {
 				         data.add(entry.getValue().country);
 				         
 				         dm.addRow(data);
-		        	 }       
-	      	 
+		        	 }             	 
 	       }
 	    
 	    return dm;
@@ -743,7 +820,7 @@ public class DiscogsAPIv2 {
 	    DefaultTableModel dm = new DefaultTableModel(0, 0);
 	    
 	    JTable tblTaskList = new JTable();
-	       String header[] = new String[] {"Album ID", "Position", "Title"};
+	       String header[] = new String[] {"Album ID", "Position", "Title", "Youtube"};
 	       dm.setColumnIdentifiers(header);
 	       tblTaskList.setModel(dm); 
 	       
@@ -759,17 +836,13 @@ public class DiscogsAPIv2 {
 		        	data.add(getTrackLists().get(i).album_id);
 		        	data.add(getTrackLists().get(i).position);
 		        	data.add(getTrackLists().get(i).title);
+		        	data.add(getTrackLists().get(i).youtube_uri);
 		        	dm.addRow(data);
-	        	 }
-	        	 
-	        			        	
+	        	 }	        	 	    			        	
 		   }    
 	    
 	    return dm;
 	 }
-	
-		
-	
 	public void search( 
 			String page, 
 			String per_page, 
@@ -891,17 +964,9 @@ public class DiscogsAPIv2 {
 			                
 			                String[] artistName = title.split("-", 2);
 			                
-			                getArtistInfo(artistName[0].trim());
+			                getArtistInfo(artistName[0].trim());			                
 			                getAlbum(id, resource_url);
-			                
-			                /*
-			                System.out.println("Artist Name: " + artistName[0].trim());
-			                System.out.println("Album ID: " + id.trim());
-			                System.out.println("Album Url: " + resource_url.trim());
-			                System.out.println("Album Title: " + title.trim());
-			                
-			                System.out.println();
-			                */             
+			                        
 			            }
 		           }
 		        }
@@ -917,30 +982,9 @@ public class DiscogsAPIv2 {
 	        
 		}  
    }
-	
-	
 	public static void main(String[] args) {
 		
 		DiscogsAPIv2 discogs_api = new DiscogsAPIv2();
-		
-		
-		/*
-		int i=0;
-		for(;;){
-			try {
-				Thread.sleep(5000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} // set time delay to 2 seconds.. 
-		  	System.out.println(i++); // output : every output will display after 5 seconds..   	
-		}
-		
-		*/
-			//discogs_api.getArtistInfo("Roy Orbison");
-			//discogs_api.getArtistInfo("Nirvana");
-			//discogs_api.getArtistInfo("Metallica");
-			
 			
 			try {
 				discogs_api.search(
@@ -959,74 +1003,6 @@ public class DiscogsAPIv2 {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
-			/*
-			 System.out.println("Artists: " + discogs_api.getArtists().size());
-			System.out.println();
-			for (Map.Entry<String, DiscogsArtist> entry : discogs_api.getArtists().entrySet()) {     	
-	        	 
-	        	 System.out.println(entry.getValue().id);
-	        	 System.out.println(entry.getValue().name);
-	        	 System.out.println(entry.getValue().profile);
-	        	 System.out.println(entry.getValue().thumb);
-	        	 System.out.println(entry.getValue().cover_image);
-	        	 System.out.println(entry.getValue().resource_url);     
-	        	 System.out.println();
-	        	 
-	        	 
-			}
-			*/
-			
-			
-			
-			//discogs_api.getArtistReleases( entry.getValue().id );
-			
-			/*
-			System.out.println("Albums");
-			System.out.println();
-			
-			for (Map.Entry<String, DiscogsAlbum> entry : discogs_api.getAlbums().entrySet()) {     	
-	        	 
-	        	 System.out.println(entry.getValue().album_id);
-	        	 System.out.println(entry.getValue().artist_id);
-	        	 System.out.println(entry.getValue().resource_url);
-	        	 System.out.println(entry.getValue().title);
-	        	 System.out.println(entry.getValue().notes);
-	        	 System.out.println(entry.getValue().country);
-	        	 System.out.println(entry.getValue().genre); 
-	        	 System.out.println(entry.getValue().year);
-	        	 System.out.println(entry.getValue().thumb);
-	        	 System.out.println(entry.getValue().cover_image);
-	        	 System.out.println();
-	        	 
-	        	
-			}
-			*/
-			
-			
-			/*
-			System.out.println("Tracklist");
-			System.out.println();
-			for(int i=0; i < discogs_api.getTrackLists().size(); i++) {
-				System.out.println(discogs_api.getTrackLists().get(i).album_id);
-				System.out.println(discogs_api.getTrackLists().get(i).position);
-				System.out.println(discogs_api.getTrackLists().get(i).title);
-				System.out.println();
-            }
-			
-						
-			
-			System.out.println(artist_id);
-            System.out.println(artist_title);
-            System.out.println(artist_resource_url);
-            System.out.println(artist_profile);
-            System.out.println(artist_thumb);
-            System.out.println(artist_cover_image);
-             */
-	        
-		
-
 	}
 
 }
