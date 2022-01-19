@@ -40,6 +40,8 @@ import java.lang.Thread;
 import java.net.URL;
 
 import javazoom.jl.player.Player;
+import API.DiscogsForm;
+
 import javax.swing.table.DefaultTableModel;
 
 public class FormMusify{
@@ -86,9 +88,9 @@ public class FormMusify{
 			public void run() {
 				try {
 					
-					setUser_id(args[0]);
-					setUser_fullname(args[1] + " " + args[2]);
-					setArgs(args);
+					//setUser_id(args[0]);
+					//setUser_fullname(args[1] + " " + args[2]);
+					//setArgs(args);
 					
 					FormMusify window = new FormMusify();
 					window.frame.setVisible(true);
@@ -183,8 +185,8 @@ public class FormMusify{
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				//database.play();
-				
+				database.play();
+				/*
 				if (YTlink != null) {
 					openWebpage(YTlink);
 				}
@@ -278,7 +280,7 @@ public class FormMusify{
 		btnNewButton_1.setBounds(315, 641, 100, 23);
 		frame.getContentPane().add(btnNewButton_1);
 		
-		songName.setBounds(425, 645, 279, 14);
+		songName.setBounds(425, 652, 279, 14);
 		frame.getContentPane().add(songName);
 		
 		table_1 = new JTable();
@@ -316,6 +318,15 @@ public class FormMusify{
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(0, 0, 182, 27);
 		panel_1.add(lblNewLabel);
+		
+		JButton btnOnlineSearch = new JButton("Online Search");
+		btnOnlineSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DiscogsForm.main(null);
+			}
+		});
+		btnOnlineSearch.setBounds(587, 633, 128, 39);
+		frame.getContentPane().add(btnOnlineSearch);
 		
 		textFieldSearchSong.addKeyListener(new KeyAdapter() {
             @Override
@@ -444,14 +455,12 @@ public class FormMusify{
 	    		
 	    		String favNickname = favourites.get(j).getArtistNickname().toLowerCase().trim();
 	    		String favTrack = favourites.get(j).getTrack().toLowerCase().trim();
-	    		//String favCategory = favourites.get(j).getCategory().toLowerCase().trim();
 	    		
 	    		for (int i = 0; i < table.getRowCount(); i++) {  // Loop through the rows	 
 	    	    	String tblNickname = table.getValueAt(i, 0).toString().toLowerCase().trim();
 	    	    	String tblTrack = table.getValueAt(i, 1).toString().toLowerCase().trim();
-	    	    	//String tblCategory = table.getValueAt(i, 2).toString().toLowerCase().trim();
 	    		
-	    	    	if ( favNickname.equals(tblNickname) && favTrack.equals(tblTrack)) {	    			
+	    	    	if ( favNickname.equals(tblNickname) && favTrack.equals(tblTrack) ) {	    			
 	    	    		table.setValueAt("\u2764", i, 3);				
 	    			
 	    	    	}
@@ -468,16 +477,13 @@ public class FormMusify{
 	    		
 	    		String playlistNickname = playlist.get(j).getArtistNickname().toLowerCase().trim();
 	    		String playlistTrack = playlist.get(j).getTrack().toLowerCase().trim();
-	    		//String playlistCategory = playlist.get(j).getCategory().toLowerCase().trim();
 	    		
 	    		for (int i = 0; i < table.getRowCount(); i++) {  // Loop through the rows	 
 	    	    	String tblNickname = table.getValueAt(i, 0).toString().toLowerCase().trim();
 	    	    	String tblTrack = table.getValueAt(i, 1).toString().toLowerCase().trim();
-	    	    	//String tblCategory = table.getValueAt(i, 4).toString().toLowerCase().trim();
 	    		
-	    	    	if ( playlistNickname.equals(tblNickname) && playlistTrack.equals(tblTrack)) {	    			
+	    	    	if ( playlistNickname.equals(tblNickname) && playlistTrack.equals(tblTrack) ) {	    			
 	    	    		table.setValueAt("\u266B", i, 4);				
-	    			
 	    	    	}
 	    		
 	    		}
@@ -605,14 +611,24 @@ public class FormMusify{
 		panelBio.add(textFieldSearchArtist);
 		textFieldSearchArtist.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Search");
+		JButton btnNewButton = new JButton("Search Artist");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				searchArtist(textFieldSearchArtist.getText());				
 			}
 		});
-		btnNewButton.setBounds(179, 8, 100, 25);
+		btnNewButton.setBounds(179, 8, 125, 25);
 		panelBio.add(btnNewButton);
+		
+		JButton btnGoToCat2 = new JButton("Open Categories");
+		btnGoToCat2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				Categories2.main(null);
+			}
+		});
+		btnGoToCat2.setBounds(425, 641, 128, 23);
+		frame.getContentPane().add(btnGoToCat2);
 		
 		JLabel lblNationality = new JLabel("\u0395\u03B8\u03BD\u03B9\u03BA\u03CC\u03C4\u03B7\u03C4\u03B1");
 		lblNationality.setBounds(10, 418, 114, 14);
@@ -628,9 +644,9 @@ public class FormMusify{
 		JButton btnFavourites = new JButton("Show Favourites");
 		btnFavourites.setBounds(49, 68, 214, 33);
 		panel_2.add(btnFavourites);
-		btnFavourites.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\quaver.png"));
+		btnFavourites.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\heart.png"));
 		
-		JButton btnCreateNewPlaylist = new JButton("Create New Playlist");
+		JButton btnCreateNewPlaylist = new JButton("Show Current Playlist");
 		btnCreateNewPlaylist.setBounds(49, 24, 214, 33);
 		panel_2.add(btnCreateNewPlaylist);
 		btnCreateNewPlaylist.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\quaver.png"));
@@ -680,13 +696,12 @@ public class FormMusify{
 				int row = table.rowAtPoint(point);
 				int col = table.columnAtPoint(point);
 				String artist_nickname = table.getModel().getValueAt(row, 0).toString();
-				String track = table.getModel().getValueAt(row, 1).toString();   
+				String track = table.getModel().getValueAt(row, 1).toString();
 				String category = table.getModel().getValueAt(row, 2).toString();
-				
 				YTlink = database.PlayYTSong(track);
 				searchArtist(artist_nickname);
 	
-				if (col == 3) {
+				if (col == 2) {
 					
 					if(table.getModel().getValueAt(row, col) == "\u2764") {						
 						
@@ -694,8 +709,7 @@ public class FormMusify{
 								Integer.parseInt(getUser_id()), 
 								artist_nickname, 
 								track,
-								category
-								);
+								category);
 						
 						displayFavourites();
 						table.getModel().setValueAt("",row,col);
@@ -710,7 +724,7 @@ public class FormMusify{
 					}
 				}
 				
-				if (col == 4) {
+				if (col == 3) {
 					
 					if(table.getModel().getValueAt(row, col) == "\u266B") {						
 						
@@ -718,8 +732,7 @@ public class FormMusify{
 								Integer.parseInt(getUser_id()),
 								artist_nickname,
 								track,
-								category
-								);
+								category);
 						
 						displayPlaylist();
 						table.getModel().setValueAt("",row,col);
@@ -731,13 +744,11 @@ public class FormMusify{
 								Integer.parseInt(getUser_id()), 
 								artist_nickname, 
 								track,
-								category
-								);
+								category);
 						
 						displayPlaylist();
 						table.getModel().setValueAt("\u266B",row,col);
 					}
-					
 				}
 			}
 		});

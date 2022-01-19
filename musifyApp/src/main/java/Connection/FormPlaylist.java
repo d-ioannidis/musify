@@ -72,7 +72,7 @@ public class FormPlaylist {
 		img.setHorizontalAlignment(SwingConstants.CENTER);
 		img.setBounds(0, 0, 421, 523);
 		panel_1_1.add(img);
-		img.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musify-main\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
+		img.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
 		
 		tablePlaylist = new JTable();
 		tablePlaylist.addMouseListener(new MouseAdapter() {
@@ -112,7 +112,7 @@ public class FormPlaylist {
 		panel.add(lblNewLabel_1);
 		
 		JButton btnBack = new JButton("");
-		btnBack.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musify-main\\musifyApp\\src\\main\\java\\buttons\\close.png"));
+		btnBack.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\close.png"));
 		btnBack.setBounds(21, 539, 63, 47);
 		panel_1_1.add(btnBack);
 		btnBack.setFont(new Font("Dubai", Font.PLAIN, 14));
@@ -142,5 +142,16 @@ public class FormPlaylist {
 	});
 	Start.setBounds(364, 534, 46, 32);
 	panel_1_1.add(Start);
+	JButton btnDelPlaylist = new JButton("Delete Playlist");
+	btnDelPlaylist.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			database.deletePlaylist1();
+		}
+	});
+	btnDelPlaylist.setBounds(105, 543, 121, 23);
+	panel_1_1.add(btnDelPlaylist);
+	
+
+	
 }
 }

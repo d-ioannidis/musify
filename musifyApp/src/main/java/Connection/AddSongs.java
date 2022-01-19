@@ -47,7 +47,7 @@ public class AddSongs {
         frame.getContentPane().add(trName);
         //Close button
         JButton btnClose = new JButton("");
-        btnClose.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musify-main\\musifyApp\\src\\main\\java\\buttons\\close.png"));
+        btnClose.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\close.png"));
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -61,7 +61,7 @@ public class AddSongs {
        
         //Previous button update to InsertPhoto.java
        JButton btnPrev = new JButton("");
-       btnPrev.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musify-main\\musifyApp\\src\\main\\java\\buttons\\back.png"));
+       btnPrev.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\back.png"));
        btnPrev.setBounds(427, 301, 43, 39);
        btnPrev.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -138,7 +138,7 @@ public class AddSongs {
        textFieldLinks.setColumns(10);
        
        JLabel lblNewLabel = new JLabel("");
-       lblNewLabel.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musify-main\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
+       lblNewLabel.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
        lblNewLabel.setBounds(0, 0, 484, 351);
        frame.getContentPane().add(lblNewLabel);
        frame.setLocationRelativeTo(null);

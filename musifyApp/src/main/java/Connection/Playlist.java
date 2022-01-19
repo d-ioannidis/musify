@@ -50,5 +50,4 @@ public class Playlist {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	
 }

@@ -1,5 +1,6 @@
 package Connection;
 
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.plaf.basic.BasicBorders;
@@ -11,6 +12,8 @@ import javazoom.jl.player.Player;
 import java.awt.Container;
 import java.awt.Desktop;
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -18,6 +21,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+
+import java.awt.image.BufferedImage;
 
 
 public class Database {
@@ -28,8 +33,8 @@ public class Database {
 	static final String DB_URL = "jdbc:mysql://localhost:3306/mydb";
 	
 	static final String USER = "root";
-	static final String PASS = "giwrgos2131";
-	
+	//static final String PASS = "giwrgos2131";
+	static final String PASS = "Sarap4610_Kof4665_Ioan4578_Alex4631";
 	
 	
 	public void addData(String Email,String Name, String Surname, String Username, String Password) {
@@ -582,7 +587,8 @@ public DefaultTableModel selectDataArtist() {
        conn = DriverManager.getConnection(DB_URL, USER, PASS);
        stmt = conn.createStatement();
        String sql;
-       sql = "SELECT NICKNAME, TRACK_NAME, CATEGORY FROM artist,tracks,participate WHERE (artist.ID_ARTIST = participate.ID_ARTIST) AND (tracks.id_tracks = participate.id_tracks) "
+       sql = "SELECT NICKNAME, TRACK_NAME, CATEGORY FROM artist,tracks,participate WHERE (artist.ID_ARTIST = participate.ID_ARTIST) "
+       		+ "AND (tracks.id_tracks = participate.id_tracks) "
        		+ "ORDER BY TRACK_NAME";
        ResultSet rs = stmt.executeQuery(sql);
        JTable tblTaskList = new JTable();
@@ -1240,7 +1246,7 @@ public String PlayYTSong (String track) {
         Thread task = new Thread(runnablePlay);
         task.start();
      }
-	public void addTracks(String track_name, String track_genre) {
+	public void addTracks(String track_name, String track_genre, String links) {
 
         try {
 
@@ -1298,6 +1304,413 @@ public String PlayYTSong (String track) {
              e.printStackTrace();
          }
      }
-	
+	 public DefaultTableModel SelectRap(){
+		    DefaultTableModel dm = new DefaultTableModel();
+		    try {
+		        conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		        stmt = conn.createStatement();
+		        String sql;
+		        sql = "SELECT NICKNAME, TRACK_NAME FROM artist,tracks,participate WHERE (artist.ID_ARTIST = participate.ID_ARTIST) AND (tracks.id_tracks = participate.id_tracks) AND (category = 'Rap') "
+		                + "ORDER BY TRACK_NAME";
+		        ResultSet rs = stmt.executeQuery(sql);
+		        JTable tblTaskList = new JTable();
+		        String header[] = new String[] {"Nickname", "Track", "\u2764","\u266B"};
+		        dm.setColumnIdentifiers(header);
+		        tblTaskList.setModel(dm);
 
-}
+
+		        while (rs.next()) {
+		           Vector<Object> data = new Vector<Object>();
+		           data.add(rs.getString(1));
+		           data.add(rs.getString(2));
+
+		           dm.addRow(data);
+		        }
+		        rs.close();
+		        stmt.close();
+		        conn.close();
+		     }
+		     catch (SQLException se) {
+		        se.printStackTrace();
+		     }
+		     catch (Exception e) {
+		        e.printStackTrace();
+		     }
+		     finally {
+		        try {
+		           if (stmt!=null)
+		              stmt.close();
+		        }
+		        catch (SQLException se2) {
+		        }
+		        try {
+		           if (conn!=null)
+		              conn.close();
+		        }
+		        catch (SQLException se) {
+		           se.printStackTrace();
+		        }
+		     }
+		     return dm;
+		  }
+
+		public DefaultTableModel SelectPop(){
+		    DefaultTableModel dm = new DefaultTableModel();
+		    try {
+		        conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		        stmt = conn.createStatement();
+		        String sql;
+		        sql = "SELECT NICKNAME, TRACK_NAME FROM artist,tracks,participate WHERE (artist.ID_ARTIST = participate.ID_ARTIST) AND (tracks.id_tracks = participate.id_tracks) AND (category = 'Pop') "
+		                + "ORDER BY TRACK_NAME";
+		        ResultSet rs = stmt.executeQuery(sql);
+		        JTable tblTaskList = new JTable();
+		        String header[] = new String[] {"Nickname", "Track", "\u2764","\u266B"};
+		        dm.setColumnIdentifiers(header);
+		        tblTaskList.setModel(dm);
+
+
+		        while (rs.next()) {
+		           Vector<Object> data = new Vector<Object>();
+		           data.add(rs.getString(1));
+		           data.add(rs.getString(2));
+
+		           dm.addRow(data);
+		        }
+		        rs.close();
+		        stmt.close();
+		        conn.close();
+		     }
+		     catch (SQLException se) {
+		        se.printStackTrace();
+		     }
+		     catch (Exception e) {
+		        e.printStackTrace();
+		     }
+		     finally {
+		        try {
+		           if (stmt!=null)
+		              stmt.close();
+		        }
+		        catch (SQLException se2) {
+		        }
+		        try {
+		           if (conn!=null)
+		              conn.close();
+		        }
+		        catch (SQLException se) {
+		           se.printStackTrace();
+		        }
+		     }
+		     return dm;
+		  }
+
+		public DefaultTableModel SelectGreekPop(){
+		    DefaultTableModel dm = new DefaultTableModel();
+		    try {
+		        conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		        stmt = conn.createStatement();
+		        String sql;
+		        sql = "SELECT NICKNAME, TRACK_NAME FROM artist,tracks,participate WHERE (artist.ID_ARTIST = participate.ID_ARTIST) AND (tracks.id_tracks = participate.id_tracks) AND (category = 'Greek Pop') "
+		                + "ORDER BY TRACK_NAME";
+		        ResultSet rs = stmt.executeQuery(sql);
+		        JTable tblTaskList = new JTable();
+		        String header[] = new String[] {"Nickname", "Track", "\u2764","\u266B"};
+		        dm.setColumnIdentifiers(header);
+		        tblTaskList.setModel(dm);
+
+
+		        while (rs.next()) {
+		           Vector<Object> data = new Vector<Object>();
+		           data.add(rs.getString(1));
+		           data.add(rs.getString(2));
+
+		           dm.addRow(data);
+		        }
+		        rs.close();
+		        stmt.close();
+		        conn.close();
+		     }
+		     catch (SQLException se) {
+		        se.printStackTrace();
+		     }
+		     catch (Exception e) {
+		        e.printStackTrace();
+		     }
+		     finally {
+		        try {
+		           if (stmt!=null)
+		              stmt.close();
+		        }
+		        catch (SQLException se2) {
+		        }
+		        try {
+		           if (conn!=null)
+		              conn.close();
+		        }
+		        catch (SQLException se) {
+		           se.printStackTrace();
+		        }
+		     }
+		     return dm;
+		  }
+
+		public DefaultTableModel SelectRock(){
+		    DefaultTableModel dm = new DefaultTableModel();
+		    try {
+		        conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		        stmt = conn.createStatement();
+		        String sql;
+		        sql = "SELECT NICKNAME, TRACK_NAME FROM artist,tracks,participate WHERE (artist.ID_ARTIST = participate.ID_ARTIST) AND (tracks.id_tracks = participate.id_tracks) AND (category = 'Rock') "
+		                + "ORDER BY TRACK_NAME";
+		        ResultSet rs = stmt.executeQuery(sql);
+		        JTable tblTaskList = new JTable();
+		        String header[] = new String[] {"Nickname", "Track", "\u2764","\u266B"};
+		        dm.setColumnIdentifiers(header);
+		        tblTaskList.setModel(dm);
+
+
+		        while (rs.next()) {
+		           Vector<Object> data = new Vector<Object>();
+		           data.add(rs.getString(1));
+		           data.add(rs.getString(2));
+
+		           dm.addRow(data);
+		        }
+		        rs.close();
+		        stmt.close();
+		        conn.close();
+		     }
+		     catch (SQLException se) {
+		        se.printStackTrace();
+		     }
+		     catch (Exception e) {
+		        e.printStackTrace();
+		     }
+		     finally {
+		        try {
+		           if (stmt!=null)
+		              stmt.close();
+		        }
+		        catch (SQLException se2) {
+		        }
+		        try {
+		           if (conn!=null)
+		              conn.close();
+		        }
+		        catch (SQLException se) {
+		           se.printStackTrace();
+		        }
+		     }
+		     return dm;
+		  }
+		public DefaultTableModel SelectTrap(){
+		    DefaultTableModel dm = new DefaultTableModel();
+		    try {
+		        conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		        stmt = conn.createStatement();
+		        String sql;
+		        sql = "SELECT NICKNAME, TRACK_NAME FROM artist,tracks,participate WHERE (artist.ID_ARTIST = participate.ID_ARTIST) AND (tracks.id_tracks = participate.id_tracks) AND (category = 'Trap') "
+		                + "ORDER BY TRACK_NAME";
+		        ResultSet rs = stmt.executeQuery(sql);
+		        JTable tblTaskList = new JTable();
+		        String header[] = new String[] {"Nickname", "Track", "\u2764","\u266B"};
+		        dm.setColumnIdentifiers(header);
+		        tblTaskList.setModel(dm);
+
+
+		        while (rs.next()) {
+		           Vector<Object> data = new Vector<Object>();
+		           data.add(rs.getString(1));
+		           data.add(rs.getString(2));
+
+		           dm.addRow(data);
+		        }
+		        rs.close();
+		        stmt.close();
+		        conn.close();
+		     }
+		     catch (SQLException se) {
+		        se.printStackTrace();
+		     }
+		     catch (Exception e) {
+		        e.printStackTrace();
+		     }
+		     finally {
+		        try {
+		           if (stmt!=null)
+		              stmt.close();
+		        }
+		        catch (SQLException se2) {
+		        }
+		        try {
+		           if (conn!=null)
+		              conn.close();
+		        }
+		        catch (SQLException se) {
+		           se.printStackTrace();
+		        }
+		     }
+		     return dm;
+		  }
+		public DefaultTableModel SelectHipHop(){
+		    DefaultTableModel dm = new DefaultTableModel();
+		    try {
+		        conn = DriverManager.getConnection(DB_URL, USER, PASS);
+		        stmt = conn.createStatement();
+		        String sql;
+		        sql = "SELECT NICKNAME, TRACK_NAME FROM artist,tracks,participate WHERE (artist.ID_ARTIST = participate.ID_ARTIST) AND (tracks.id_tracks = participate.id_tracks) AND (category = 'Hip Hop') "
+		                + "ORDER BY TRACK_NAME";
+		        ResultSet rs = stmt.executeQuery(sql);
+		        JTable tblTaskList = new JTable();
+		        String header[] = new String[] {"Nickname", "Track", "\u2764","\u266B"};
+		        dm.setColumnIdentifiers(header);
+		        tblTaskList.setModel(dm);
+
+
+		        while (rs.next()) {
+		           Vector<Object> data = new Vector<Object>();
+		           data.add(rs.getString(1));
+		           data.add(rs.getString(2));
+
+		           dm.addRow(data);
+		        }
+		        rs.close();
+		        stmt.close();
+		        conn.close();
+		     }
+		     catch (SQLException se) {
+		        se.printStackTrace();
+		     }
+		     catch (Exception e) {
+		        e.printStackTrace();
+		     }
+		     finally {
+		        try {
+		           if (stmt!=null)
+		              stmt.close();
+		        }
+		        catch (SQLException se2) {
+		        }
+		        try {
+		           if (conn!=null)
+		              conn.close();
+		        }
+		        catch (SQLException se) {
+		           se.printStackTrace();
+		        }
+		     }
+		     return dm;
+		  }
+
+		public void addArtist(String artist_name, String artist_profile, String artist_thumb) {
+			
+			try {
+			
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			
+			
+			String sql_query = "INSERT INTO artist (NAME, PROFILE, PHOTO_ARTIST) VALUES (?,?,?)";
+			
+			URL url = null;
+			BufferedImage bufferimage = null;
+			ByteArrayOutputStream output = new ByteArrayOutputStream();
+			
+			try {
+				url = new URL(artist_thumb);
+			} catch (MalformedURLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			try {
+				bufferimage = ImageIO.read(url);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+		      try {
+				ImageIO.write(bufferimage, "jpg", output );
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		      byte [] data = output.toByteArray();
+			
+		    ByteArrayInputStream bais = new ByteArrayInputStream(data);
+			PreparedStatement preparedStmt = conn.prepareStatement(sql_query);
+			
+			
+			preparedStmt.setString(1, artist_name);
+			preparedStmt.setString(2, artist_profile);
+			preparedStmt.setBinaryStream(3, bais, data.length);		
+			
+			preparedStmt.execute();
+			
+			conn.close();
+			
+		}
+			catch (SQLException e){
+				e.printStackTrace();
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+			finally {
+				try {
+					if(stmt != null)
+						stmt.close();
+				}
+					catch (SQLException e2) {
+						
+					}
+				try {
+					if(conn != null)
+						conn.close();
+				}
+				catch (SQLException e) {
+					e.printStackTrace();
+					
+				}
+			}
+				
+		}
+		public void deletePlaylist1() {
+			try {
+				
+				conn = DriverManager.getConnection(DB_URL, USER, PASS);
+				
+				String sql_delete = "DELETE FROM playlist";
+				PreparedStatement preparedStmt = conn.prepareStatement(sql_delete);
+				
+				
+				
+				preparedStmt.execute();
+				
+				conn.close();
+			}
+			catch (SQLException e){
+				e.printStackTrace();
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+			finally {
+				try {
+					if(stmt != null) 
+						stmt.close();
+				}
+					catch (SQLException e2) {
+						
+					}
+				try {
+					if(conn != null)
+						conn.close();
+				}
+				catch (SQLException e) {
+					e.printStackTrace();
+					
+				}
+			}
+		}
+	}

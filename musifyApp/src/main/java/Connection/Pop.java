@@ -1,29 +1,22 @@
 package Connection;
-import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JTable;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Font;
-import java.awt.Point;
-
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
-
-public class FormFavourites {
-	
-	protected static String YTlink = null;
+public class Pop {
 	private JFrame frame;
-	private JTable tableFavourites;
+	private JTable tablePop;
 	private Database database = new Database();
 
 	/**
@@ -35,7 +28,7 @@ public class FormFavourites {
 			public void run() {
 				try {
 					
-					FormFavourites window = new FormFavourites();
+					Pop window = new Pop();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,9 +40,8 @@ public class FormFavourites {
 	/**
 	 * Create the application.
 	 */
-	public FormFavourites() {
+	public Pop() {
 		initialize();
-		frame.setLocationRelativeTo(null);
 	}
 
 	/**
@@ -58,7 +50,7 @@ public class FormFavourites {
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.LIGHT_GRAY);
-		frame.setBounds(100, 100, 768, 640);
+		frame.setBounds(100, 100, 808, 674);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -68,26 +60,12 @@ public class FormFavourites {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		tableFavourites = new JTable();
-		tableFavourites.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Point point = e.getPoint();
-				int row = tableFavourites.rowAtPoint(point);
-				int col = tableFavourites.columnAtPoint(point);
-				String artist_nickname = tableFavourites.getModel().getValueAt(row, 0).toString();
-				String track = tableFavourites.getModel().getValueAt(row, 1).toString();   
-				String category = tableFavourites.getModel().getValueAt(row, 2).toString();
-				
-				YTlink = database.PlayYTSong(track);
-				database.SearchDataArtist(artist_nickname);
-			}
-		});
-		tableFavourites.setModel(database.selectFavourites());
+		tablePop = new JTable();
+		tablePop.setModel(database.SelectPop());
 		//table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
-		tableFavourites.getColumnModel().getColumn(2).setMaxWidth(50);
-		tableFavourites.setBounds(425, 69, 317, 444);
-		panel.add(tableFavourites);
+		tablePop.getColumnModel().getColumn(2).setMaxWidth(50);
+		tablePop.setBounds(425, 69, 357, 473);
+		panel.add(tablePop);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(Color.WHITE);
@@ -95,7 +73,7 @@ public class FormFavourites {
 		panel.add(panel_2);
 		panel_2.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Your Favourite Songs List");
+		JLabel lblNewLabel = new JLabel("Pop Songs");
 		lblNewLabel.setBounds(10, 0, 234, 47);
 		panel_2.add(lblNewLabel);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -106,39 +84,34 @@ public class FormFavourites {
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
-		lblNewLabel_1.setBounds(0, 0, 426, 517);
+		lblNewLabel_1.setBounds(0, 0, 447, 572);
 		panel.add(lblNewLabel_1);
 		
 		
 		//button back
 		JButton btnBack = new JButton("");
 		btnBack.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\back.png"));
-		btnBack.setBounds(10, 540, 63, 47);
+		btnBack.setBounds(20, 577, 63, 47);
 		panel.add(btnBack);
 		btnBack.setFont(new Font("Dubai", Font.PLAIN, 14));
 		
-		JLabel Start = new JLabel("");
-		Start.setIcon(new ImageIcon(FormFavourites.class.getResource("/buttons/play.png")));
-		Start.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				//Database.play();
-				
-				if (YTlink != null) {
-					Database.openWebpage(YTlink);
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "You didn't select a song or the song selected doesn't have a Youtube link.");
-				}
+		//button Close
+		JButton btnClose = new JButton("");
+		btnClose.setBounds(719, 577, 63, 47);
+		panel.add(btnClose);
+		btnClose.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\close.png"));
+		btnClose.setFont(new Font("Dubai", Font.PLAIN, 11));
+		btnClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
 			}
 		});
-		Start.setBounds(399, 540, 37, 37);
-		panel.add(Start);
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				FormMusify.main(FormMusify.getArgs());
+				Categories2.main(FormMusify.getArgs());
 			}
 		});
+		frame.setLocationRelativeTo(null);
 	}
 }

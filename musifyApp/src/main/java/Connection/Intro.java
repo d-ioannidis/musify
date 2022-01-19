@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import java.awt.Font;
 
 public class Intro {
 
@@ -51,7 +52,7 @@ public class Intro {
 		frame.getContentPane().setLayout(null);
 		
 		JButton btnUserLogin = new JButton("Log in as User");
-		btnUserLogin.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musify-main\\musifyApp\\src\\main\\java\\buttons\\login.png"));
+		btnUserLogin.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\login.png"));
 		btnUserLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
@@ -62,7 +63,7 @@ public class Intro {
 		frame.getContentPane().add(btnUserLogin);
 		
 		JButton btnAdminLogin = new JButton("Log in as Admin");
-		btnAdminLogin.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musify-main\\musifyApp\\src\\main\\java\\buttons\\login.png"));
+		btnAdminLogin.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\login.png"));
 		btnAdminLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
@@ -82,10 +83,15 @@ public class Intro {
 		btnClose.setBounds(10, 292, 44, 44);
 		frame.getContentPane().add(btnClose);
 		
-		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setIcon(new ImageIcon(Intro.class.getResource("/Images/logoMain.png")));
-		lblNewLabel_1.setBounds(0, 0, 434, 347);
-		frame.getContentPane().add(lblNewLabel_1);
+		JLabel lblIntro = new JLabel("");
+		lblIntro.setIcon(new ImageIcon(Intro.class.getResource("/Images/logoMain.png")));
+		lblIntro.setBounds(0, 0, 434, 347);
+		frame.getContentPane().add(lblIntro);
+		
+		JLabel lblNewLabel = new JLabel("Intro");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setBounds(193, 33, 99, 14);
+		frame.getContentPane().add(lblNewLabel);
 	}
 }
-

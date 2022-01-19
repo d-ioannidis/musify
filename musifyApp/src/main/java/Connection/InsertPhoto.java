@@ -84,7 +84,7 @@ public class InsertPhoto extends JFrame{
        @Override
        public void actionPerformed(ActionEvent e){
            try{
-               Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","giwrgos2131");
+               Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","Sarap4610_Kof4665_Ioan4578_Alex4631");
                PreparedStatement ps = con.prepareStatement("insert into artist(NAME,LASTNAME,NICKNAME,BIRTHDAY,FIRST_TRACK_DATE,NATIONALITY,PHOTO_ARTIST) values(?,?,?,?,?,?,?)");
                InputStream is = new FileInputStream(new File(s));   
                ps.setString(1, textName.getText());
@@ -114,7 +114,7 @@ public class InsertPhoto extends JFrame{
     
     lblNewLabel = new JLabel("");
     lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-    lblNewLabel.setIcon(new ImageIcon("C:\\Users\\KYVOS\\eclipse-workspace\\musify-main\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
+    lblNewLabel.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
     lblNewLabel.setBounds(0, 0, 784, 381);
     getContentPane().add(lblNewLabel);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
