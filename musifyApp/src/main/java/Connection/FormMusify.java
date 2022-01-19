@@ -88,9 +88,9 @@ public class FormMusify{
 			public void run() {
 				try {
 					
-					//setUser_id(args[0]);
-					//setUser_fullname(args[1] + " " + args[2]);
-					//setArgs(args);
+					setUser_id(args[0]);
+					setUser_fullname(args[1] + " " + args[2]);
+					setArgs(args);
 					
 					FormMusify window = new FormMusify();
 					window.frame.setVisible(true);
@@ -185,8 +185,8 @@ public class FormMusify{
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				database.play();
-				/*
+				//database.play();
+				
 				if (YTlink != null) {
 					openWebpage(YTlink);
 				}
@@ -701,7 +701,7 @@ public class FormMusify{
 				YTlink = database.PlayYTSong(track);
 				searchArtist(artist_nickname);
 	
-				if (col == 2) {
+				if (col == 3) {
 					
 					if(table.getModel().getValueAt(row, col) == "\u2764") {						
 						
@@ -724,7 +724,7 @@ public class FormMusify{
 					}
 				}
 				
-				if (col == 3) {
+				if (col == 4) {
 					
 					if(table.getModel().getValueAt(row, col) == "\u266B") {						
 						
