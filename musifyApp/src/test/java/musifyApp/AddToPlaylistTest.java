@@ -16,9 +16,10 @@ class AddToPlaylistTest {
 		int register_id = 1;
 		String artist_name = "Ariana Grande";
 		String track = "Thank U, Next";
+		String category = "Pop";
 		
 		// when testing our method
-		obj.addToPlaylist(register_id, artist_name, track);
+		obj.addToPlaylist(register_id, artist_name, track,category);
 		
 		// then using assert
 		Assertions.assertTrue(true);

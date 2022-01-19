@@ -15,9 +15,10 @@ class deletePlaylistTest {
         int register_id = 1;
         String artist_nickname = "Ariana Grande";
         String track = "7 Rings";
+        String category = "Pop";
 
         // when using our method
-        obj.deletePlaylist(register_id, artist_nickname, track);
+        obj.deletePlaylist(register_id, artist_nickname, track, category);
 
         // then using assert
         Assertions.assertTrue(true);

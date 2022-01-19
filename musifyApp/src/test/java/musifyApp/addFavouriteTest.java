@@ -16,8 +16,9 @@ class addFavouriteTest {
 		int register_id = 1;
 		String artist_name = "Ed Sheeran";
 		String track = "Bad Habits";
+		String category = "Pop";
 		
-		obj.addFavourite(register_id, artist_name, track);
+		obj.addFavourite(register_id, artist_name, track,category);
 
 		Assertions.assertTrue(true);
 
