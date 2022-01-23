@@ -1,8 +1,8 @@
-package Connection;
 
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,14 +10,19 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Pop {
 	private JFrame frame;
 	private JTable tablePop;
 	private Database database = new Database();
+	protected static String YTlink = null;
+	private JTable tablePlaylist;
 
 	/**
 	 * Launch the application.
@@ -61,6 +66,20 @@ public class Pop {
 		panel.setLayout(null);
 		
 		tablePop = new JTable();
+		tablePop.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Point point = e.getPoint();
+				int row = tablePlaylist.rowAtPoint(point);
+				int col = tablePlaylist.columnAtPoint(point);
+				String artist_nickname = tablePlaylist.getModel().getValueAt(row, 0).toString();
+				String track = tablePlaylist.getModel().getValueAt(row, 1).toString();   
+				String category = tablePlaylist.getModel().getValueAt(row, 2).toString();
+				
+				YTlink = database.PlayYTSong(track);
+				database.SearchDataArtist(artist_nickname);
+			}
+		});
 		tablePop.setModel(database.SelectPop());
 		//table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
 		tablePop.getColumnModel().getColumn(2).setMaxWidth(50);
@@ -101,6 +120,22 @@ public class Pop {
 		panel.add(btnClose);
 		btnClose.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\close.png"));
 		btnClose.setFont(new Font("Dubai", Font.PLAIN, 11));
+		
+		JLabel PlayButton = new JLabel("");
+		PlayButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (YTlink != null) {
+					Database.openWebpage(YTlink);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "You didn't select a song or the song selected doesn't have a Youtube link.");
+				}
+			}
+		});
+		PlayButton.setIcon(new ImageIcon(Pop.class.getResource("/buttons/play.png")));
+		PlayButton.setBounds(425, 577, 46, 41);
+		panel.add(PlayButton);
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
