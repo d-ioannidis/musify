@@ -62,7 +62,7 @@ public class InsertPhoto {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frame.dispose();
-				Login.main(null);
+				Admin.main(null);
 			}
 		});
 		BackButton.setBounds(10, 350, 100, 30);
