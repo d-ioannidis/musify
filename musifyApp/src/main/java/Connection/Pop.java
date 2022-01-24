@@ -22,7 +22,6 @@ public class Pop {
 	private JTable tablePop;
 	private Database database = new Database();
 	protected static String YTlink = null;
-	private JTable tablePlaylist;
 
 	/**
 	 * Launch the application.
@@ -70,11 +69,11 @@ public class Pop {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Point point = e.getPoint();
-				int row = tablePlaylist.rowAtPoint(point);
-				int col = tablePlaylist.columnAtPoint(point);
-				String artist_nickname = tablePlaylist.getModel().getValueAt(row, 0).toString();
-				String track = tablePlaylist.getModel().getValueAt(row, 1).toString();   
-				String category = tablePlaylist.getModel().getValueAt(row, 2).toString();
+				int row = tablePop.rowAtPoint(point);
+				int col = tablePop.columnAtPoint(point);
+				String artist_nickname = tablePop.getModel().getValueAt(row, 0).toString();
+				String track = tablePop.getModel().getValueAt(row, 1).toString();   
+				String category = tablePop.getModel().getValueAt(row, 2).toString();
 				
 				YTlink = database.PlayYTSong(track);
 				database.SearchDataArtist(artist_nickname);

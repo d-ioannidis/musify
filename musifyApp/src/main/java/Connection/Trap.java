@@ -22,7 +22,6 @@ public class Trap {
 	private JTable tableTrap;
 	private Database database = new Database();
 	protected static String YTlink = null;
-	private JTable tablePlaylist;
 
 	/**
 	 * Launch the application.
@@ -70,11 +69,11 @@ public class Trap {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Point point = e.getPoint();
-				int row = tablePlaylist.rowAtPoint(point);
-				int col = tablePlaylist.columnAtPoint(point);
-				String artist_nickname = tablePlaylist.getModel().getValueAt(row, 0).toString();
-				String track = tablePlaylist.getModel().getValueAt(row, 1).toString();   
-				String category = tablePlaylist.getModel().getValueAt(row, 2).toString();
+				int row = tableTrap.rowAtPoint(point);
+				int col = tableTrap.columnAtPoint(point);
+				String artist_nickname = tableTrap.getModel().getValueAt(row, 0).toString();
+				String track = tableTrap.getModel().getValueAt(row, 1).toString();   
+				String category = tableTrap.getModel().getValueAt(row, 2).toString();
 				
 				YTlink = database.PlayYTSong(track);
 				database.SearchDataArtist(artist_nickname);
