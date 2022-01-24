@@ -103,12 +103,6 @@ public class Trap {
 		lblNewLabel_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (YTlink != null) {
-					Database.openWebpage(YTlink);
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "You didn't select a song or the song selected doesn't have a Youtube link.");
-				}
 			}
 		});
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -132,6 +126,17 @@ public class Trap {
 		btnClose.setFont(new Font("Dubai", Font.PLAIN, 11));
 		
 		JLabel PlayButton = new JLabel("");
+		PlayButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (YTlink != null) {
+					Database.openWebpage(YTlink);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "You didn't select a song or the song selected doesn't have a Youtube link.");
+				}
+			}
+		});
 		PlayButton.setIcon(new ImageIcon(Trap.class.getResource("/buttons/play.png")));
 		PlayButton.setBounds(425, 577, 46, 41);
 		panel.add(PlayButton);
