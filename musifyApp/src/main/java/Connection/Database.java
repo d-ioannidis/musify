@@ -102,7 +102,7 @@ public class Database {
 	}
 	
 	public Boolean searchData(String Username, String Email) {
-		Boolean flag = false; //User doesn't exist
+		Boolean flag = true; //User doesn't exist
 		
 		try {
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -116,7 +116,7 @@ public class Database {
 			ResultSet rs = preparedStmt.executeQuery();
 			
 			if (rs.next()) {
-				flag = true;
+				flag = false;
 			}
 			
 			preparedStmt.execute();
@@ -1360,7 +1360,8 @@ public String PlayYTSong (String track) {
 		        conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		        stmt = conn.createStatement();
 		        String sql;
-		        sql = "SELECT NICKNAME, TRACK_NAME FROM artist,tracks,participate WHERE (artist.ID_ARTIST = participate.ID_ARTIST) AND (tracks.id_tracks = participate.id_tracks) AND (category = 'Pop') "
+		        sql = "SELECT NICKNAME, TRACK_NAME FROM artist,tracks,participate WHERE (artist.ID_ARTIST = participate.ID_ARTIST) "
+		        		+ "AND (tracks.id_tracks = participate.id_tracks) AND (category = 'Pop') "
 		                + "ORDER BY TRACK_NAME";
 		        ResultSet rs = stmt.executeQuery(sql);
 		        JTable tblTaskList = new JTable();

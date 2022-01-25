@@ -3,13 +3,17 @@ package Connection;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -18,6 +22,7 @@ public class Rock {
 	private JFrame frame;
 	private JTable tableRock;
 	private Database database = new Database();
+	protected static String YTlink = null;
 
 	/**
 	 * Launch the application.
@@ -61,6 +66,20 @@ public class Rock {
 		panel.setLayout(null);
 		
 		tableRock = new JTable();
+		tableRock.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Point point = e.getPoint();
+				int row = tableRock.rowAtPoint(point);
+				int col = tableRock.columnAtPoint(point);
+				String artist_nickname = tableRock.getModel().getValueAt(row, 0).toString();
+				String track = tableRock.getModel().getValueAt(row, 1).toString();   
+				//String category = tableRock.getModel().getValueAt(row, 2).toString();
+				
+				YTlink = database.PlayYTSong(track);
+				database.SearchDataArtist(artist_nickname);
+			}
+		});
 		tableRock.setModel(database.SelectRock());
 		//table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
 		tableRock.getColumnModel().getColumn(2).setMaxWidth(50);
@@ -86,6 +105,24 @@ public class Rock {
 		lblNewLabel_1.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
 		lblNewLabel_1.setBounds(0, 0, 447, 572);
 		panel.add(lblNewLabel_1);
+		
+		
+		JLabel PlayButton = new JLabel("");
+		PlayButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (YTlink != null) {
+					Database.openWebpage(YTlink);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "You didn't select a song or the song selected doesn't have a Youtube link.");
+				}
+			}
+		});
+		PlayButton.setIcon(new ImageIcon(Trap.class.getResource("/buttons/play.png")));
+		PlayButton.setBounds(425, 577, 46, 41);
+		panel.add(PlayButton);
+		
 		
 		
 		//button back

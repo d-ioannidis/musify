@@ -27,6 +27,8 @@ public static void main(String[] args) {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
+	// Label
+		
 		JLabel Categories = new JLabel("Categories");
 		Categories.setFont(new Font("Tahoma", Font.BOLD, 20));
 		Categories.setBounds(170,10,180,25);
@@ -52,7 +54,7 @@ public static void main(String[] args) {
 		btnTrap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				Trap.main(FormMusify.getArgs());
+			Trap.main(FormMusify.getArgs());
 			
 			}
 		});
@@ -65,7 +67,7 @@ public static void main(String[] args) {
 		btnHip.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				HipHop.main(FormMusify.getArgs());
+			HipHop.main(FormMusify.getArgs());
 			
 			}
 		});
@@ -78,7 +80,7 @@ public static void main(String[] args) {
 		btnRock.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				Rock.main(FormMusify.getArgs());
+		Rock.main(FormMusify.getArgs());
 			
 			}
 		});
@@ -110,7 +112,18 @@ public static void main(String[] args) {
 		});
 		frame.getContentPane().add(btnGrPop);
 
-		
+		//button back
+				JButton btnBack = new JButton("");
+				btnBack.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\back.png"));
+				btnBack.setBounds(20, 277, 63, 47);
+				btnBack.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						frame.dispose();
+						FormMusify.main(FormMusify.getArgs());
+					}
+				});
+				btnBack.setFont(new Font("Dubai", Font.PLAIN, 14));
+				frame.getContentPane().add(btnBack);
 		
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);

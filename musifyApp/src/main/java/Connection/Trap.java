@@ -1,4 +1,4 @@
-
+package Connection;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -73,7 +73,7 @@ public class Trap {
 				int col = tableTrap.columnAtPoint(point);
 				String artist_nickname = tableTrap.getModel().getValueAt(row, 0).toString();
 				String track = tableTrap.getModel().getValueAt(row, 1).toString();   
-				String category = tableTrap.getModel().getValueAt(row, 2).toString();
+				//String category = tableTrap.getModel().getValueAt(row, 2).toString();
 				
 				YTlink = database.PlayYTSong(track);
 				database.SearchDataArtist(artist_nickname);

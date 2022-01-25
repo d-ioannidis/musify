@@ -1,4 +1,4 @@
-
+package Connection;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -22,6 +22,7 @@ public class GreekPop {
 	private JTable tableGreekPop;
 	private Database database = new Database();
 	protected static String YTlink = null;
+	private JTable tablePlaylist;
 
 	/**
 	 * Launch the application.
@@ -73,7 +74,7 @@ public class GreekPop {
 				int col = tableGreekPop.columnAtPoint(point);
 				String artist_nickname = tableGreekPop.getModel().getValueAt(row, 0).toString();
 				String track = tableGreekPop.getModel().getValueAt(row, 1).toString();   
-				String category = tableGreekPop.getModel().getValueAt(row, 2).toString();
+				//String category = tableGreekPop.getModel().getValueAt(row, 2).toString();
 				
 				YTlink = database.PlayYTSong(track);
 				database.SearchDataArtist(artist_nickname);

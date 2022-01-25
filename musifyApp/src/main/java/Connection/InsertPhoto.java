@@ -1,3 +1,4 @@
+package Connection;
 import java.awt.EventQueue;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -25,7 +26,7 @@ public class InsertPhoto {
     private JTextField Bday;
     private JTextField ftn;
     private JTextField Nation;
-    private JButton BackButton;
+    private JButton Add_Songs;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -57,16 +58,16 @@ public class InsertPhoto {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		BackButton = new JButton("Back");
-		BackButton.addMouseListener(new MouseAdapter() {
+		Add_Songs = new JButton("Add Songs");
+		Add_Songs.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frame.dispose();
-				Admin.main(null);
+				AddSongs.main(null);
 			}
 		});
-		BackButton.setBounds(10, 350, 100, 30);
-		frame.getContentPane().add(BackButton);
+		Add_Songs.setBounds(10, 350, 100, 30);
+		frame.getContentPane().add(Add_Songs);
 		
 		textName = new JTextField("Name");
 		textName.setBounds(120, 270, 100, 20);
@@ -101,7 +102,7 @@ public class InsertPhoto {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try{
-		               Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","N123456789");
+		               Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","Sarap4610_Kof4665_Ioan4578_Alex4631");
 		               PreparedStatement ps = con.prepareStatement("insert into artist(NAME,LASTNAME,NICKNAME,BIRTHDAY,FIRST_TRACK_DATE,NATIONALITY,PHOTO_ARTIST) values(?,?,?,?,?,?,?)");
 		               InputStream is = new FileInputStream(new File(s));   
 		               ps.setString(1, textName.getText());

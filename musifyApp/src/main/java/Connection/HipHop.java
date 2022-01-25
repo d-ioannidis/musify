@@ -72,11 +72,11 @@ public class HipHop {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Point point = e.getPoint();
-				int row = tablePlaylist.rowAtPoint(point);
-				int col = tablePlaylist.columnAtPoint(point);
-				String artist_nickname = tablePlaylist.getModel().getValueAt(row, 0).toString();
-				String track = tablePlaylist.getModel().getValueAt(row, 1).toString();   
-				String category = tablePlaylist.getModel().getValueAt(row, 2).toString();
+				int row = tableHipHop.rowAtPoint(point);
+				int col = tableHipHop.columnAtPoint(point);
+				String artist_nickname = tableHipHop.getModel().getValueAt(row, 0).toString();
+				String track = tableHipHop.getModel().getValueAt(row, 1).toString();   
+				//String category = tablePlaylist.getModel().getValueAt(row, 2).toString();
 				
 				YTlink = database.PlayYTSong(track);
 				database.SearchDataArtist(artist_nickname);

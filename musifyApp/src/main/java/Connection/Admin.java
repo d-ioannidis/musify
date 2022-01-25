@@ -1,28 +1,33 @@
 package Connection;
+
 import java.awt.Font;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import java.awt.Color;
+
+import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 
-public class Admin {
+public class Admin implements KeyListener {
 
-	private static Database obj = new Database();
-	private static String username;
-	private static String password;
-	
+	private static final AbstractButton userText = null;
+	private static final JPasswordField passText = null;
+	private static final Window frame = null;
+
 	public static void main(String[] args) {
 		
 		final JFrame frame = new JFrame();	
@@ -52,38 +57,52 @@ public class Admin {
 		passText.setBounds(170,150,165,25);
 		frame.getContentPane().add(passText);
 		
-		JCheckBox ckbox = new JCheckBox("Show Password");
-        ckbox.setBounds(170,200,130,25);
-        if(ckbox.isSelected()) {
-            passText.setEchoChar((char)0);
-            }
-            else {
-                passText.setEchoChar('*');
-            }
-        frame.getContentPane().add(ckbox);
 		
 		JButton btnEnter = new JButton("Login");
 		btnEnter.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\login.png"));
+		frame.getRootPane().setDefaultButton(btnEnter);
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				boolean flag_admin;
 				
-				username = userText.getText();
-				password = String.valueOf(passText.getPassword());
-				 
-				if(flag_admin = obj.existingAdmin(username) == true) {
-					obj.loginAdmin(username, password);
-					JOptionPane.showMessageDialog(null, "Welcome");
-					frame.dispose();
-					InsertPhoto.main(null);
+				
+				
+				try {
+					
+					//Class.forName("com.mysql.jdbc.Driver");
+					Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","Sarap4610_Kof4665_Ioan4578_Alex4631");
+					
+					String username = userText.getText();
+					String password = String.valueOf(passText.getPassword());
+					
+					
+					Statement stm = con.createStatement();
+					
+					String sql = "select USERNAME, PASSWORD from admin where USERNAME='"+username+"' and PASSWORD='"+password+"'";
+					ResultSet rs = stm.executeQuery(sql);
+					
+					
+					if(((ResultSet) rs).next()) {
+						JOptionPane.showMessageDialog(null, "Welcome");
+						frame.dispose();
+						InsertPhoto.main(null);
+					}else {
+						JOptionPane.showMessageDialog(null, "username or password is wrong...");
+						userText.setText("");
+						passText.setText("");
+					}
+					
+					con.close();
+					
+					
+				}catch(Exception e1) {
+					System.out.println(e1.getMessage());
 				}
-				else {
-					JOptionPane.showMessageDialog(null, "Username or Password is wrong...");
-				}
+				
 			}
 		});
 		btnEnter.setBounds(368,380,106,25);
 		frame.getContentPane().add(btnEnter);
+		
 		
 		JButton btnClose = new JButton("");
 		btnClose.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\close.png"));
@@ -113,5 +132,56 @@ public class Admin {
 		
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode()== KeyEvent.VK_ENTER) {
+			try {
+				
+				//Class.forName("com.mysql.jdbc.Driver");
+				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb","root","Vg8ewfcb!@");
+				
+				String username = userText.getText();
+				String password = String.valueOf(passText.getPassword());
+				
+				
+				Statement stm = con.createStatement();
+				
+				String sql = "select USERNAME, PASSWORD from admin where USERNAME='"+username+"' and PASSWORD='"+password+"'";
+				ResultSet rs = stm.executeQuery(sql);
+				
+				
+				if(((ResultSet) rs).next()) {
+					JOptionPane.showMessageDialog(null, "Welcome");
+					frame.dispose();
+					InsertDataArtist.main(null);
+				}else {
+					JOptionPane.showMessageDialog(null, "username or password is wrong...");
+					userText.setText("");
+					passText.setText("");
+				}
+				
+				con.close();
+				
+				
+			}catch(Exception e1) {
+				System.out.println(e1.getMessage());
+			}
+			
+		}
+	}
+	
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

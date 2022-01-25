@@ -359,7 +359,7 @@ public class FormMusify{
 		btnLogOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				Login.main(null);
+				Intro.main(null);
 			}
 		});
 		btnAbout.addActionListener(new ActionListener() {
@@ -372,12 +372,6 @@ public class FormMusify{
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
-			}
-		});
-		btnLogOut.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-				Login.main(null);
 			}
 		});
 		
