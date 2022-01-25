@@ -1,8 +1,10 @@
 package Connection;
 
+
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -10,14 +12,19 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class HipHop {
 	private JFrame frame;
 	private JTable tableHipHop;
 	private Database database = new Database();
+	protected static String YTlink = null;
+	private JTable tablePlaylist;
 
 	/**
 	 * Launch the application.
@@ -61,6 +68,20 @@ public class HipHop {
 		panel.setLayout(null);
 		
 		tableHipHop = new JTable();
+		tableHipHop.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Point point = e.getPoint();
+				int row = tablePlaylist.rowAtPoint(point);
+				int col = tablePlaylist.columnAtPoint(point);
+				String artist_nickname = tablePlaylist.getModel().getValueAt(row, 0).toString();
+				String track = tablePlaylist.getModel().getValueAt(row, 1).toString();   
+				String category = tablePlaylist.getModel().getValueAt(row, 2).toString();
+				
+				YTlink = database.PlayYTSong(track);
+				database.SearchDataArtist(artist_nickname);
+			}
+		});
 		tableHipHop.setModel(database.SelectHipHop());
 		//table.getColumnModel().getColumn(2).setCellRenderer(centerRenderer);
 		tableHipHop.getColumnModel().getColumn(2).setMaxWidth(50);
@@ -83,14 +104,14 @@ public class HipHop {
 		
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\Images\\logoMain.png"));
+		lblNewLabel_1.setIcon(new ImageIcon(HipHop.class.getResource("/Images/logoMain.png")));
 		lblNewLabel_1.setBounds(0, 0, 447, 572);
 		panel.add(lblNewLabel_1);
 		
 		
 		//button back
 		JButton btnBack = new JButton("");
-		btnBack.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\back.png"));
+		btnBack.setIcon(new ImageIcon(HipHop.class.getResource("/buttons/back.png")));
 		btnBack.setBounds(20, 577, 63, 47);
 		panel.add(btnBack);
 		btnBack.setFont(new Font("Dubai", Font.PLAIN, 14));
@@ -99,8 +120,25 @@ public class HipHop {
 		JButton btnClose = new JButton("");
 		btnClose.setBounds(719, 577, 63, 47);
 		panel.add(btnClose);
-		btnClose.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\close.png"));
+		btnClose.setIcon(new ImageIcon(HipHop.class.getResource("/buttons/close.png")));
 		btnClose.setFont(new Font("Dubai", Font.PLAIN, 11));
+		
+		JLabel PlayButton = new JLabel("");
+		PlayButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (YTlink != null) {
+					Database.openWebpage(YTlink);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "You didn't select a song or the song selected doesn't have a Youtube link.");
+				}
+			
+			}
+		});
+		PlayButton.setIcon(new ImageIcon(HipHop.class.getResource("/buttons/play.png")));
+		PlayButton.setBounds(425, 577, 46, 41);
+		panel.add(PlayButton);
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -111,7 +149,10 @@ public class HipHop {
 				frame.dispose();
 				Categories2.main(FormMusify.getArgs());
 			}
+			
 		});
 		frame.setLocationRelativeTo(null);
 	}
+
 }
+
