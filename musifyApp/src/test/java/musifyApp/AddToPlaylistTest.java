@@ -19,7 +19,7 @@ class AddToPlaylistTest {
 		String category = "Pop";
 		
 		// when testing our method
-		obj.addToPlaylist(register_id, artist_name, track,category);
+		obj.addToPlaylist(register_id,artist_name, track,category);
 		
 		// then using assert
 		Assertions.assertTrue(true);
