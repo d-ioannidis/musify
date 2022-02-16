@@ -112,7 +112,7 @@ public class FormPlaylist {
 		panel.add(lblNewLabel_1);
 		
 		JButton btnBack = new JButton("");
-		btnBack.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\close.png"));
+		btnBack.setIcon(new ImageIcon("C:\\Projects\\musifyApp\\src\\main\\java\\buttons\\back.png"));
 		btnBack.setBounds(21, 539, 63, 47);
 		panel_1_1.add(btnBack);
 		btnBack.setFont(new Font("Dubai", Font.PLAIN, 14));
